@@ -1,6 +1,9 @@
-
-
 fn main() {
 
-            println!(   "Hello, world!");
+    let a = "11";
+
+    println!("{}", a);
+
+    println!("Hello, world!");
+
 }
