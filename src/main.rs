@@ -1,9 +1,23 @@
-fn main() {
+#![warn(missing_docs)]
 
-    let a = "11";
+//! This is main entry point for this project
 
-    println!("{}", a);
+use cli::parse_args;
+use anyhow::Result;
+use app::start;
 
-    println!("Hello, world!");
+mod app;
+mod cli;
+mod config;
+mod widget;
+mod events;
 
+
+fn main() -> Result<()> {
+    let config = parse_args()?;
+
+    start(&config)?;
+
+
+    Ok(())
 }
