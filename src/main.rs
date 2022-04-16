@@ -11,6 +11,7 @@ mod cli;
 mod config;
 mod widget;
 mod events;
+mod draw;
 
 
 fn main() -> Result<()> {

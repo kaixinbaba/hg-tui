@@ -1,4 +1,6 @@
 use crate::config::Config;
+use crate::events;
+use crate::draw;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -9,6 +11,7 @@ use anyhow::Result;
 use std::{
     error::Error,
     io::{self, Stdout},
+    sync::{Mutex, Arc},
 };
 
 use tui::{
@@ -23,8 +26,6 @@ use tui::{
 
 pub struct App {
     terminal: Terminal<CrosstermBackend<Stdout>>,
-
-    quit: bool,
 }
 
 impl App {
@@ -35,7 +36,7 @@ impl App {
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
         terminal.clear()?;
-        Ok(App { terminal, quit: false })
+        Ok(App { terminal })
     }
 }
 
@@ -56,10 +57,17 @@ impl Drop for App {
 
 
 pub(crate) fn start(config: &Config) -> Result<()> {
-    let mut app = App::new(config)?;
+    let mut app = Arc::new(Mutex::new(App::new(config)?));
+    let event_recv = events::setup_key_handler();
 
-    while !app.quit {
+    let moved_app = app.clone();
 
+    events::handle_notify(moved_app);
+
+    loop {
+        if let Ok(events::HGEvent::UserEvent(key_event)) = event_recv.recv() {
+            todo!()
+        }
     }
 
     Ok(())
