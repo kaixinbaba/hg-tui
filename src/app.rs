@@ -1,6 +1,6 @@
 use crate::config::Config;
 use crate::events;
-use crate::draw;
+use crate::widget::{Input, Content};
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -9,7 +9,6 @@ use crossterm::{
 
 use anyhow::Result;
 use std::{
-    error::Error,
     io::{self, Stdout},
     sync::{Mutex, Arc},
 };
@@ -25,7 +24,14 @@ use tui::{
 };
 
 pub struct App {
-    terminal: Terminal<CrosstermBackend<Stdout>>,
+    /// 终端
+    pub terminal: Terminal<CrosstermBackend<Stdout>>,
+
+    /// 用户输入框
+    pub input: Input,
+
+    /// 内容展示
+    pub content: Content,
 }
 
 impl App {
@@ -36,7 +42,11 @@ impl App {
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
         terminal.clear()?;
-        Ok(App { terminal })
+        Ok(App {
+            terminal,
+            input: Input::default(),
+            content: Content::default(),
+        })
     }
 }
 
@@ -58,17 +68,13 @@ impl Drop for App {
 
 pub(crate) fn start(config: &Config) -> Result<()> {
     let mut app = Arc::new(Mutex::new(App::new(config)?));
-    let event_recv = events::setup_key_handler();
+
 
     let moved_app = app.clone();
-
     events::handle_notify(moved_app);
 
-    loop {
-        if let Ok(events::HGEvent::UserEvent(key_event)) = event_recv.recv() {
-            todo!()
-        }
-    }
+    let moved_app = app.clone();
+    let event_recv = events::handle_key_event(moved_app);
 
     Ok(())
 }
