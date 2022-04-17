@@ -1,4 +1,5 @@
 use crate::app::App;
+use crate::widget::{Input, Content};
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::terminal::Frame;
 use tui::text::{Span, Spans, Text};
@@ -27,8 +28,8 @@ pub fn redraw(app: &mut App) {
                 .split(f.size());
 
             f.render_widget(title(), layout[0]);
-            f.render_widget(&app.input, layout[1]);
-            f.render_widget(&app.content, layout[2]);
+            f.render_stateful_widget(Input{}, layout[1], &mut app.input);
+            f.render_stateful_widget(Content{}, layout[2], &mut app.content);
         })
         .unwrap();
 }

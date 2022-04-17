@@ -1,12 +1,12 @@
+use crate::draw;
 use lazy_static::lazy_static;
 use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::{Color, Style};
+use tui::text::Span;
 use tui::widgets::{
     Block, BorderType, Borders, Cell, Paragraph, Row, StatefulWidget, Table, TableState, Widget,
 };
-use tui::text::{Span};
-use crate::draw;
 
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 
@@ -84,7 +84,10 @@ struct Project {
 }
 
 impl Project {
-    fn new<T>(name: T, phase: u8, category: T, url: T, desc: T) -> Project where T: Into<String> {
+    fn new<T>(name: T, phase: u8, category: T, url: T, desc: T) -> Project
+    where
+        T: Into<String>,
+    {
         Project {
             name: name.into(),
             phase,
@@ -96,37 +99,82 @@ impl Project {
 }
 
 /// 数据表格展示
+pub struct Content {}
+
 #[derive(Debug)]
-pub struct Content {
+pub struct ContentState {
     result: Vec<Project>,
     page_num: usize,
     page_size: usize,
     active: bool,
-    index: usize,
+    tstate: TableState,
 }
 
-impl Default for Content {
-    fn default() -> Content {
+impl Default for ContentState {
+    fn default() -> ContentState {
         let mut result = Vec::new();
-        result.push(Project::new("name1", 1, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name2", 2, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name3", 3, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name4", 4, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name5", 5, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name6", 6, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        result.push(Project::new("name7", 7, "Java", "http://www.baidu.com", "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj"));
-        Content {
+        result.push(Project::new(
+            "name1",
+            1,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name2",
+            2,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name3",
+            3,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name4",
+            4,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name5",
+            5,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name6",
+            6,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        result.push(Project::new(
+            "name7",
+            7,
+            "Java",
+            "http://www.baidu.com",
+            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        ));
+        ContentState {
             result,
             page_num: 1,
             page_size: 10,
             active: true,
-            index: 0,
+            tstate: TableState::default(),
         }
     }
 }
+impl StatefulWidget for Content {
+    type State = ContentState;
 
-impl Widget for &Content {
-    fn render(mut self, area: Rect, buf: &mut Buffer) {
+    fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
         let header_cells = HEADERS
             .iter()
             .map(|h| Cell::from(*h).style(Style::default().fg(Color::Green)));
@@ -135,14 +183,15 @@ impl Widget for &Content {
             .height(1)
             .bottom_margin(1);
 
-        let rows = self.result.iter().map(|project| {
+        let rows = state.result.iter().map(|project| {
             let mut cells: Vec<String> = Vec::with_capacity(4);
 
             cells.push(project.name.clone());
             cells.push(project.phase.to_string());
             cells.push(project.category.into());
             cells.push(project.desc.clone());
-            let style = if project.phase == 3 {
+
+            let style = if let Some(index) = state.tstate.selected() {
                 Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
             } else {
                 Style::default()
@@ -151,29 +200,24 @@ impl Widget for &Content {
             Row::new(cells).bottom_margin(1).style(style)
         });
 
-        let table_title = if self.active {
+        let table_title = if state.active {
             Span::styled(TABLE_TITLE, Style::default().fg(Color::Yellow))
         } else {
             Span::raw(TABLE_TITLE)
         };
 
-
         let mut table_block = Block::default()
-                    .borders(Borders::ALL)
-                    .border_type(BorderType::Rounded)
-                    .title_alignment(Alignment::Center)
-                    .title(table_title);
+            .borders(Borders::ALL)
+            .border_type(BorderType::Rounded)
+            .title_alignment(Alignment::Center)
+            .title(table_title);
 
-
-        let t = Table::new(rows)
-            .header(header)
-            .block(table_block)
-            .widths(&[
-                Constraint::Percentage(15),
-                Constraint::Percentage(10),
-                Constraint::Percentage(10),
-                Constraint::Percentage(65),
-            ]);
-        <Table as Widget>::render(t, area, buf)
+        let t = Table::new(rows).header(header).block(table_block).widths(&[
+            Constraint::Percentage(15),
+            Constraint::Percentage(10),
+            Constraint::Percentage(10),
+            Constraint::Percentage(65),
+        ]);
+        <Table as StatefulWidget>::render(t, area, buf, &mut state.tstate)
     }
 }

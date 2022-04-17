@@ -1,6 +1,6 @@
 use crate::config::Config;
 use crate::events;
-use crate::widget::{Input, Content};
+use crate::widget::{InputState, ContentState};
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -28,10 +28,10 @@ pub struct App {
     pub terminal: Terminal<CrosstermBackend<Stdout>>,
 
     /// 用户输入框
-    pub input: Input,
+    pub input: InputState,
 
     /// 内容展示
-    pub content: Content,
+    pub content: ContentState,
 }
 
 impl App {
@@ -44,8 +44,8 @@ impl App {
         terminal.clear()?;
         Ok(App {
             terminal,
-            input: Input::default(),
-            content: Content::default(),
+            input: InputState::default(),
+            content: ContentState::default(),
         })
     }
 }
