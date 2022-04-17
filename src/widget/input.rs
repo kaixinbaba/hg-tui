@@ -17,8 +17,7 @@ impl Widget for &Input {
                 Constraint::Percentage(40),
                 Constraint::Percentage(30),
             ].as_ref()).split(area);
-        // Paragraph::new(self.input.as_ref())
-        Paragraph::new("HelloGitHub")
+        Paragraph::new(self.input.as_ref())
             .block(Block::default().borders(Borders::ALL))
             .render(input_layout[1], buf);
     }
