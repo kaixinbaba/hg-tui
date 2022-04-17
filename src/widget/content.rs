@@ -6,6 +6,7 @@ use tui::widgets::{
     Block, BorderType, Borders, Cell, Paragraph, Row, StatefulWidget, Table, TableState, Widget,
 };
 use tui::text::{Span};
+use crate::draw;
 
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 

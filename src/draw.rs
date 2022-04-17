@@ -1,5 +1,5 @@
 use crate::app::App;
-use tui::layout::{Alignment, Constraint, Direction, Layout};
+use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::terminal::Frame;
 use tui::text::{Span, Spans, Text};
 use tui::widgets::{Block, Paragraph};
@@ -42,4 +42,46 @@ fn title() -> Paragraph<'static> {
     )
     .alignment(Alignment::Center)
     .block(Block::default())
+}
+
+
+pub fn add_padding(mut rect: Rect, n: u16, direction: PaddingDirection) -> Rect {
+    match direction {
+        PaddingDirection::Top => {
+            rect.y += n;
+            rect.height = rect.height.saturating_sub(n);
+            rect
+        }
+        PaddingDirection::Bottom => {
+            rect.height = rect.height.saturating_sub(n);
+            rect
+        }
+        PaddingDirection::Left => {
+            rect.x += n;
+            rect.width = rect.width.saturating_sub(n);
+            rect
+        }
+        PaddingDirection::Right => {
+            rect.width = rect.width.saturating_sub(n);
+            rect
+        }
+        PaddingDirection::All => {
+            rect.y += n;
+            rect.height = rect.height.saturating_sub(n * 2);
+
+            rect.x += n;
+            rect.width = rect.width.saturating_sub(n * 2);
+
+            rect
+        }
+    }
+}
+
+#[allow(dead_code)]
+pub enum PaddingDirection {
+    Top,
+    Bottom,
+    Left,
+    Right,
+    All,
 }
