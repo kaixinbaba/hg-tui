@@ -71,7 +71,7 @@ struct Project {
     name: String,
 
     /// 期数
-    phase: u8,
+    volume: u8,
 
     /// 种类
     category: Category,
@@ -84,13 +84,13 @@ struct Project {
 }
 
 impl Project {
-    fn new<T>(name: T, phase: u8, category: T, url: T, desc: T) -> Project
+    fn new<T>(name: T, volume: u8, category: T, url: T, desc: T) -> Project
     where
         T: Into<String>,
     {
         Project {
             name: name.into(),
-            phase,
+            volume,
             category: Category::Java,
             url: url.into(),
             desc: desc.into(),
@@ -187,7 +187,7 @@ impl StatefulWidget for Content {
             let mut cells: Vec<String> = Vec::with_capacity(4);
 
             cells.push(project.name.clone());
-            cells.push(project.phase.to_string());
+            cells.push(project.volume.to_string());
             cells.push(project.category.into());
             cells.push(project.desc.clone());
 
