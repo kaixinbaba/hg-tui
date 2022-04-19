@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="ImExN2NhYWExYjlkMDVhYTMyYTRjNWViZDg1YzBlNWY1ODQ1M2IxN2Qi.Ylwi_w.sB2jcU2ECf4Z8NIGR0Tz65izuVQ">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.hellogithub.com/favicon/apple-touch-icon.png">
+    <link rel="android-chrome" sizes="192x192" href="https://img.hellogithub.com/favicon/android-chrome-192x192.png">
+    <link rel="android-chrome" sizes="512x512" href="https://img.hellogithub.com/favicon/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://img.hellogithub.com/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://img.hellogithub.com/favicon/favicon-16x16.png">
+    <link rel="icon" href="https://img.hellogithub.com/favicon/favicon.ico">
+    <title>HelloGitHub 第 72 期</title>
+    <link rel="stylesheet" href="/static/css/pure.min.css?q=1634283466">
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/side-menu.css?q=1634283466">
+    <!-- 添加 custom.css -->
+    <link rel="stylesheet" href="/static/css/custom.css?q=1634283466">
+    <!-- 添加 icon -->
+    <link rel="stylesheet" href="/static/css/font-awesome.css?q=1634283466">
+    <!-- github-fork.css-->
+    <link rel="stylesheet" href="/static/css/gh-fork-ribbon.css?q=1634283466">
+    <link rel="stylesheet" href="/static/css/weixin.css?q=1634283466">
+    <link rel="stylesheet" href="/static/css/notice.css?q=1634283466">
+
+    <meta name="description" content="HelloGitHub 第 72 期 - 分享最新 GitHub 上有趣、适合新手、练手的开源项目。">
+
+    <script data-ad-client="ca-pub-1361072126478946" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?73e0d9a1bd6e22a206afe0551e5e603d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-101093029-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+
+
+
+<div id="notice" dir="ltr" class="cc-banner active" role="alert">
+    <div class="cc-container">
+      <svg class="cc-icon cc-v-center" x="0px" y="0px" viewBox="0 0 44 44" height="30px" fill="none" stroke="currentColor">
+        <circle cx="22" cy="22" r="20" stroke-width="2"></circle>
+        <line x1="22" x2="22" y1="18" y2="33" stroke-width="3"></line>
+        <line x1="22" x2="22" y1="12" y2="15" stroke-width="3"></line>
+      </svg>
+      <span class="cc-v-center cc-text">
+          <strong>公告：</strong>又拍云为开发者提供免费的云存储服务。<a id="notice_url" onclick="track_notice()" href="https://www.upyun.com/league" target="_blank" class="cc-link cc-v-center">点击获取</a>
+      </span>
+    </div>
+</div>
+
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu">
+            <a class="pure-menu-heading" target="_blank" href="https://github.com/521xueweihan/HelloGitHub">HelloGitHub</a>
+
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+                <li class="menu-item-divided pure-menu-selected">
+                    <a href="/periodical/volume/72/" class="pure-menu-link">月刊</a>
+                </li>
+                <li class="pure-menu-item"><a href="/report/tiobe/?url=/periodical/volume/72/" class="pure-menu-link">编程语言月报</a></li>
+                <li class="pure-menu-item"><a href="/report/netcraft/?url=/periodical/volume/72/" class="pure-menu-link">服务器月报</a></li>
+                <li class="pure-menu-item"><a href="/report/db-engines/?url=/periodical/volume/72/" class="pure-menu-link">数据库月报</a></li>
+                <li class="pure-menu-item"><a href="/article/?url=/periodical/volume/72/" class="pure-menu-link">文章</a></li>
+                <li class="pure-menu-item"><a href="/onefile/?url=/periodical/volume/72/" class="pure-menu-link">编程挑战</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="hg-fixed-content" hidden="hidden">
+            <ul class="hg-fixed-wraper">
+                <li class="hg-fixed-item">
+                    <a target="_blank" href="https://github.com/521xueweihan/HelloGitHub/issues/899">
+                        <span class="hg-qrcode fa fa-commenting fa-3x"></span>
+                    </a>
+                </li>
+                <li class="hg-fixed-item">
+                    <span id="hg-qrcode-id" class="hg-qrcode fa fa-qrcode fa-3x"></span>
+                </li>
+            </ul>
+        </div>
+        <div id="hg-qrcode-group-id" class="hg-qrcode-group hg-none">
+            <img class="hg-qrcode-img" src="https://hellogithub.com/img/hg-qrcode.jpg">
+            <div class="hg-desc-container">
+                <p>扫一扫<br>关注 HG 公众号<br>
+                发现更多开源乐趣</p>
+            </div>
+        </div>
+        <div class="header">
+            <h1>第 72 期</h1>
+            <h2>兴趣是最好的老师，HelloGitHub 就是帮你找到编程的兴趣。</h2>
+        </div>
+
+        <div class="content">
+
+
+<div id="content_category">
+    <ul>
+        <!--根据月刊内容动态生成分类目录-->
+    </ul>
+</div>
+
+
+<h2 id="category-11" class="content-subhead">C 项目</h2>
+
+        <a id="reptyr" class="project-index" href="#reptyr">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">1.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/nelhage/reptyr">reptyr</a>
+        <span hidden="hidden">35427</span>
+
+            <i id="collect_35427" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 4.3k</i>
+                 <i class="fa fa-eye">Watch 92</i>
+                 <i class="fa fa-code-fork">Fork 190</i>
+
+            </strong>
+        </span><br>
+
+        能够把旧终端运行中的程序，迁移到新终端窗口的实用工具
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/8hD7FsKABmY5zP3.png" alt="reptyr">
+
+        </p>
+
+        <a id="hashcat" class="project-index" href="#hashcat">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">2.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/hashcat/hashcat">hashcat</a>
+        <span hidden="hidden">7033</span>
+
+            <i id="collect_7033" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 12.3k</i>
+                 <i class="fa fa-eye">Watch 447</i>
+                 <i class="fa fa-code-fork">Fork 2.1k</i>
+
+            </strong>
+        </span><br>
+
+        一款强大的密码恢复工具。破解速度超快支持多种算法，适用于 Linux、macOS 和 Windows 操作系统
+
+<pre><code>安装：brew install hashcat
+常用参数：
+-a  指定破解模式：“-a 0”字典攻击，“-a 1” 组合攻击；“-a 3”掩码攻击
+-m  指定要破解的 hash 类型：默认为 MD5
+--force 忽略破解过程中的警告
+
+常用破解模式：
+0：Straight（字典破解）
+1：Combination（组合破解）
+3：Brute-force（掩码暴力破解）
+6：Hybrid Wordlist + Mask（字典+掩码破解）
+7：Hybrid Mask + Wordlist（掩码+字典破解）
+
+常用掩码设置：
+l：纯小写字母 abcdefghijklmnopqrstuvwxyz
+u：纯大写字母 ABCDEFGHIJKLMNOPQRSTUVWXYZ
+d：纯数字 0123456789
+
+举例：破解 8 位数字密码
+hashcat -a 3 -m 0 --force 0D7002A70CCDE8BF4BA2A4A5572A85E9(密码md5字符串) ?l?l?l?l?l?l?l?l?l?l?l（11 位密码的掩码）
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/9Vv7zs6pHSNCnEq.png" alt="hashcat">
+
+        </p>
+
+
+<h2 id="category-9" class="content-subhead">C# 项目</h2>
+
+        <a id="PluginCore" class="project-index" href="#PluginCore">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">3.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/yiyungent/PluginCore">PluginCore</a>
+        <span hidden="hidden">35676</span>
+
+            <i id="collect_35676" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 103</i>
+                 <i class="fa fa-eye">Watch 1</i>
+                 <i class="fa fa-code-fork">Fork 21</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        适用于 ASP.NET Core 的轻量级插件框架。开箱即用自带插件管理 Web 界面
+
+<pre><code>public void ConfigureServices(IServiceCollection services)
+{
+    // ...
+    // 1. Add PluginCore
+    services.AddPluginCore();
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // ...
+    // 2. Use PluginCore
+    app.UsePluginCore();
+}
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/HdLKkwWUivMq8jE.png" alt="PluginCore">
+
+        </p>
+
+        <a id="Monitorian" class="project-index" href="#Monitorian">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">4.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/emoacht/Monitorian">Monitorian</a>
+        <span hidden="hidden">35542</span>
+
+            <i id="collect_35542" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 1.4k</i>
+                 <i class="fa fa-eye">Watch 19</i>
+                 <i class="fa fa-code-fork">Fork 93</i>
+
+            </strong>
+        </span><br>
+
+        轻松调节多个显示器亮度的 Windows 桌面工具。操作界面支持中文，使用时显示器需要开启 DDC/CI
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/Uc9BhWuoKyL3PnT.png" alt="Monitorian">
+
+        </p>
+
+
+<h2 id="category-3" class="content-subhead">CSS 项目</h2>
+
+        <a id="log" class="project-index" href="#log">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">5.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/adamschwartz/log">log</a>
+        <span hidden="hidden">31981</span>
+
+            <i id="collect_31981" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 2.9k</i>
+                 <i class="fa fa-eye">Watch 65</i>
+                 <i class="fa fa-code-fork">Fork 153</i>
+
+            </strong>
+        </span><br>
+
+        浏览器 console.log  风格的 CSS 库。<a href="https://adamschwartz.co/log/">查看效果</a>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/X81Z4xSCvcWRpEq.png" alt="log">
+
+        </p>
+
+
+<h2 id="category-7" class="content-subhead">Go 项目</h2>
+
+        <a id="illustrated-tls" class="project-index" href="#illustrated-tls">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">6.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/syncsynchalt/illustrated-tls">illustrated-tls</a>
+        <span hidden="hidden">35493</span>
+
+            <i id="collect_35493" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 3.1k</i>
+                 <i class="fa fa-eye">Watch 68</i>
+                 <i class="fa fa-code-fork">Fork 193</i>
+
+            </strong>
+        </span><br>
+
+        图解 TLS 连接。用在线交互的方式讲解 TLS 的全过程，从建立 TLS 1.2 客户端发送 ping 再到接收 pong，详细到每一个字节。<a href="https://tls.ulfheim.net/">在线尝试</a>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/FoUIPLVyJM5Cg98.png" alt="illustrated-tls">
+
+        </p>
+
+        <a id="hh-lol-prophet" class="project-index" href="#hh-lol-prophet">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">7.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/real-web-world/hh-lol-prophet">hh-lol-prophet</a>
+        <span hidden="hidden">32117</span>
+
+            <i id="collect_32117" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 487</i>
+                 <i class="fa fa-eye">Watch 2</i>
+                 <i class="fa fa-code-fork">Fork 68</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        英雄联盟对局先知工具。免费合法不封号，原理是基于 LOL 客户端接口获取用户数据，实现开局前对玩家信息分析和打分
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/Od3kuYyDjW0B6A8.png" alt="hh-lol-prophet">
+
+        </p>
+
+
+<h2 id="category-8" class="content-subhead">Java 项目</h2>
+
+        <a id="supertokens-core" class="project-index" href="#supertokens-core">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">8.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/supertokens/supertokens-core">supertokens-core</a>
+        <span hidden="hidden">35457</span>
+
+            <i id="collect_35457" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 5.7k</i>
+                 <i class="fa fa-eye">Watch 47</i>
+                 <i class="fa fa-code-fork">Fork 189</i>
+
+            </strong>
+        </span><br>
+
+        开源的身份验证方案。为你的应用轻松增加登录、会话管理等功能，支持自行搭建服务。可用作 Auth0 的开源替代品
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/zvfc9UTn3jxNmRI.png" alt="supertokens-core">
+
+        </p>
+
+        <a id="LSPosed" class="project-index" href="#LSPosed">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">9.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/LSPosed/LSPosed">LSPosed</a>
+        <span hidden="hidden">4630</span>
+
+            <i id="collect_4630" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 4.6k</i>
+                 <i class="fa fa-eye">Watch 109</i>
+                 <i class="fa fa-code-fork">Fork 669</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        运行于 Android 操作系统的钩子框架。支持 Android 8 以上，能够拦截几乎所有 Java 函数的调用，从而可被用来修改 Android 系统和软件的功能
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/bnqlrdIaDhtNcAf.png" alt="LSPosed">
+
+        </p>
+
+
+<h2 id="category-2" class="content-subhead">JavaScript 项目</h2>
+
+        <a id="reveal.js" class="project-index" href="#reveal.js">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">10.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/hakimel/reveal.js">reveal.js</a>
+        <span hidden="hidden">5129</span>
+
+            <i id="collect_5129" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 59.4k</i>
+                 <i class="fa fa-eye">Watch 1.7k</i>
+                 <i class="fa fa-code-fork">Fork 16.1k</i>
+
+            </strong>
+        </span><br>
+
+        一款 HTML 演示框架。让你摆脱传统死板的 PPT 制作方法，可以方便地使用 HTML、Markdown 语言制作 PPT
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/09nxYOoL57eITWj.gif" alt="reveal.js">
+
+        </p>
+
+        <a id="chameleon" class="project-index" href="#chameleon">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">11.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/didi/chameleon">chameleon</a>
+        <span hidden="hidden">35119</span>
+
+            <i id="collect_35119" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 8.8k</i>
+                 <i class="fa fa-eye">Watch 239</i>
+                 <i class="fa fa-code-fork">Fork 673</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        一端所见即多端所见。适应不同环境的跨端整体解决方案，支持 Web、小程序、快应用 等平台
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/4vArVahnUBoTiLc.gif" alt="chameleon">
+
+        </p>
+
+        <a id="lax.js" class="project-index" href="#lax.js">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">12.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/alexfoxy/lax.js">lax.js</a>
+        <span hidden="hidden">33357</span>
+
+            <i id="collect_33357" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 8.8k</i>
+                 <i class="fa fa-eye">Watch 98</i>
+                 <i class="fa fa-code-fork">Fork 452</i>
+
+            </strong>
+        </span><br>
+
+        用于滚动时创建平滑和好看动画的库。简单轻量仅 4KB 大小，但功能齐全且灵活
+
+<pre><code>&lt;!-- JS --&gt;
+&lt;script&gt;
+  window.onload = function () {
+    lax.init()
+
+    // Add a driver that we use to control our animations
+    lax.addDriver('scrollY', function () {
+      return window.scrollY
+    })
+
+    // Add animation bindings to elements
+    lax.addElements('.selector', {
+      scrollY: {
+        translateX: [
+          ["elInY", "elCenterY", "elOutY"],
+          [0, 'screenWidth/2', 'screenWidth'],
+        ]
+      }
+    })
+  }
+&lt;/script&gt;
+
+&lt;!-- HTML --&gt;
+&lt;div class="selector"&gt;Hello&lt;/div&gt;
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/fHZolaM6N2KuxYW.gif" alt="lax.js">
+
+        </p>
+
+        <a id="charts" class="project-index" href="#charts">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">13.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/frappe/charts">charts</a>
+        <span hidden="hidden">31406</span>
+
+            <i id="collect_31406" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 14.3k</i>
+                 <i class="fa fa-eye">Watch 226</i>
+                 <i class="fa fa-code-fork">Fork 683</i>
+
+            </strong>
+        </span><br>
+
+        简单、零依赖、响应式的 SVG 图表库
+
+<pre><code>const data = {
+    labels: ["12am-3am", "3am-6pm", "6am-9am", "9am-12am",
+        "12pm-3pm", "3pm-6pm", "6pm-9pm", "9am-12am"
+    ],
+    datasets: [
+        {
+            name: "Some Data", chartType: "bar",
+            values: [25, 40, 30, 35, 8, 52, 17, -4]
+        },
+        ...
+]}
+
+const chart = new frappe.Chart("#chart",
+{   // or a DOM element,
+    // new Chart() in case of ES6 module with above usage
+    title: "My Awesome Chart",
+    data: data,
+    type: 'axis-mixed', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+    height: 250,
+    colors: ['#7cd6fd', '#743ee2']
+})
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/E46tWjAzfJmTNu5.gif" alt="charts">
+
+        </p>
+
+
+<h2 id="category-16" class="content-subhead">Kotlin 项目</h2>
+
+        <a id="compose-tetris" class="project-index" href="#compose-tetris">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">14.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/vitaviva/compose-tetris">compose-tetris</a>
+        <span hidden="hidden">30078</span>
+
+            <i id="collect_30078" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 437</i>
+                 <i class="fa fa-eye">Watch 4</i>
+                 <i class="fa fa-code-fork">Fork 69</i>
+
+            </strong>
+        </span><br>
+
+        基于 Jetpack Compose 的俄罗斯方块游戏
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/zxdLI4njJCoOTfl.gif" alt="compose-tetris">
+
+        </p>
+
+
+<h2 id="category-1" class="content-subhead">Python 项目</h2>
+
+        <a id="textdistance" class="project-index" href="#textdistance">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">15.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/life4/textdistance">textdistance</a>
+        <span hidden="hidden">32917</span>
+
+            <i id="collect_32917" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 2.8k</i>
+                 <i class="fa fa-eye">Watch 59</i>
+                 <i class="fa fa-code-fork">Fork 226</i>
+
+            </strong>
+        </span><br>
+
+        计算文本距离的常用算法库。包含计算文本相似度、多样性、编辑距离、压缩等多种算法，所有算法均采用 Python 实现，容易理解调用方便
+
+<pre><code>import textdistance
+textdistance.hamming.normalized_similarity('test', 'text')
+# 相似度为 0.75
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/I0uwSH3ZEtTvRQz.png" alt="textdistance">
+
+        </p>
+
+        <a id="rembg" class="project-index" href="#rembg">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">16.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/danielgatis/rembg">rembg</a>
+        <span hidden="hidden">35272</span>
+
+            <i id="collect_35272" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 2.9k</i>
+                 <i class="fa fa-eye">Watch 59</i>
+                 <i class="fa fa-code-fork">Fork 503</i>
+
+            </strong>
+        </span><br>
+
+        简单实用的删除图像背景/抠图工具
+
+<pre><code>from rembg import remove
+from PIL import Image
+
+input_path = 'input.png'
+output_path = 'output.png'
+
+input = Image.open(input_path)
+output = remove(input)
+output.save(output_path)
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/zDiqy7FJLbm0oWx.png" alt="rembg">
+
+        </p>
+
+        <a id="tiptop" class="project-index" href="#tiptop">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">17.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/nschloe/tiptop">tiptop</a>
+        <span hidden="hidden">34159</span>
+
+            <i id="collect_34159" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 947</i>
+                 <i class="fa fa-eye">Watch 8</i>
+                 <i class="fa fa-code-fork">Fork 38</i>
+
+            </strong>
+        </span><br>
+
+        炫酷的命令行系统监控工具
+
+<pre><code>安装：pip install tiptop
+运行：tiptop
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/QaVZJL49GAcN27R.png" alt="tiptop">
+
+        </p>
+
+        <a id="pokete" class="project-index" href="#pokete">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">18.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/lxgr-linux/pokete">pokete</a>
+        <span hidden="hidden">34648</span>
+
+            <i id="collect_34648" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 992</i>
+                 <i class="fa fa-eye">Watch 9</i>
+                 <i class="fa fa-code-fork">Fork 33</i>
+
+            </strong>
+        </span><br>
+
+        运行在终端里的口袋妖怪类游戏。虽然游戏图像采用简单的 ASCII 码构建，但商店、小精灵、对战等功能一应俱全
+
+<pre><code>运行方法：
+# pip install scrap_engine
+$ git clone https://github.com/lxgr-linux/pokete.git
+$ ./pokete/pokete.py
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/mCxaNM58p0R9PDW.png" alt="pokete">
+
+        </p>
+
+        <a id="saleor" class="project-index" href="#saleor">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">19.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/saleor/saleor">saleor</a>
+        <span hidden="hidden">33111</span>
+
+            <i id="collect_33111" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 15.7k</i>
+                 <i class="fa fa-eye">Watch 385</i>
+                 <i class="fa fa-code-fork">Fork 4.5k</i>
+
+            </strong>
+        </span><br>
+
+        用 Python 开发的电商平台。采用 Django+GraphQL API+React 构建，功能丰富支持移动端、订单、商品、用户管理等。<a href="https://demo.saleor.io/dashboard">在线体验</a>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/6FxqtnWbTdyHg5k.png" alt="saleor">
+
+        </p>
+
+
+<h2 id="category-10" class="content-subhead">Swift 项目</h2>
+
+        <a id="OnlySwitch" class="project-index" href="#OnlySwitch">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">20.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/jacklandrin/OnlySwitch">OnlySwitch</a>
+        <span hidden="hidden">25805</span>
+
+            <i id="collect_25805" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 1.2k</i>
+                 <i class="fa fa-eye">Watch 9</i>
+                 <i class="fa fa-code-fork">Fork 101</i>
+
+            </strong>
+        </span><br>
+
+        免费开源的 macOS 状态栏一键设置工具。可以轻松对系统功能进行设置，如隐藏桌面图标、清理 Xcode 缓存、一键隐藏刘海儿、进入夜览模式等数十种功能
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/XB4wuJ9F1l3mnCa.png" alt="OnlySwitch">
+
+        </p>
+
+
+<h2 id="category-5" class="content-subhead">其它</h2>
+
+        <a id="ElectronBot" class="project-index" href="#ElectronBot">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">21.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/peng-zhihui/ElectronBot">ElectronBot</a>
+        <span hidden="hidden">34609</span>
+
+            <i id="collect_34609" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 4.4k</i>
+                 <i class="fa fa-eye">Watch 139</i>
+                 <i class="fa fa-code-fork">Fork 1.1k</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        自制桌面级小机器人。它具备 USB 通信显示画面功能以及 6 个自由度，支持手势识别和人体关键点检测。这里有配套的全部开发资料和 SDK，让你也可以制作出一个这样有趣的机器人
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/jFZnPIT5Vh1EW2Y.gif" alt="ElectronBot">
+
+        </p>
+
+        <a id="electerm" class="project-index" href="#electerm">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">22.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/electerm/electerm">electerm</a>
+        <span hidden="hidden">35264</span>
+
+            <i id="collect_35264" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 6.1k</i>
+                 <i class="fa fa-eye">Watch 81</i>
+                 <i class="fa fa-code-fork">Fork 628</i>
+
+            </strong>
+        </span><br>
+
+        一款支持 SSH/SFTP 的终端工具。支持中文和 Windows、Linux、macOS 操作系统
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/IOZwXusr2yLKT43.gif" alt="electerm">
+
+        </p>
+
+        <a id="design-patterns-for-humans" class="project-index" href="#design-patterns-for-humans">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">23.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/kamranahmedse/design-patterns-for-humans">design-patterns-for-humans</a>
+        <span hidden="hidden">10620</span>
+
+            <i id="collect_10620" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 33.6k</i>
+                 <i class="fa fa-eye">Watch 1.2k</i>
+                 <i class="fa fa-code-fork">Fork 4.2k</i>
+
+            </strong>
+        </span><br>
+
+        人人都能看懂的设计模式教程。<a href="https://github.com/guanguans/design-patterns-for-humans-cn">中文</a>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/xIlpWAwboH1Rrdk.png" alt="design-patterns-for-humans">
+
+        </p>
+
+
+<h2 id="category-4" class="content-subhead">开源书籍</h2>
+
+        <a id="Deep-Learning-with-TensorFlow-book" class="project-index" href="#Deep-Learning-with-TensorFlow-book">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">24.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book">Deep-Learning-with-TensorFlow-book</a>
+        <span hidden="hidden">2566</span>
+
+            <i id="collect_2566" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 12.5k</i>
+                 <i class="fa fa-eye">Watch 487</i>
+                 <i class="fa fa-code-fork">Fork 4.0k</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        《TensorFlow 深度学习》
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/BwsR4iqYaXNEI59.png" alt="Deep-Learning-with-TensorFlow-book">
+
+        </p>
+
+
+<h2 id="category-15" class="content-subhead">机器学习</h2>
+
+        <a id="jina" class="project-index" href="#jina">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">25.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/jina-ai/jina">jina</a>
+        <span hidden="hidden">16235</span>
+
+            <i id="collect_16235" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 14.3k</i>
+                 <i class="fa fa-eye">Watch 182</i>
+                 <i class="fa fa-code-fork">Fork 1.8k</i>
+
+            </strong>
+        </span><br>
+
+        一款易用的神经搜索框架。神经搜索是指用非结构化数据，搜索非结构化数据。Jina 简化了神经搜索系统的搭建流程，使开发者可以快速构建以图搜图、以文字搜图、问答机器人、照片去重、海量标签分类等应用
+
+<pre><code>from docarray import Document, DocumentArray
+from jina import Executor, Flow, requests
+class PreprocImg(Executor):
+    @requests
+    async def foo(self, docs: DocumentArray, **kwargs):
+        for d in docs:
+            (
+                d.load_uri_to_image_tensor(200, 200)  # load
+                .set_image_tensor_normalization()  # normalize color
+                .set_image_tensor_channel_axis(
+                    -1, 0
+                )  # switch color axis for the PyTorch model later
+            )
+</code></pre>
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/meqzcvs9NnIP0Cf.jpg" alt="jina">
+
+        </p>
+
+        <a id="awesome-automl-papers" class="project-index" href="#awesome-automl-papers">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <span class="project-num">26.</span>
+        <a id="github_url" class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/hibayesian/awesome-automl-papers">awesome-automl-papers</a>
+        <span hidden="hidden">31527</span>
+
+            <i id="collect_31527" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+        <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-star">Star 3.4k</i>
+                 <i class="fa fa-eye">Watch 220</i>
+                 <i class="fa fa-code-fork">Fork 648</i>
+
+            </strong>
+        </span><br>
+
+        汇集了自动机器学习（AutoML）相关的论文、文章、教程等资源的项目
+
+
+            <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/ENY2GpyshPbATr4.jpeg" alt="awesome-automl-papers">
+
+        </p>
+
+
+<hr/>
+
+<div class="pure-g">
+    <div class="pure-u-1-3">
+
+        <div class="pre">
+            <a class="button-small pure-button pure-button-primary" href="/periodical/volume/71/">上一期</a>
+        </div>
+
+    </div>
+    <div class="pure-u-1-3">
+        <div class="social-share" data-sites="weibo,wechat" align="center"></div>
+    </div>
+    <div class="pure-u-1-3">
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- favourite box start -->
+        <div class="favourite">
+            <form class="pure-form pure-form-aligned">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="repo_name">名称</label>
+                        <input id="repo_name" type="text" placeholder="名称" disabled="disabled">
+                        <input id="repo_id" type="text" hidden="hidden">
+                    </div>
+
+                    <div class="pure-control-group">
+                        <label for="collection_name">收藏夹</label>
+                        <select id="collection_name">
+                        </select>
+                    </div>
+
+                    <div class="pure-controls">
+                        <button id="favourite_cancel" type="button" class="pure-button pure-button-default">取消</button>
+                        <button id="favourite_submit" type="button" class="pure-button pure-button-primary">提交</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <!-- favourite box end -->
+        <!-- login box start -->
+        <div class="modal">
+            <div class="modal-content">
+                <p class="text-center modal-body">请先登陆 HelloGitHub</p>
+                <div class="text-center">
+                    <button id="login_box_cancel" class="pure-button">取消</button>
+                    <a id="login_box_submit" href="/sign/in/" class="pure-button pure-button-primary">登录</a>
+                </div>
+            </div>
+        </div>
+        <!-- login box end -->
+    </div>
+</div>
+
+
+
+
+<script src="/static/js/ui.js?q=1634283466"></script>
+<script src="/static/js/scroll_before_location.js?q=1634283466"></script>
+<script>
+    function track_notice() {
+        var raw_url = document.location.toString();
+        var arrUrl = raw_url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var path = arrUrl[1].substring(start);
+
+        if(path.indexOf("?") !== -1){
+            path = path.split("?")[0];
+        }
+        var url = document.getElementById("notice_url").href;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "https://hellogithub.com/periodical/statistics/notice/?target="+url+"&path="+path, true);
+        xmlhttp.send(null);
+    }
+</script>
+
+<!-- highlight_theme.css -->
+<link rel="stylesheet" href="/static/css/atom-one-light.min.css?q=1634283466">
+<!-- share.css -->
+<link rel="stylesheet" href="/static/css/share.min.css?q=1634283466">
+<script src="/static/js/jquery.min.js?q=1634283466"></script>
+<script src="/static/js/collected.js?q=1646195308"></script>
+<script src="/static/js/ui.js?q=1634283466"></script>
+<script src="/static/js/social-share.min.js?q=1634283466"></script>
+<script src="/static/js/highlight.pack.js?q=1634283466"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+(function () {
+   var ie = !!(window.attachEvent && !window.opera);
+   var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
+   var fn = [];
+   var run = function () { for (var i = 0; i < fn.length; i++) fn[i](); };
+   var d = document;
+   d.ready = function (f) {
+      if (!ie && !wk && d.addEventListener)
+      return d.addEventListener('DOMContentLoaded', f, false);
+      if (fn.push(f) > 1) return;
+      if (ie)
+         (function () {
+            try { d.documentElement.doScroll('left'); run(); }
+            catch (err) { setTimeout(arguments.callee, 0); }
+         })();
+      else if (wk)
+      var t = setInterval(function () {
+         if (/^(loaded|complete)$/.test(d.readyState))
+         clearInterval(t), run();
+      }, 0);
+   };
+})();
+var qrCodeID = document.getElementById('hg-qrcode-id');
+var qrCodeContainer = document.getElementById('hg-qrcode-group-id');
+qrCodeID.addEventListener('mouseover', function() {
+    qrCodeContainer.classList.remove('hg-none');
+});
+
+qrCodeID.addEventListener('mouseout', function() {
+    qrCodeContainer.classList.add('hg-none');
+});
+// 判断设备是否是移动端
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    $(".hg-fixed-content").hide();
+} else if (/(Android)/i.test(navigator.userAgent)) {
+    $(".hg-fixed-content").hide();
+} else {
+    $(".hg-fixed-content").removeAttr('hidden');
+}
+</script>
+
+<script src="/static/js/catalog.js?q=1634283466"></script>
+
+</body>
+
+</html>

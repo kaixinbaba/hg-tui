@@ -15,7 +15,7 @@ lazy_static! {
 }
 
 #[derive(Debug, Clone, Copy)]
-enum Category {
+pub enum Category {
     Java,
     Python,
     Javascript,
@@ -65,6 +65,33 @@ impl From<Category> for String {
     }
 }
 
+impl Category {
+
+
+    pub fn to_zh(&self) -> String {
+        match self {
+            Java => "Java 项目".into(),
+            Python => "Python 项目".into(),
+            Javascript => "Javascript 项目".into(),
+            Rust => "Rust 项目".into(),
+            C => "C 项目".into(),
+            Cpp => "C++ 项目".into(),
+            PHP => "PHP 项目".into(),
+            ObjectC => "Object-C 项目".into(),
+            Go => "Go 项目".into(),
+            Css => "Css 项目".into(),
+            Csharp => "C# 项目".into(),
+            Koltin => "Koltin 项目".into(),
+            Swift => "Swift 项目".into(),
+            MachineLearning => "机器学习".into(),
+            Ruby => "Ruby 项目".into(),
+            Book => "开源书籍".into(),
+            Other => "其他".into(),
+        }
+
+    }
+}
+
 #[derive(Debug, Default)]
 struct Project {
     /// 项目名称
@@ -81,10 +108,19 @@ struct Project {
 
     /// 描述
     desc: String,
+
+    /// star 数
+    star: usize,
+
+    /// watch 数
+    watch: usize,
+
+    /// fork 数
+    fork: usize,
 }
 
 impl Project {
-    fn new<T>(name: T, volume: u8, category: T, url: T, desc: T) -> Project
+    fn new<T>(name: T, volume: u8, category: T, url: T, desc: T, star: usize, watch: usize, fork: usize) -> Project
     where
         T: Into<String>,
     {
@@ -94,6 +130,9 @@ impl Project {
             category: Category::Java,
             url: url.into(),
             desc: desc.into(),
+            star: star,
+            watch: watch,
+            fork: fork,
         }
     }
 }
@@ -110,58 +149,84 @@ pub struct ContentState {
     tstate: TableState,
 }
 
+fn dummy_data() -> Vec<Project> {
+    let mut result = Vec::new();
+    result.push(Project::new(
+        "name1",
+        1,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name2",
+        2,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name3",
+        3,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name4",
+        4,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name5",
+        5,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name6",
+        6,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result.push(Project::new(
+        "name7",
+        7,
+        "Java",
+        "http://www.baidu.com",
+        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
+        1,
+        2,
+        3,
+    ));
+    result
+}
+
 impl Default for ContentState {
     fn default() -> ContentState {
-        let mut result = Vec::new();
-        result.push(Project::new(
-            "name1",
-            1,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name2",
-            2,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name3",
-            3,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name4",
-            4,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name5",
-            5,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name6",
-            6,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
-        result.push(Project::new(
-            "name7",
-            7,
-            "Java",
-            "http://www.baidu.com",
-            "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        ));
+        let result = dummy_data();
         ContentState {
             result,
             page_num: 1,
@@ -171,6 +236,8 @@ impl Default for ContentState {
         }
     }
 }
+
+
 impl StatefulWidget for Content {
     type State = ContentState;
 

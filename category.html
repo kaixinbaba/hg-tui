@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="IjgxZGE1Nzk2ZWU4NGY3NDZlNzA0N2UzMDJjYjA4YWY1MTI1NDNmNGIi.Yl7AYg.QvJwDECYs6-Vo2Z7OliPo5g8c9E">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://img.hellogithub.com/favicon/apple-touch-icon.png">
+    <link rel="android-chrome" sizes="192x192" href="https://img.hellogithub.com/favicon/android-chrome-192x192.png">
+    <link rel="android-chrome" sizes="512x512" href="https://img.hellogithub.com/favicon/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://img.hellogithub.com/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://img.hellogithub.com/favicon/favicon-16x16.png">
+    <link rel="icon" href="https://img.hellogithub.com/favicon/favicon.ico">
+    <title>HelloGitHub Java 项目</title>
+    <link rel="stylesheet" href="/static/css/pure.min.css?q=1634283466">
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/side-menu.css?q=1634283466">
+    <!-- 添加 custom.css -->
+    <link rel="stylesheet" href="/static/css/custom.css?q=1634283466">
+    <!-- 添加 icon -->
+    <link rel="stylesheet" href="/static/css/font-awesome.css?q=1634283466">
+    <!-- github-fork.css-->
+    <link rel="stylesheet" href="/static/css/gh-fork-ribbon.css?q=1634283466">
+    <link rel="stylesheet" href="/static/css/weixin.css?q=1634283466">
+    <link rel="stylesheet" href="/static/css/notice.css?q=1634283466">
+
+<meta name="description" content="分享 GitHub 上开源、有趣的 Java 项目 - 适合新手入门的 Java 项目">
+
+    <script data-ad-client="ca-pub-1361072126478946" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?73e0d9a1bd6e22a206afe0551e5e603d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-101093029-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+
+
+
+<div id="notice" dir="ltr" class="cc-banner active" role="alert">
+    <div class="cc-container">
+      <svg class="cc-icon cc-v-center" x="0px" y="0px" viewBox="0 0 44 44" height="30px" fill="none" stroke="currentColor">
+        <circle cx="22" cy="22" r="20" stroke-width="2"></circle>
+        <line x1="22" x2="22" y1="18" y2="33" stroke-width="3"></line>
+        <line x1="22" x2="22" y1="12" y2="15" stroke-width="3"></line>
+      </svg>
+      <span class="cc-v-center cc-text">
+          <strong>公告：</strong>又拍云为开发者提供免费的云存储服务。<a id="notice_url" onclick="track_notice()" href="https://www.upyun.com/league" target="_blank" class="cc-link cc-v-center">点击获取</a>
+      </span>
+    </div>
+</div>
+
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu">
+            <a class="pure-menu-heading" target="_blank" href="https://github.com/521xueweihan/HelloGitHub">HelloGitHub</a>
+
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+                <li class="menu-item-divided pure-menu-selected">
+                    <a href="/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">月刊</a>
+                </li>
+                <li class="pure-menu-item"><a href="/report/tiobe/?url=/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">编程语言月报</a></li>
+                <li class="pure-menu-item"><a href="/report/netcraft/?url=/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">服务器月报</a></li>
+                <li class="pure-menu-item"><a href="/report/db-engines/?url=/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">数据库月报</a></li>
+                <li class="pure-menu-item"><a href="/article/?url=/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">文章</a></li>
+                <li class="pure-menu-item"><a href="/onefile/?url=/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/" class="pure-menu-link">编程挑战</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="hg-fixed-content" hidden="hidden">
+            <ul class="hg-fixed-wraper">
+                <li class="hg-fixed-item">
+                    <a target="_blank" href="https://github.com/521xueweihan/HelloGitHub/issues/899">
+                        <span class="hg-qrcode fa fa-commenting fa-3x"></span>
+                    </a>
+                </li>
+                <li class="hg-fixed-item">
+                    <span id="hg-qrcode-id" class="hg-qrcode fa fa-qrcode fa-3x"></span>
+                </li>
+            </ul>
+        </div>
+        <div id="hg-qrcode-group-id" class="hg-qrcode-group hg-none">
+            <img class="hg-qrcode-img" src="https://hellogithub.com/img/hg-qrcode.jpg">
+            <div class="hg-desc-container">
+                <p>扫一扫<br>关注 HG 公众号<br>
+                发现更多开源乐趣</p>
+            </div>
+        </div>
+        <div class="header">
+            <h1>Java 项目</h1>
+            <h2>兴趣是最好的老师，HelloGitHub 就是帮你找到编程的兴趣。</h2>
+        </div>
+
+        <div class="content">
+
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/supertokens/supertokens-core">supertokens-core</a>
+        <span hidden="hidden">35457</span>
+
+            <i id="collect_35457" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 72 期</i>
+                 <i class="fa fa-star">Star 5.7k</i>
+                 <i class="fa fa-eye">Watch 46</i>
+                 <i class="fa fa-code-fork">Fork 193</i>
+
+            </strong>
+        </span><br>
+
+        开源的身份验证方案。为你的应用轻松增加登录、会话管理等功能，支持自行搭建服务。可用作 Auth0 的开源替代品
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/zvfc9UTn3jxNmRI.png" alt="supertokens-core">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/LSPosed/LSPosed">LSPosed</a>
+        <span hidden="hidden">4630</span>
+
+            <i id="collect_4630" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 72 期</i>
+                 <i class="fa fa-star">Star 4.7k</i>
+                 <i class="fa fa-eye">Watch 111</i>
+                 <i class="fa fa-code-fork">Fork 676</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        运行于 Android 操作系统的钩子框架。支持 Android 8 以上，能够拦截几乎所有 Java 函数的调用，从而可被用来修改 Android 系统和软件的功能
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/bnqlrdIaDhtNcAf.png" alt="LSPosed">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/thingsboard/thingsboard">thingsboard</a>
+        <span hidden="hidden">5497</span>
+
+            <i id="collect_5497" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 71 期</i>
+                 <i class="fa fa-star">Star 11.5k</i>
+                 <i class="fa fa-eye">Watch 529</i>
+                 <i class="fa fa-code-fork">Fork 3.6k</i>
+
+            </strong>
+        </span><br>
+
+        完全开源的物联网 IoT 平台。它使用行业的标准物联网协议 MQTT、CoAP 和 HTTP 连接设备，支持数据收集、处理、可视化和设备管理等功能。通过该项目可快速实现物联网平台搭建，从而成为众多大型企业的首选，行业覆盖电信、智慧城市、环境监测等
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/iEmpZTrKXaG8d9D.gif" alt="thingsboard">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/MindorksOpenSource/from-java-to-kotlin">from-java-to-kotlin</a>
+        <span hidden="hidden">30075</span>
+
+            <i id="collect_30075" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 71 期</i>
+                 <i class="fa fa-star">Star 5.6k</i>
+                 <i class="fa fa-eye">Watch 185</i>
+                 <i class="fa fa-code-fork">Fork 775</i>
+
+            </strong>
+        </span><br>
+
+        展示 Java 和 Kotlin 语法上差别的项目。让有 Java 基础的程序员可以快速上手 Kotlin，<a href="https://github.com/MindorksOpenSource/from-java-to-kotlin/blob/master/README-ZH.md">中文</a>
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/YECtnkvA0gJp9oI.png" alt="from-java-to-kotlin">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/oracle/graal">graal</a>
+        <span hidden="hidden">4308</span>
+
+            <i id="collect_4308" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 71 期</i>
+                 <i class="fa fa-star">Star 16.9k</i>
+                 <i class="fa fa-eye">Watch 474</i>
+                 <i class="fa fa-code-fork">Fork 1.3k</i>
+
+            </strong>
+        </span><br>
+
+        Oracle 开源的高性能跨语言虚拟机。用它启动的程序占用内存更低、启动时间更短，而且支持运行多种编程语言，比如 Python、Ruby、C/C++、Java 等。通过 Polyglot API 更是打破了不同语言之间的壁垒，实现多语言混合编程。目前部分功能还处于实验阶段，生产环境慎用。<a href="https://www.graalvm.org/">官网</a>
+
+<pre><code>import org.graalvm.polyglot.*;
+
+class Polyglot {
+    public static void main(String[] args) {
+        Context context = Context.newBuilder().allowIO(true).build();
+        Value array = context.eval("python", "[1,2,42,4]");
+        int result = array.getArrayElement(2).asInt();
+        System.out.println(result);
+    }
+}
+
+/**
+ * 运行结果
+ * 执行：javac Polyglot.java
+ * 输出：42
+ */
+</code></pre>
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/5YFIo9BmD7tQE1e.png" alt="graal">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/bumptech/glide">glide</a>
+        <span hidden="hidden">14044</span>
+
+            <i id="collect_14044" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 71 期</i>
+                 <i class="fa fa-star">Star 32.5k</i>
+                 <i class="fa fa-eye">Watch 1.1k</i>
+                 <i class="fa fa-code-fork">Fork 5.9k</i>
+
+            </strong>
+        </span><br>
+
+        流畅快速的 Android 图片加载库。为了实现快速加载和展示图像，Glide 会自动缩减像素采样、缓存、积极重用减少垃圾回收。使用上一行代码就可以实现图片加载和展示，同时网络请求部分可灵活接入任何库
+
+<pre><code>Glide.with(fragment).load(url).into(imageView);
+</code></pre>
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/CpgU0x4IGYDcX9W.png" alt="glide">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/coobird/thumbnailator">thumbnailator</a>
+        <span hidden="hidden">29628</span>
+
+            <i id="collect_29628" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 70 期</i>
+                 <i class="fa fa-star">Star 4.1k</i>
+                 <i class="fa fa-eye">Watch 175</i>
+                 <i class="fa fa-code-fork">Fork 723</i>
+
+            </strong>
+        </span><br>
+
+        Java 的缩略图生成库
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/pixT3ZXlGMUyqKO.png" alt="thumbnailator">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/momosecurity/momo-code-sec-inspector-java">momo-code-sec-inspector-java</a>
+        <span hidden="hidden">15922</span>
+
+            <i id="collect_15922" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 70 期</i>
+                 <i class="fa fa-star">Star 727</i>
+                 <i class="fa fa-eye">Watch 23</i>
+                 <i class="fa fa-code-fork">Fork 113</i>
+
+                    中文
+
+            </strong>
+        </span><br>
+
+        Java 静态代码安全审计工具。它能够在编码过程中发现潜在的安全风险，并提供一键修复的功能，可在 IDEA 的插件市场安装
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/pVTNbUqRAjJzmlH.png" alt="momo-code-sec-inspector-java">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/apache/maven-mvnd">maven-mvnd</a>
+        <span hidden="hidden">27024</span>
+
+            <i id="collect_27024" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 70 期</i>
+                 <i class="fa fa-star">Star 1.8k</i>
+                 <i class="fa fa-eye">Watch 53</i>
+                 <i class="fa fa-code-fork">Fork 128</i>
+
+            </strong>
+        </span><br>
+
+        Apache Maven 团队开源的更快的构建工具。因为内嵌了 Maven 所以可以丝滑地从 Maven 切换为 mvnd，而且它相较于 Maven 启动速度更快、使用的内存更少、编译花费的时间更少
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/rmRUAIJBEtQ6OLo.gif" alt="maven-mvnd">
+
+    </p>
+
+    <h2 class="content-subhead">
+        <a id="" class="project-index" href="#">
+            <span><svg class="octicon" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></span>
+        </a>
+        <a class="project-url" target="_blank" href="/periodical/statistics/click/?target=https://github.com/datahub-project/datahub">datahub</a>
+        <span hidden="hidden">5555</span>
+
+            <i id="collect_5555" class="fa fa-heart-o color-blue"></i>
+            <span hidden="hidden"></span>
+
+    </h2>
+    <p>
+
+        <span>
+            <strong>
+                 <i class="fa fa-folder">第 69 期</i>
+                 <i class="fa fa-star">Star 5.4k</i>
+                 <i class="fa fa-eye">Watch 222</i>
+                 <i class="fa fa-code-fork">Fork 1.4k</i>
+
+            </strong>
+        </span><br>
+
+        基于 Java 开发的元数据治理平台，可接入 Hive、Kafka、ES、MySQL 等数据源。随着公司业务的发展，数据的复杂度会呈指数倍增长，通过文档和口口相传的方式管理数据关系的方式终将被淘汰。如果你体验过到处问数据库的字段含义、没捋清某个字段导致线上事故、分析数据毫无头绪等情况。这个时候就需要元数据治理平台，它提供浏览、搜索和管理每个字段的含义、关系、来源等信息，通过元数据的方式更好的治理和挖掘数据的价值。<a href="https://demo.datahubproject.io/">在线体验</a>
+
+
+        <br><img style="max-width:100%;" src="https://img.hellogithub.com/i/LPDyipt26Ma8dmK.png" alt="datahub">
+
+    </p>
+
+<hr/>
+
+<div class="pure-g">
+    <div class="pure-u-1-3">
+
+    </div>
+    <div class="pure-u-1-3">
+        <div class="social-share" data-sites="weibo,wechat" align="center"></div>
+    </div>
+    <div class="pure-u-1-3">
+
+        <div class="next">
+            <a class="button-small pure-button pure-button-primary" href="/periodical/category/Java%20%E9%A1%B9%E7%9B%AE/?page=2">下一页</a>
+        </div>
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- favourite box start -->
+        <div class="favourite">
+            <form class="pure-form pure-form-aligned">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="repo_name">名称</label>
+                        <input id="repo_name" type="text" placeholder="名称" disabled="disabled">
+                        <input id="repo_id" type="text" hidden="hidden">
+                    </div>
+
+                    <div class="pure-control-group">
+                        <label for="collection_name">收藏夹</label>
+                        <select id="collection_name">
+                        </select>
+                    </div>
+
+                    <div class="pure-controls">
+                        <button id="favourite_cancel" type="button" class="pure-button pure-button-default">取消</button>
+                        <button id="favourite_submit" type="button" class="pure-button pure-button-primary">提交</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <!-- favourite box end -->
+        <!-- login box start -->
+        <div class="modal">
+            <div class="modal-content">
+                <p class="text-center modal-body">请先登陆 HelloGitHub</p>
+                <div class="text-center">
+                    <button id="login_box_cancel" class="pure-button">取消</button>
+                    <a id="login_box_submit" href="/sign/in/" class="pure-button pure-button-primary">登录</a>
+                </div>
+            </div>
+        </div>
+        <!-- login box end -->
+    </div>
+</div>
+
+
+
+<script src="/static/js/ui.js?q=1634283466"></script>
+<script src="/static/js/scroll_before_location.js?q=1634283466"></script>
+<script>
+    function track_notice() {
+        var raw_url = document.location.toString();
+        var arrUrl = raw_url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var path = arrUrl[1].substring(start);
+
+        if(path.indexOf("?") !== -1){
+            path = path.split("?")[0];
+        }
+        var url = document.getElementById("notice_url").href;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", "https://hellogithub.com/periodical/statistics/notice/?target="+url+"&path="+path, true);
+        xmlhttp.send(null);
+    }
+</script>
+
+<!-- highlight_theme.css -->
+<link rel="stylesheet" href="/static/css/atom-one-light.min.css?q=1634283466">
+<!-- share.css -->
+<link rel="stylesheet" href="/static/css/share.min.css?q=1634283466">
+<script src="/static/js/jquery.min.js?q=1634283466"></script>
+<script src="/static/js/collected.js?q=1646195308"></script>
+<script src="/static/js/ui.js?q=1634283466"></script>
+<script src="/static/js/social-share.min.js?q=1634283466"></script>
+<script src="/static/js/highlight.pack.js?q=1634283466"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+(function () {
+   var ie = !!(window.attachEvent && !window.opera);
+   var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
+   var fn = [];
+   var run = function () { for (var i = 0; i < fn.length; i++) fn[i](); };
+   var d = document;
+   d.ready = function (f) {
+      if (!ie && !wk && d.addEventListener)
+      return d.addEventListener('DOMContentLoaded', f, false);
+      if (fn.push(f) > 1) return;
+      if (ie)
+         (function () {
+            try { d.documentElement.doScroll('left'); run(); }
+            catch (err) { setTimeout(arguments.callee, 0); }
+         })();
+      else if (wk)
+      var t = setInterval(function () {
+         if (/^(loaded|complete)$/.test(d.readyState))
+         clearInterval(t), run();
+      }, 0);
+   };
+})();
+var qrCodeID = document.getElementById('hg-qrcode-id');
+var qrCodeContainer = document.getElementById('hg-qrcode-group-id');
+qrCodeID.addEventListener('mouseover', function() {
+    qrCodeContainer.classList.remove('hg-none');
+});
+
+qrCodeID.addEventListener('mouseout', function() {
+    qrCodeContainer.classList.add('hg-none');
+});
+// 判断设备是否是移动端
+if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    $(".hg-fixed-content").hide();
+} else if (/(Android)/i.test(navigator.userAgent)) {
+    $(".hg-fixed-content").hide();
+} else {
+    $(".hg-fixed-content").removeAttr('hidden');
+}
+</script>
+
+</body>
+
+</html>
