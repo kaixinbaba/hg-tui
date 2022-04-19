@@ -93,12 +93,12 @@ impl Category {
 }
 
 #[derive(Debug, Default)]
-struct Project {
+pub struct Project {
     /// 项目名称
     name: String,
 
     /// 期数
-    volume: u8,
+    volume: String,
 
     /// 种类
     category: Category,
@@ -110,29 +110,29 @@ struct Project {
     desc: String,
 
     /// star 数
-    star: usize,
+    star: String,
 
     /// watch 数
-    watch: usize,
+    watch: String,
 
     /// fork 数
-    fork: usize,
+    fork: String,
 }
 
 impl Project {
-    fn new<T>(name: T, volume: u8, category: T, url: T, desc: T, star: usize, watch: usize, fork: usize) -> Project
+    pub fn new<T>(name: T, volume: T, category: T, url: T, desc: T, star: T, watch: T, fork: T) -> Project
     where
         T: Into<String>,
     {
         Project {
             name: name.into(),
-            volume,
+            volume: volume.into(),
             category: Category::Java,
             url: url.into(),
             desc: desc.into(),
-            star: star,
-            watch: watch,
-            fork: fork,
+            star: star.into(),
+            watch: watch.into(),
+            fork: fork.into(),
         }
     }
 }
@@ -153,73 +153,73 @@ fn dummy_data() -> Vec<Project> {
     let mut result = Vec::new();
     result.push(Project::new(
         "name1",
-        1,
+        "1",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name2",
-        2,
+        "2",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name3",
-        3,
+        "3",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name4",
-        4,
+        "4",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name5",
-        5,
+        "5",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name6",
-        6,
+        "6",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result.push(Project::new(
         "name7",
-        7,
+        "7",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        1,
-        2,
-        3,
+        "1",
+        "2",
+        "3",
     ));
     result
 }
