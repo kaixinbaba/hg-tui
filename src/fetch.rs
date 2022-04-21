@@ -39,7 +39,7 @@ mod test {
     fn write_text(text: impl Into<String>, path: impl AsRef<Path>) {
         let mut f = File::create(path).unwrap();
 
-        f.write(text.into().as_bytes()).unwrap();
+        f.write_all(text.into().as_bytes()).unwrap();
     }
 
     #[test]

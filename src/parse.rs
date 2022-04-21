@@ -12,10 +12,36 @@ lazy_static! {
 
 const NA: &str = "N/A";
 
-pub fn parse_category(html: impl AsRef<str>) -> Result<Project> {
+pub fn parse_category(html: impl AsRef<str>) -> Result<Vec<Project>> {
     let doc = Document::from(html.as_ref());
+    let category = doc.select("h1").text().to_string();
+    let projects: Vec<Project> = doc
+        .select("h2.content-subhead")
+        .iter()
+        .map(|pi| {
+            let a = pi.select("a.project-url");
+            let name = a.text().to_string();
+            let url = get_url(&a);
 
-    todo!()
+            let p = pi.next_sibling();
+
+            let info_list: Vec<String> = p
+                .select("i.fa")
+                .iter()
+                .map(|i| i.text().to_string())
+                .collect();
+
+            let volume = info_list[0].clone();
+            let star = info_list[1].clone().replace("Star ", "");
+            let watch = info_list[2].clone().replace("Watch ", "");
+            let fork = info_list[3].clone().replace("Fork ", "");
+
+            let desc = get_desc(&p);
+
+            Project::new(name, volume, category.clone(), url, desc, star, watch, fork)
+        })
+        .collect();
+    Ok(projects)
 }
 
 /// 不停往前找，找到第一个 h2 就是类别
@@ -135,7 +161,6 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
 
     Ok(projects)
 }
-const my_name: &str = "";
 
 #[cfg(test)]
 mod test {
@@ -154,5 +179,12 @@ mod test {
         let html = include_str!("../volume.html");
         let projects = parse_volume(html).unwrap();
         assert_eq!(26, projects.len());
+    }
+
+    #[test]
+    fn test_parse_category() {
+        let html = include_str!("../category.html");
+        let projects = parse_category(html).unwrap();
+        println!("{:?}", projects);
     }
 }
