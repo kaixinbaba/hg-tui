@@ -1,8 +1,14 @@
-use nipper::Document;
+use nipper::{Document, Selection};
 
 use anyhow::Result;
+use lazy_static::lazy_static;
+use regex::Regex;
 
 use crate::widget::content::Project;
+
+lazy_static! {
+    static ref RE: Regex = Regex::new(r"<.*>").unwrap();
+}
 
 const NA: &str = "N/A";
 
@@ -12,14 +18,74 @@ pub fn parse_category(html: impl AsRef<str>) -> Result<Project> {
     todo!()
 }
 
-pub fn parse_volume(html: impl AsRef<str>) -> Result<Project> {
+/// 不停往前找，找到第一个 h2 就是类别
+fn find_category<'a>(pi: &Selection<'a>) -> String {
+    if pi.is("h2") {
+        return pi.text().to_string();
+    }
+    find_category(&pi.prev_sibling())
+}
+
+fn get_desc<'a>(p: &Selection<'a>) -> String {
+    let pc = p
+        .html()
+        .split("<br>")
+        .map(|s| s.to_string())
+        .collect::<Vec<String>>();
+    let need_replace = pc[1].trim().replace("</p>", "").replace("\n", "");
+
+    RE.replace_all(&need_replace, "").to_string()
+}
+
+pub fn parse_volume(html: impl AsRef<str>) -> Result<Vec<Project>> {
     let doc = Document::from(html.as_ref());
 
-    todo!()
+    let volume = doc.select("h1").text().to_string();
+
+    let projects: Vec<Project> = doc
+        .select("a.project-index")
+        .iter()
+        .map(|pi| {
+            let category = find_category(&pi);
+
+            let name = pi.attr("id").unwrap().to_string();
+
+            let a = pi.next_sibling().next_sibling();
+            let url = get_url(&a);
+            let p = a
+                .next_sibling()
+                .next_sibling()
+                .next_sibling()
+                .next_sibling();
+
+            let info_list: Vec<String> = p
+                .select("i.fa")
+                .iter()
+                .map(|i| i.text().to_string())
+                .collect();
+
+            let star = info_list[0].clone().replace("Star ", "");
+            let watch = info_list[1].clone().replace("Watch ", "");
+            let fork = info_list[2].clone().replace("Fork ", "");
+
+            let desc = get_desc(&p);
+
+            Project::new(name, volume.clone(), category, url, desc, star, watch, fork)
+        })
+        .collect();
+    Ok(projects)
+}
+
+fn get_url<'a>(a: &Selection<'a>) -> String {
+    a.attr("href")
+        .unwrap()
+        .replace("/periodical/statistics/click/?target=", "")
 }
 
 pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
     let doc = Document::from(html.as_ref());
+
+    let volume = doc.select("h1").text().to_string();
 
     let projects: Vec<Project> = doc
         .select(".content-subhead")
@@ -80,5 +146,12 @@ mod test {
         let html = include_str!("../search.html");
         let projects = parse_search(html).unwrap();
         assert_eq!(10, projects.len());
+    }
+
+    #[test]
+    fn test_parse_volume() {
+        let html = include_str!("../volume.html");
+        let projects = parse_volume(html).unwrap();
+        assert_eq!(26, projects.len());
     }
 }

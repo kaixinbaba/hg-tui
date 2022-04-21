@@ -92,7 +92,7 @@ impl Category {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone)]
 pub struct Project {
     /// 项目名称
     name: String,

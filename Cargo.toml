@@ -27,3 +27,6 @@ reqwest = { version = "0.11", features = ["blocking", "json"] }
 
 # html parser
 nipper = "0.1.9"
+
+# regex
+regex = "1.5.5"
