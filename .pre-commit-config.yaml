@@ -22,7 +22,7 @@ repos:
         args: []
       - id: cargo-check
         name: cargo check
-        desciption: Check the package for errors.
+        description: Check the package for errors.
         entry: bash -c 'cargo check --all'
         language: rust
         files: \\.rs$
