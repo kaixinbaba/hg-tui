@@ -135,6 +135,7 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
 
     Ok(projects)
 }
+const my_name: &str = "";
 
 #[cfg(test)]
 mod test {
