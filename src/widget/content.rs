@@ -8,6 +8,11 @@ use tui::widgets::{
     Block, BorderType, Borders, Cell, Paragraph, Row, StatefulWidget, Table, TableState, Widget,
 };
 
+use crossbeam_channel::Sender;
+
+use crate::events::{NOTIFY, Notify, HGEvent};
+
+
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 
 lazy_static! {
@@ -162,58 +167,8 @@ fn dummy_data() -> Vec<Project> {
         "3",
     ));
     result.push(Project::new(
-        "name2",
-        "2",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
-        "name3",
-        "3",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
         "name4",
         "4",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
-        "name5",
-        "5",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
-        "name6",
-        "6",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
-        "name7",
-        "7",
         "Java",
         "http://www.baidu.com",
         "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
@@ -224,6 +179,14 @@ fn dummy_data() -> Vec<Project> {
     result
 }
 
+
+impl ContentState {
+    pub fn add_projects(&mut self, mut projects: Vec<Project>) {
+        self.result.clear();
+        self.result.append(&mut projects);
+    }
+}
+
 impl Default for ContentState {
     fn default() -> ContentState {
         let result = dummy_data();
@@ -231,7 +194,7 @@ impl Default for ContentState {
             result,
             page_num: 1,
             page_size: 10,
-            active: true,
+            active: false,
             tstate: TableState::default(),
         }
     }
@@ -264,7 +227,7 @@ impl StatefulWidget for Content {
                 Style::default()
             };
 
-            Row::new(cells).bottom_margin(1).style(style)
+            Row::new(cells).height(3).style(style)
         });
 
         let table_title = if state.active {

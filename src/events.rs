@@ -33,6 +33,7 @@ pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
             sender.send(HGEvent::UserEvent(event)).unwrap();
         }
     });
+    let event_app = moved_app;
     loop {
         if let Ok(HGEvent::UserEvent(key_event)) = receiver.recv() {
             match (key_event.modifiers, key_event.code) {
@@ -40,7 +41,19 @@ pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
                 (KeyModifiers::CONTROL, KeyCode::Char('c')) | (KeyModifiers::CONTROL, KeyCode::Char('d')) => {
                     break;
                 }
+                (_, KeyCode::Char(char)) => {
+                    let mut app = event_app.lock().unwrap();
+                    app.handle_char(char);
+                }
+                (_, KeyCode::Enter) => {
+                    let mut app = event_app.lock().unwrap();
+                    app.search();
+                }
+                (_, KeyCode::Backspace) => {
+                    let mut app = event_app.lock().unwrap();
+                    app.remove_char();
 
+                }
                 _ => {}
 
             }

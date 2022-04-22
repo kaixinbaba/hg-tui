@@ -1,11 +1,14 @@
 use crate::config::Config;
-use crate::events;
+use crate::events::{self, HGEvent, NOTIFY, Notify};
 use crate::widget::{InputState, ContentState};
+use crate::fetch;
+use crate::parse;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
+use crossbeam_channel::Sender;
 
 use anyhow::Result;
 use std::{
@@ -32,6 +35,9 @@ pub struct App {
 
     /// 内容展示
     pub content: ContentState,
+
+    /// 重绘
+    redraw_tx: Sender<HGEvent>,
 }
 
 impl App {
@@ -46,7 +52,35 @@ impl App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
+            redraw_tx: NOTIFY.0.clone(),
         })
+    }
+
+    fn update(&self) {
+        self.redraw_tx.send(HGEvent::NotifyEvent(Notify::Redraw)).unwrap();
+    }
+}
+
+impl App {
+    pub fn handle_char(&mut self, char: char) {
+        self.input.active();
+        self.input.push_char(char);
+        self.update();
+    }
+
+    pub fn remove_char(&mut self) {
+        self.input.remove_char();
+        self.update();
+    }
+
+    pub fn search(&mut self) -> Result<()> {
+        let wait_search = self.input.clear();
+        let text = fetch::search(wait_search)?;
+        let projects = parse::parse_search(text)?;
+        self.content.add_projects(projects);
+        self.update();
+
+        Ok(())
     }
 }
 
