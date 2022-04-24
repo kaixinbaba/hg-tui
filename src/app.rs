@@ -26,6 +26,15 @@ use tui::{
     Frame, Terminal,
 };
 
+#[derive(Debug, Clone, Copy)]
+pub enum AppMode {
+    /// 搜索模式
+    Search,
+
+    /// 浏览模式
+    View,
+}
+
 pub struct App {
     /// 终端
     pub terminal: Terminal<CrosstermBackend<Stdout>>,
@@ -38,6 +47,10 @@ pub struct App {
 
     /// 重绘
     redraw_tx: Sender<HGEvent>,
+
+    /// 模式
+    pub mode: AppMode,
+
 }
 
 impl App {
@@ -53,32 +66,39 @@ impl App {
             input: InputState::default(),
             content: ContentState::default(),
             redraw_tx: NOTIFY.0.clone(),
+            mode: AppMode::Search,
         })
-    }
-
-    fn update(&self) {
-        self.redraw_tx.send(HGEvent::NotifyEvent(Notify::Redraw)).unwrap();
     }
 }
 
 impl App {
-    pub fn handle_char(&mut self, char: char) {
-        self.input.active();
-        self.input.push_char(char);
-        self.update();
-    }
-
-    pub fn remove_char(&mut self) {
-        self.input.remove_char();
-        self.update();
-    }
 
     pub fn search(&mut self) -> Result<()> {
+        if self.input.is_empty() {
+            // 输入框为空直接返回
+            return Ok(());
+        }
         let wait_search = self.input.clear();
         let text = fetch::search(wait_search)?;
         let projects = parse::parse_search(text)?;
         self.content.add_projects(projects);
-        self.update();
+
+        Ok(())
+    }
+
+
+    pub fn switch_to_view(&mut self) -> Result<()> {
+        self.input.deactive();
+        self.content.active();
+        self.mode = AppMode::View;
+
+        Ok(())
+    }
+
+    pub fn switch_to_search(&mut self) -> Result<()> {
+        self.content.deactive();
+        self.input.active();
+        self.mode = AppMode::Search;
 
         Ok(())
     }
@@ -103,12 +123,11 @@ impl Drop for App {
 pub(crate) fn start(config: &Config) -> Result<()> {
     let mut app = Arc::new(Mutex::new(App::new(config)?));
 
+    let moved_app = app.clone();
+    let event_recv = events::handle_key_event(moved_app);
 
     let moved_app = app.clone();
     events::handle_notify(moved_app);
-
-    let moved_app = app.clone();
-    let event_recv = events::handle_key_event(moved_app);
 
     Ok(())
 }

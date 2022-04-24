@@ -1,4 +1,4 @@
-use crate::app::App;
+use crate::app::{App, AppMode};
 use crate::widget::{Input, Content};
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::terminal::Frame;
@@ -27,8 +27,33 @@ pub fn redraw(app: &mut App) {
                 )
                 .split(f.size());
 
+
             f.render_widget(title(), layout[0]);
-            f.render_stateful_widget(Input{}, layout[1], &mut app.input);
+
+
+            let input_layout = Layout::default()
+                .direction(Direction::Horizontal)
+                .constraints([
+                    Constraint::Percentage(30),
+                    Constraint::Percentage(40),
+                    Constraint::Percentage(30),
+                ].as_ref()).split(layout[1])[1];
+
+
+            f.render_stateful_widget(Input{}, input_layout, &mut app.input);
+            match app.mode {
+                AppMode::Search => {
+                    f.set_cursor(
+                        input_layout.x + app.input.width() as u16 + 1,
+                        input_layout.y + 1,
+                    )
+                }
+
+                AppMode::View => {
+                    // hide cursor
+                }
+            }
+
             f.render_stateful_widget(Content{}, layout[2], &mut app.content);
         })
         .unwrap();

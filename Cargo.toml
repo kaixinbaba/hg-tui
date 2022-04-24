@@ -12,7 +12,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1"
 
-tui = "0.17"
+tui = "0.18"
 
 crossterm = "0.23"
 
@@ -30,3 +30,5 @@ nipper = "0.1.9"
 
 # regex
 regex = "1.5.5"
+
+unicode-width = "0.1.9"

@@ -15,8 +15,10 @@ use crate::events::{NOTIFY, Notify, HGEvent};
 
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 
+const SELECT_ARROW: &'static str = "►";
+
 lazy_static! {
-    static ref HEADERS: Vec<&'static str> = vec!["名称", "期数", "分类", "介绍"];
+    static ref HEADERS: Vec<&'static str> = vec!["№", "名称", "期数", "分类", "介绍"];
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -147,51 +149,66 @@ pub struct Content {}
 
 #[derive(Debug)]
 pub struct ContentState {
-    result: Vec<Project>,
+    /// 当前页数据
+    cur: Vec<Project>,
+    /// 下一页数据
+    next: Option<Vec<Project>>,
     page_num: usize,
     page_size: usize,
     active: bool,
     tstate: TableState,
 }
 
-fn dummy_data() -> Vec<Project> {
-    let mut result = Vec::new();
-    result.push(Project::new(
-        "name1",
-        "1",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result.push(Project::new(
-        "name4",
-        "4",
-        "Java",
-        "http://www.baidu.com",
-        "ajdflkdasjfldaksjfljasdflajsdflsajflsajadslfjalsjflasjdfalj",
-        "1",
-        "2",
-        "3",
-    ));
-    result
-}
-
 
 impl ContentState {
     pub fn add_projects(&mut self, mut projects: Vec<Project>) {
-        self.result.clear();
-        self.result.append(&mut projects);
+        self.cur.clear();
+        self.cur.append(&mut projects);
+    }
+
+    pub fn active(&mut self) {
+        self.active = true;
+        if let None = self.tstate.selected() {
+            self.tstate.select(Some(0));
+        }
+    }
+
+    pub fn deactive(&mut self) {
+        self.active = false;
+    }
+
+    pub fn next(&mut self) {
+        let cur = match self.tstate.selected() {
+            Some(index) => index,
+            None => 0
+        };
+        let next = if cur == self.cur.len() - 1 {
+            0
+        } else {
+            cur + 1
+        };
+        self.tstate.select(Some(next));
+    }
+
+    pub fn prev(&mut self) {
+        let cur = match self.tstate.selected() {
+            Some(index) => index,
+            None => 0
+        };
+        let next = if cur == 0 {
+            self.cur.len() - 1
+        } else {
+            cur - 1
+        };
+        self.tstate.select(Some(next));
     }
 }
 
 impl Default for ContentState {
     fn default() -> ContentState {
-        let result = dummy_data();
         ContentState {
-            result,
+            cur: Vec::default(),
+            next: None,
             page_num: 1,
             page_size: 10,
             active: false,
@@ -213,21 +230,26 @@ impl StatefulWidget for Content {
             .height(1)
             .bottom_margin(1);
 
-        let rows = state.result.iter().map(|project| {
-            let mut cells: Vec<String> = Vec::with_capacity(4);
+        let rows = state.cur.iter().enumerate().map(|(i, project)| {
+            let mut cells: Vec<String> = Vec::with_capacity(5);
 
+            cells.push((i + 1).to_string());
             cells.push(project.name.clone());
             cells.push(project.volume.to_string());
             cells.push(project.category.into());
             cells.push(project.desc.clone());
 
-            let style = if let Some(index) = state.tstate.selected() {
-                Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
-            } else {
-                Style::default()
+            let style = match state.tstate.selected() {
+                Some(index) if index == i => {
+                    Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
+                },
+                _ => {
+                    Style::default()
+                }
             };
 
-            Row::new(cells).height(3).style(style)
+
+            Row::new(cells).height(1).bottom_margin(2).style(style)
         });
 
         let table_title = if state.active {
@@ -236,16 +258,17 @@ impl StatefulWidget for Content {
             Span::raw(TABLE_TITLE)
         };
 
-        let mut table_block = Block::default()
+        let table_block = Block::default()
             .borders(Borders::ALL)
             .border_type(BorderType::Rounded)
             .title_alignment(Alignment::Center)
             .title(table_title);
 
         let t = Table::new(rows).header(header).block(table_block).widths(&[
+            Constraint::Percentage(3),
             Constraint::Percentage(15),
             Constraint::Percentage(10),
-            Constraint::Percentage(10),
+            Constraint::Percentage(7),
             Constraint::Percentage(65),
         ]);
         <Table as StatefulWidget>::render(t, area, buf, &mut state.tstate)

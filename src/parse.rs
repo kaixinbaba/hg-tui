@@ -120,10 +120,15 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
             let a = content.select(".project-url");
             let name = a.text().to_string();
 
-            let url = a
-                .attr("href")
-                .unwrap()
-                .replace("/periodical/statistics/click/?target=", "");
+
+            let url = match a.attr("href") {
+                Some(href) => {
+                    href.replace("/periodical/statistics/click/?target=", "")
+                }
+                _ => {
+                    return None;
+                }
+            };
 
             let p = content.next_sibling();
 
@@ -135,7 +140,13 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
                 .filter(|s| !s.is_empty());
 
             let star = desc_iter.next().unwrap_or(NA).replace("Star ", "");
-            let desc = desc_iter.next().unwrap_or(NA);
+            let mut desc = desc_iter.next().unwrap_or(NA);
+
+            if desc == "中文" {
+                // 再往下找一个
+                desc = desc_iter.next().unwrap_or(NA);
+            }
+
 
             let span = p.next_sibling();
 
@@ -146,7 +157,7 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
 
             let category = span_text_iter.next().unwrap();
 
-            Project::new(
+            Some(Project::new(
                 name,
                 volume.to_string(),
                 category.to_string(),
@@ -155,8 +166,10 @@ pub fn parse_search(html: impl AsRef<str>) -> Result<Vec<Project>> {
                 star.to_string(),
                 NA.to_string(),
                 NA.to_string(),
-            )
+            ))
         })
+        .filter(|p| p.is_some())
+        .map(|p| p.unwrap())
         .collect();
 
     Ok(projects)
