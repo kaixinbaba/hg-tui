@@ -82,7 +82,7 @@ fn msg(msg: String) {
 /// 搜索模式
 fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
-        (KeyModifiers::CONTROL, KeyCode::Char('j')) | (_, KeyCode::Down) => {
+        (KeyModifiers::CONTROL, KeyCode::Char('j')) | (_, KeyCode::Down) | (_, KeyCode::Esc) => {
             // switch to view
             app.switch_to_view();
             redraw();

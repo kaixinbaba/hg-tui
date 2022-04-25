@@ -1,5 +1,5 @@
 use crate::app::{App, AppMode};
-use crate::widget::{Content, Input};
+use crate::widget::{Content, Input, StatusLine};
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::style::{Color, Style};
 use tui::terminal::Frame;
@@ -14,13 +14,15 @@ pub fn redraw(app: &mut App) {
             // layout[0] => title
             // layout[1] => input
             // layout[2] => content
+            // layout[3] => status line
             let layout = Layout::default()
                 .margin(1)
                 .constraints(
                     [
                         Constraint::Length(3),
                         Constraint::Length(3),
-                        Constraint::Max(97),
+                        Constraint::Max(90),
+                        Constraint::Length(1),
                     ]
                     .as_ref(),
                 )
@@ -49,6 +51,8 @@ pub fn redraw(app: &mut App) {
             }
 
             f.render_stateful_widget(Content {}, layout[2], &mut app.content);
+
+            f.render_stateful_widget(StatusLine {}, layout[3], &mut app.statusline);
         })
         .unwrap();
 }

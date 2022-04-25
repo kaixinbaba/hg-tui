@@ -2,7 +2,7 @@ use crate::config::Config;
 use crate::events::{self, HGEvent, Notify, NOTIFY};
 use crate::fetch;
 use crate::parse::{self, CategoryParser, NormalParser, Parser, VolumeParser};
-use crate::widget::{ContentState, InputState};
+use crate::widget::{ContentState, InputState, StatusLineState};
 use crossbeam_channel::Sender;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
@@ -52,6 +52,9 @@ pub struct App {
     /// 内容展示
     pub content: ContentState,
 
+    /// 状态栏
+    pub statusline: StatusLineState,
+
     /// 模式
     pub mode: AppMode,
 }
@@ -68,6 +71,7 @@ impl App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
+            statusline: StatusLineState::default(),
             mode: AppMode::Search,
         })
     }
@@ -90,20 +94,16 @@ impl App {
         Ok(())
     }
 
-    pub fn switch_to_view(&mut self) -> Result<()> {
+    pub fn switch_to_view(&mut self) {
         self.input.deactive();
         self.content.active();
         self.mode = AppMode::View;
-
-        Ok(())
     }
 
-    pub fn switch_to_search(&mut self) -> Result<()> {
+    pub fn switch_to_search(&mut self) {
         self.content.deactive();
         self.input.active();
         self.mode = AppMode::Search;
-
-        Ok(())
     }
 }
 
