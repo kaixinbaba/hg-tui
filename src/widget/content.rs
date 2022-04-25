@@ -1,4 +1,7 @@
+use std::str::FromStr;
+
 use crate::draw;
+use crate::parse::CategoryParser;
 use lazy_static::lazy_static;
 use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
@@ -10,8 +13,7 @@ use tui::widgets::{
 
 use crossbeam_channel::Sender;
 
-use crate::events::{NOTIFY, Notify, HGEvent};
-
+use crate::events::{HGEvent, Notify, NOTIFY};
 
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 
@@ -49,7 +51,7 @@ impl Default for Category {
 }
 
 impl From<Category> for String {
-    fn from(category: Category) -> Self {
+    fn from(category: Category) -> String {
         match category {
             Java => "Java".into(),
             Python => "Python".into(),
@@ -73,8 +75,6 @@ impl From<Category> for String {
 }
 
 impl Category {
-
-
     pub fn to_zh(&self) -> String {
         match self {
             Java => "Java 项目".into(),
@@ -95,7 +95,6 @@ impl Category {
             Book => "开源书籍".into(),
             Other => "其他".into(),
         }
-
     }
 }
 
@@ -108,7 +107,7 @@ pub struct Project {
     volume: String,
 
     /// 种类
-    category: Category,
+    category: String,
 
     /// github http url
     url: String,
@@ -127,14 +126,23 @@ pub struct Project {
 }
 
 impl Project {
-    pub fn new<T>(name: T, volume: T, category: T, url: T, desc: T, star: T, watch: T, fork: T) -> Project
+    pub fn new<T>(
+        name: T,
+        volume: T,
+        category: T,
+        url: T,
+        desc: T,
+        star: T,
+        watch: T,
+        fork: T,
+    ) -> Project
     where
         T: Into<String>,
     {
         Project {
             name: name.into(),
             volume: volume.into(),
-            category: Category::Java,
+            category: category.into(),
             url: url.into(),
             desc: desc.into(),
             star: star.into(),
@@ -159,7 +167,6 @@ pub struct ContentState {
     tstate: TableState,
 }
 
-
 impl ContentState {
     pub fn add_projects(&mut self, mut projects: Vec<Project>) {
         self.cur.clear();
@@ -180,7 +187,7 @@ impl ContentState {
     pub fn next(&mut self) {
         let cur = match self.tstate.selected() {
             Some(index) => index,
-            None => 0
+            None => 0,
         };
         let next = if cur == self.cur.len() - 1 {
             0
@@ -193,7 +200,7 @@ impl ContentState {
     pub fn prev(&mut self) {
         let cur = match self.tstate.selected() {
             Some(index) => index,
-            None => 0
+            None => 0,
         };
         let next = if cur == 0 {
             self.cur.len() - 1
@@ -217,7 +224,6 @@ impl Default for ContentState {
     }
 }
 
-
 impl StatefulWidget for Content {
     type State = ContentState;
 
@@ -236,18 +242,15 @@ impl StatefulWidget for Content {
             cells.push((i + 1).to_string());
             cells.push(project.name.clone());
             cells.push(project.volume.to_string());
-            cells.push(project.category.into());
+            cells.push(project.category.clone());
             cells.push(project.desc.clone());
 
             let style = match state.tstate.selected() {
                 Some(index) if index == i => {
                     Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
-                },
-                _ => {
-                    Style::default()
                 }
+                _ => Style::default(),
             };
-
 
             Row::new(cells).height(1).bottom_margin(2).style(style)
         });
@@ -268,8 +271,8 @@ impl StatefulWidget for Content {
             Constraint::Percentage(3),
             Constraint::Percentage(15),
             Constraint::Percentage(10),
-            Constraint::Percentage(7),
-            Constraint::Percentage(65),
+            Constraint::Percentage(10),
+            Constraint::Percentage(62),
         ]);
         <Table as StatefulWidget>::render(t, area, buf, &mut state.tstate)
     }

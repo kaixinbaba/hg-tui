@@ -1,11 +1,10 @@
 use crate::app::{App, AppMode};
-use crate::widget::{Input, Content};
+use crate::widget::{Content, Input};
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
+use tui::style::{Color, Style};
 use tui::terminal::Frame;
 use tui::text::{Span, Spans, Text};
 use tui::widgets::{Block, Paragraph};
-use tui::style::{Color, Style};
-
 
 pub fn redraw(app: &mut App) {
     let terminal = &mut app.terminal;
@@ -27,34 +26,29 @@ pub fn redraw(app: &mut App) {
                 )
                 .split(f.size());
 
-
             f.render_widget(title(), layout[0]);
-
 
             let input_layout = Layout::default()
                 .direction(Direction::Horizontal)
-                .constraints([
-                    Constraint::Percentage(30),
-                    Constraint::Percentage(40),
-                    Constraint::Percentage(30),
-                ].as_ref()).split(layout[1])[1];
+                .constraints(
+                    [
+                        Constraint::Percentage(30),
+                        Constraint::Percentage(40),
+                        Constraint::Percentage(30),
+                    ]
+                    .as_ref(),
+                )
+                .split(layout[1])[1];
 
-
-            f.render_stateful_widget(Input{}, input_layout, &mut app.input);
-            match app.mode {
-                AppMode::Search => {
-                    f.set_cursor(
-                        input_layout.x + app.input.width() as u16 + 1,
-                        input_layout.y + 1,
-                    )
-                }
-
-                AppMode::View => {
-                    // hide cursor
-                }
+            f.render_stateful_widget(Input {}, input_layout, &mut app.input);
+            if let AppMode::Search = app.mode {
+                f.set_cursor(
+                    input_layout.x + app.input.width() as u16 + 1,
+                    input_layout.y + 1,
+                )
             }
 
-            f.render_stateful_widget(Content{}, layout[2], &mut app.content);
+            f.render_stateful_widget(Content {}, layout[2], &mut app.content);
         })
         .unwrap();
 }
@@ -64,12 +58,14 @@ fn title() -> Paragraph<'static> {
         // Text::from(Spans::from(vec![
         // Span::styled("HelloGiHub", Style::default().fg(Color::Yellow)),
         // Span::raw(""),
-        Text::styled("HelloGiHub\n分享 GitHub 上有趣、入门级的开源项目", Style::default().fg(Color::Rgb(255, 192, 102)))
+        Text::styled(
+            "HelloGiHub\n分享 GitHub 上有趣、入门级的开源项目",
+            Style::default().fg(Color::Rgb(255, 192, 102)),
+        ),
     )
     .alignment(Alignment::Center)
     .block(Block::default())
 }
-
 
 pub fn add_padding(mut rect: Rect, n: u16, direction: PaddingDirection) -> Rect {
     match direction {

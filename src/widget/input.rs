@@ -1,10 +1,12 @@
 use tui::buffer::Buffer;
-use tui::layout::{Constraint, Rect, Layout, Direction};
+use tui::layout::{Constraint, Direction, Layout, Rect};
+use tui::style::{Color, Style};
+use tui::text::{Spans, Text};
 use tui::widgets::{Block, Borders, Paragraph, StatefulWidget, Widget};
-use tui::style::{Style, Color};
-
 
 use unicode_width::UnicodeWidthStr;
+
+use crate::app::SearchMode;
 
 /// 用户输入框组件
 pub struct Input {}
@@ -13,6 +15,7 @@ pub struct Input {}
 pub struct InputState {
     input: String,
     active: bool,
+    pub mode: SearchMode,
 }
 
 impl Default for InputState {
@@ -20,8 +23,8 @@ impl Default for InputState {
         InputState {
             input: String::default(),
             active: true,
+            mode: SearchMode::Normal,
         }
-
     }
 }
 
@@ -49,6 +52,14 @@ impl InputState {
     }
 
     pub fn handle_char(&mut self, char: char) {
+        if self.input.is_empty() {
+            // 说明当前 char 是第一个字符
+            self.mode = match char {
+                '#' => SearchMode::Volume,
+                '$' => SearchMode::Category,
+                _ => SearchMode::Normal,
+            }
+        }
         self.input.push(char);
     }
 
@@ -57,12 +68,9 @@ impl InputState {
     }
 }
 
-
-
 impl StatefulWidget for Input {
     type State = InputState;
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
-
         let style = if state.active {
             Style::default().fg(Color::Yellow)
         } else {
@@ -72,6 +80,5 @@ impl StatefulWidget for Input {
         Paragraph::new(state.input.as_ref())
             .block(Block::default().borders(Borders::ALL).style(style))
             .render(area, buf);
-
     }
 }

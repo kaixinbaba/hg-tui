@@ -1,30 +1,37 @@
 use crate::config::Config;
-use crate::events::{self, HGEvent, NOTIFY, Notify};
-use crate::widget::{InputState, ContentState};
+use crate::events::{self, HGEvent, Notify, NOTIFY};
 use crate::fetch;
-use crate::parse;
+use crate::parse::{self, CategoryParser, NormalParser, Parser, VolumeParser};
+use crate::widget::{ContentState, InputState};
+use crossbeam_channel::Sender;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use crossbeam_channel::Sender;
 
 use anyhow::Result;
 use std::{
     io::{self, Stdout},
-    sync::{Mutex, Arc},
+    sync::{Arc, Mutex},
 };
 
 use tui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Constraint, Direction, Layout, Rect},
-    style::{Color, Style},
-    terminal,
-    text::Span,
-    widgets::{Block, Borders, List, ListItem, ListState, Paragraph, Widget},
-    Frame, Terminal,
+    Terminal,
 };
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SearchMode {
+    /// 普通文本搜索
+    Normal,
+
+    /// 搜期数
+    Volume,
+
+    /// 搜类别
+    Category,
+}
 
 #[derive(Debug, Clone, Copy)]
 pub enum AppMode {
@@ -45,12 +52,8 @@ pub struct App {
     /// 内容展示
     pub content: ContentState,
 
-    /// 重绘
-    redraw_tx: Sender<HGEvent>,
-
     /// 模式
     pub mode: AppMode,
-
 }
 
 impl App {
@@ -65,27 +68,27 @@ impl App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
-            redraw_tx: NOTIFY.0.clone(),
             mode: AppMode::Search,
         })
     }
 }
 
 impl App {
-
     pub fn search(&mut self) -> Result<()> {
         if self.input.is_empty() {
             // 输入框为空直接返回
             return Ok(());
         }
+        let search_mode = self.input.mode;
         let wait_search = self.input.clear();
-        let text = fetch::search(wait_search)?;
-        let projects = parse::parse_search(text)?;
+        let text = fetch::fetch(wait_search, search_mode)?;
+
+        let projects = parse::parse(text, search_mode)?;
+
         self.content.add_projects(projects);
 
         Ok(())
     }
-
 
     pub fn switch_to_view(&mut self) -> Result<()> {
         self.input.deactive();
@@ -104,24 +107,21 @@ impl App {
     }
 }
 
-
 impl Drop for App {
-
     fn drop(&mut self) {
         disable_raw_mode().unwrap();
         execute!(
             self.terminal.backend_mut(),
             LeaveAlternateScreen,
             DisableMouseCapture
-        ).unwrap();
+        )
+        .unwrap();
         self.terminal.show_cursor().unwrap();
     }
-
 }
 
-
 pub(crate) fn start(config: &Config) -> Result<()> {
-    let mut app = Arc::new(Mutex::new(App::new(config)?));
+    let app = Arc::new(Mutex::new(App::new(config)?));
 
     let moved_app = app.clone();
     let event_recv = events::handle_key_event(moved_app);

@@ -73,7 +73,10 @@ fn quit() {
 }
 
 fn msg(msg: String) {
-    NOTIFY.0.send(HGEvent::NotifyEvent(Notify::Message(msg))).unwrap();
+    NOTIFY
+        .0
+        .send(HGEvent::NotifyEvent(Notify::Message(msg)))
+        .unwrap();
 }
 
 /// 搜索模式
@@ -120,7 +123,6 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         }
         _ => {}
     }
-
 }
 
 pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
