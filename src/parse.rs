@@ -137,7 +137,7 @@ impl Parser for VolumeParser {
         let doc = Document::from(html.as_ref());
 
         let volume = doc.select("h1").text().to_string();
-
+        println!("{:?}", volume);
         let projects: Vec<Project> = doc
             .select("a.project-index")
             .iter()
@@ -230,6 +230,6 @@ mod test {
     fn test_parse_category() {
         let html = include_str!("../category.html");
         let projects = CategoryParser.parse(html).unwrap();
-        println!("{:?}", projects);
+        assert_eq!(10, projects.len());
     }
 }

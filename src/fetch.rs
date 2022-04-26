@@ -16,7 +16,7 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
                 bail!("Invalid volume, must be number")
             }
         }
-        SearchMode::Category => todo!(),
+        SearchMode::Category => fetch_category(Category::from(text.into()[1..].to_string()), 1),
     }
 }
 
@@ -32,12 +32,13 @@ fn fetch_volume(volume: usize, page_no: usize) -> Result<String> {
 }
 
 fn fetch_category(category: Category, page_no: usize) -> Result<String> {
-    let resp = reqwest::blocking::get(format!(
+    let url = format!(
         "{}/category/{}/?page={}",
         BASE_PATH,
         category.to_zh(),
         page_no
-    ))?;
+    );
+    let resp = reqwest::blocking::get(url)?;
 
     let text = resp.text()?;
 

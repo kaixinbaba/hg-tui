@@ -50,26 +50,51 @@ impl Default for Category {
     }
 }
 
+impl From<String> for Category {
+    fn from(s: String) -> Self {
+        let lower = s.to_lowercase();
+        match lower.as_ref() {
+            "java" => Category::Java,
+            "python" | "py" => Category::Python,
+            "javascript" | "js" => Category::Javascript,
+            "rust" => Category::Rust,
+            "c" => Category::C,
+            "c++" | "cpp" => Category::Cpp,
+            "php" => Category::PHP,
+            "objectc" | "oc" => Category::ObjectC,
+            "go" => Category::Go,
+            "css" => Category::Css,
+            "c#" | "cs" => Category::Csharp,
+            "koltin" => Category::Koltin,
+            "swift" => Category::Swift,
+            "ml" | "ai" => Category::MachineLearning,
+            "ruby" => Category::Ruby,
+            "book" => Category::Book,
+            _ => Category::Other,
+        }
+    }
+}
+
 impl From<Category> for String {
     fn from(category: Category) -> String {
         match category {
-            Java => "Java".into(),
-            Python => "Python".into(),
-            Javascript => "Javascript".into(),
-            Rust => "Rust".into(),
-            C => "C".into(),
-            Cpp => "C++".into(),
-            PHP => "PHP".into(),
-            ObjectC => "Object-C".into(),
-            Go => "Go".into(),
-            Css => "Css".into(),
-            Csharp => "C#".into(),
-            Koltin => "Koltin".into(),
-            Swift => "Swift".into(),
-            MachineLearning => "机器学习".into(),
-            Ruby => "Ruby".into(),
-            Book => "开源书籍".into(),
-            Other => "其他".into(),
+            Category::Java => "Java".into(),
+            Category::Python => "Python".into(),
+            Category::Javascript => "Javascript".into(),
+            Category::Rust => "Rust".into(),
+            Category::C => "C".into(),
+            Category::Cpp => "C++".into(),
+            Category::PHP => "PHP".into(),
+            Category::ObjectC => "Object-C".into(),
+            Category::Go => "Go".into(),
+            Category::Css => "Css".into(),
+            Category::Csharp => "C#".into(),
+            Category::Koltin => "Koltin".into(),
+            Category::Swift => "Swift".into(),
+            Category::MachineLearning => "机器学习".into(),
+            Category::Ruby => "Ruby".into(),
+            Category::Book => "开源书籍".into(),
+            Category::Other => "其他".into(),
         }
     }
 }
@@ -77,23 +102,23 @@ impl From<Category> for String {
 impl Category {
     pub fn to_zh(&self) -> String {
         match self {
-            Java => "Java 项目".into(),
-            Python => "Python 项目".into(),
-            Javascript => "Javascript 项目".into(),
-            Rust => "Rust 项目".into(),
-            C => "C 项目".into(),
-            Cpp => "C++ 项目".into(),
-            PHP => "PHP 项目".into(),
-            ObjectC => "Object-C 项目".into(),
-            Go => "Go 项目".into(),
-            Css => "Css 项目".into(),
-            Csharp => "C# 项目".into(),
-            Koltin => "Koltin 项目".into(),
-            Swift => "Swift 项目".into(),
-            MachineLearning => "机器学习".into(),
-            Ruby => "Ruby 项目".into(),
-            Book => "开源书籍".into(),
-            Other => "其他".into(),
+            Category::Java => "Java 项目".into(),
+            Category::Python => "Python 项目".into(),
+            Category::Javascript => "Javascript 项目".into(),
+            Category::Rust => "Rust 项目".into(),
+            Category::C => "C 项目".into(),
+            Category::Cpp => "C++ 项目".into(),
+            Category::PHP => "PHP 项目".into(),
+            Category::ObjectC => "Object-C 项目".into(),
+            Category::Go => "Go 项目".into(),
+            Category::Css => "Css 项目".into(),
+            Category::Csharp => "C# 项目".into(),
+            Category::Koltin => "Koltin 项目".into(),
+            Category::Swift => "Swift 项目".into(),
+            Category::MachineLearning => "机器学习".into(),
+            Category::Ruby => "Ruby 项目".into(),
+            Category::Book => "开源书籍".into(),
+            Category::Other => "其他".into(),
         }
     }
 }
