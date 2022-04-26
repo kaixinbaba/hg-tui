@@ -3,7 +3,7 @@ use crate::events::{self, HGEvent, Notify, NOTIFY};
 use crate::fetch;
 use crate::parse::Parser;
 use crate::parse::PARSER;
-use crate::widget::{ContentState, InputState, StatusLineState};
+use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
 use crossbeam_channel::Sender;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
@@ -34,13 +34,16 @@ pub enum SearchMode {
     Category,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AppMode {
     /// 搜索模式
     Search,
 
     /// 浏览模式
     View,
+
+    /// 弹窗提示
+    Popup,
 }
 
 pub struct App {
@@ -52,6 +55,9 @@ pub struct App {
 
     /// 内容展示
     pub content: ContentState,
+
+    /// 弹窗提示
+    pub popup: PopupState,
 
     /// 状态栏
     pub statusline: StatusLineState,
@@ -72,6 +78,7 @@ impl App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
+            popup: PopupState::default(),
             statusline: StatusLineState::default(),
             mode: AppMode::Search,
         })
@@ -105,6 +112,10 @@ impl App {
         self.content.deactive();
         self.input.active();
         self.mode = AppMode::Search;
+    }
+    pub fn popup(&mut self, msg: String) {
+        self.mode = AppMode::Popup;
+        self.popup.msg = msg;
     }
 }
 

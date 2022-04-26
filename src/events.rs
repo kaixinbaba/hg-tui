@@ -7,7 +7,6 @@ use crate::app::{App, AppMode};
 use crate::draw;
 
 use std::sync::{Arc, Mutex};
-use std::time::Duration;
 
 lazy_static! {
     pub static ref NOTIFY: (Sender<HGEvent>, Receiver<HGEvent>) = bounded(1);
@@ -57,6 +56,10 @@ pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
                         AppMode::View => {
                             handle_view(key_modifier, key_code, &mut app);
                         }
+
+                        AppMode::Popup => {
+                            handle_popup(key_modifier, key_code, &mut app);
+                        }
                     },
                 }
             }
@@ -91,10 +94,13 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.input.handle_char(char);
             redraw();
         }
-        (_, KeyCode::Enter) => {
-            app.search().unwrap();
-            redraw();
-        }
+        (_, KeyCode::Enter) => match app.search() {
+            Ok(_) => redraw(),
+            Err(e) => {
+                msg(e.to_string());
+                redraw();
+            }
+        },
         (_, KeyCode::Backspace) => {
             app.input.handle_backspace();
             redraw();
@@ -125,6 +131,12 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     }
 }
 
+fn handle_popup(_: KeyModifiers, _: KeyCode, app: &mut App) {
+    app.mode = AppMode::Search;
+    app.popup.msg.clear();
+    redraw();
+}
+
 pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
     // first draw
     redraw();
@@ -142,7 +154,9 @@ pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
                     draw::redraw(&mut app);
                 }
                 Notify::Message(msg) => {
-                    todo!()
+                    let mut app = notify_app.lock().unwrap();
+
+                    app.popup(msg);
                 }
                 Notify::Quit => {
                     break;

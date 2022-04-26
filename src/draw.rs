@@ -1,9 +1,10 @@
 use crate::app::{App, AppMode};
-use crate::widget::{Content, Input, StatusLine};
+use crate::widget::{Content, Input, Popup, StatusLine};
+
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
 use tui::style::{Color, Style};
-use tui::terminal::Frame;
-use tui::text::{Span, Spans, Text};
+
+use tui::text::Text;
 use tui::widgets::{Block, Paragraph};
 
 pub fn redraw(app: &mut App) {
@@ -53,6 +54,12 @@ pub fn redraw(app: &mut App) {
             f.render_stateful_widget(Content {}, layout[2], &mut app.content);
 
             f.render_stateful_widget(StatusLine {}, layout[3], &mut app.statusline);
+            // popup
+            if app.mode == AppMode::Popup {
+                let area = centered_rect(50, 20, f.size());
+
+                f.render_stateful_widget(Popup {}, area, &mut app.popup)
+            }
         })
         .unwrap();
 }
@@ -110,4 +117,30 @@ pub enum PaddingDirection {
     Left,
     Right,
     All,
+}
+
+fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {
+    let popup_layout = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints(
+            [
+                Constraint::Percentage((100 - percent_y) / 2),
+                Constraint::Percentage(percent_y),
+                Constraint::Percentage((100 - percent_y) / 2),
+            ]
+            .as_ref(),
+        )
+        .split(r);
+
+    Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints(
+            [
+                Constraint::Percentage((100 - percent_x) / 2),
+                Constraint::Percentage(percent_x),
+                Constraint::Percentage((100 - percent_x) / 2),
+            ]
+            .as_ref(),
+        )
+        .split(popup_layout[1])[1]
 }

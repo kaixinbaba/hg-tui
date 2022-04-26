@@ -2,6 +2,7 @@ use std::str::FromStr;
 
 use crate::draw;
 use crate::parse::CategoryParser;
+use anyhow::bail;
 use lazy_static::lazy_static;
 use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
@@ -50,10 +51,12 @@ impl Default for Category {
     }
 }
 
-impl From<String> for Category {
-    fn from(s: String) -> Self {
+impl TryFrom<String> for Category {
+    type Error = anyhow::Error;
+
+    fn try_from(s: String) -> Result<Self, Self::Error> {
         let lower = s.to_lowercase();
-        match lower.as_ref() {
+        let category = match lower.as_ref() {
             "java" => Category::Java,
             "python" | "py" => Category::Python,
             "javascript" | "js" => Category::Javascript,
@@ -70,8 +73,10 @@ impl From<String> for Category {
             "ml" | "ai" => Category::MachineLearning,
             "ruby" => Category::Ruby,
             "book" => Category::Book,
-            _ => Category::Other,
-        }
+            "other" => Category::Other,
+            _ => bail!("请输入有效的类别名称，如：java, py, js, go 等"),
+        };
+        Ok(category)
     }
 }
 

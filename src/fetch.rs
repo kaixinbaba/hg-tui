@@ -13,10 +13,12 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
             if let Ok(volume) = &text.into()[1..].parse::<usize>() {
                 fetch_volume(*volume, 1)
             } else {
-                bail!("Invalid volume, must be number")
+                bail!("请输入有效的期数大于 0 的数字！")
             }
         }
-        SearchMode::Category => fetch_category(Category::from(text.into()[1..].to_string()), 1),
+        SearchMode::Category => {
+            fetch_category(Category::try_from(text.into()[1..].to_string())?, 1)
+        }
     }
 }
 

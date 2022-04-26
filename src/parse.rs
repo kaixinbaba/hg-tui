@@ -143,7 +143,6 @@ impl Parser for VolumeParser {
         let doc = Document::from(&html);
 
         let volume = doc.select("h1").text().to_string();
-        println!("{:?}", volume);
         let projects: Vec<Project> = doc
             .select("a.project-index")
             .iter()
