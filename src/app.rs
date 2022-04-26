@@ -1,7 +1,8 @@
 use crate::config::Config;
 use crate::events::{self, HGEvent, Notify, NOTIFY};
 use crate::fetch;
-use crate::parse::{self, CategoryParser, NormalParser, Parser, VolumeParser};
+use crate::parse::Parser;
+use crate::parse::PARSER;
 use crate::widget::{ContentState, InputState, StatusLineState};
 use crossbeam_channel::Sender;
 use crossterm::{
@@ -87,7 +88,7 @@ impl App {
         let wait_search = self.input.clear();
         let text = fetch::fetch(wait_search, search_mode)?;
 
-        let projects = parse::parse(text, search_mode)?;
+        let projects = PARSER.get(&search_mode).unwrap().parse(text)?;
 
         self.content.add_projects(projects);
 

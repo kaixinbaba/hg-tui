@@ -1,7 +1,4 @@
-use std::{
-    collections::HashMap,
-    sync::{Arc, Mutex},
-};
+use std::collections::HashMap;
 
 use nipper::{Document, Selection};
 
@@ -13,15 +10,24 @@ use crate::{app::SearchMode, widget::content::Project};
 
 lazy_static! {
     static ref RE: Regex = Regex::new(r"<.*>").unwrap();
+    pub static ref PARSER: HashMap<SearchMode, &'static dyn Parser> = {
+        let mut map = HashMap::<SearchMode, &'static dyn Parser>::new();
+
+        map.insert(SearchMode::Normal, &NormalParser {});
+        map.insert(SearchMode::Volume, &VolumeParser {});
+        map.insert(SearchMode::Category, &CategoryParser {});
+
+        map
+    };
 }
 
 const NA: &str = "N/A";
 
-pub trait Parser {
-    fn parse(&self, html: impl AsRef<str>) -> Result<Vec<Project>>;
+pub trait Parser: Sync + Send {
+    fn parse(&self, html: String) -> Result<Vec<Project>>;
 }
 
-pub fn parse(html: impl AsRef<str>, mode: SearchMode) -> Result<Vec<Project>> {
+pub fn parse(html: String, mode: SearchMode) -> Result<Vec<Project>> {
     match mode {
         SearchMode::Normal => NormalParser.parse(html),
         SearchMode::Volume => VolumeParser.parse(html),
@@ -32,8 +38,8 @@ pub fn parse(html: impl AsRef<str>, mode: SearchMode) -> Result<Vec<Project>> {
 pub struct NormalParser;
 
 impl Parser for NormalParser {
-    fn parse(&self, html: impl AsRef<str>) -> Result<Vec<Project>> {
-        let doc = Document::from(html.as_ref());
+    fn parse(&self, html: String) -> Result<Vec<Project>> {
+        let doc = Document::from(&html);
 
         let volume = doc.select("h1").text().to_string();
 
@@ -98,8 +104,8 @@ impl Parser for NormalParser {
 
 pub struct CategoryParser;
 impl Parser for CategoryParser {
-    fn parse(&self, html: impl AsRef<str>) -> Result<Vec<Project>> {
-        let doc = Document::from(html.as_ref());
+    fn parse(&self, html: String) -> Result<Vec<Project>> {
+        let doc = Document::from(&html);
         let category = doc.select("h1").text().to_string();
         let projects: Vec<Project> = doc
             .select("h2.content-subhead")
@@ -133,8 +139,8 @@ impl Parser for CategoryParser {
 
 pub struct VolumeParser;
 impl Parser for VolumeParser {
-    fn parse(&self, html: impl AsRef<str>) -> Result<Vec<Project>> {
-        let doc = Document::from(html.as_ref());
+    fn parse(&self, html: String) -> Result<Vec<Project>> {
+        let doc = Document::from(&html);
 
         let volume = doc.select("h1").text().to_string();
         println!("{:?}", volume);
