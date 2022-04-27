@@ -7,6 +7,7 @@ use crate::app::{App, AppMode};
 use crate::draw;
 
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 lazy_static! {
     pub static ref NOTIFY: (Sender<HGEvent>, Receiver<HGEvent>) = bounded(1);
@@ -19,7 +20,7 @@ pub enum HGEvent {
     NotifyEvent(Notify),
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Notify {
     /// 重绘界面
     Redraw,
@@ -29,9 +30,12 @@ pub enum Notify {
 
     /// 弹出窗口展示消息
     Message(Message),
+
+    /// tick
+    Tick,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Message {
     Error(String),
 
@@ -111,6 +115,10 @@ pub fn tips(msg: String) {
         .unwrap();
 }
 
+pub fn tick() {
+    NOTIFY.0.send(HGEvent::NotifyEvent(Notify::Tick)).unwrap();
+}
+
 /// 搜索模式
 fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
@@ -183,6 +191,11 @@ pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
     // first draw
     redraw();
 
+    std::thread::spawn(move || loop {
+        tick();
+        std::thread::sleep(Duration::from_secs(1));
+    });
+
     let notify_app = moved_app;
 
     let notify_recv = NOTIFY.1.clone();
@@ -190,7 +203,7 @@ pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
     loop {
         if let Ok(HGEvent::NotifyEvent(notify)) = notify_recv.recv() {
             match notify {
-                Notify::Redraw => {
+                Notify::Redraw | Notify::Tick => {
                     let mut app = notify_app.lock().unwrap();
 
                     draw::redraw(&mut app);

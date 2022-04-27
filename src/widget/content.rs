@@ -172,7 +172,7 @@ impl Project {
         Project {
             name: name.into(),
             volume: volume.into(),
-            category: category.into(),
+            category: category.into().replace(" 项目", ""),
             url: url.into(),
             desc: desc.into(),
             star: star.into(),

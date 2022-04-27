@@ -27,14 +27,6 @@ pub trait Parser: Sync + Send {
     fn parse(&self, html: String) -> Result<Vec<Project>>;
 }
 
-pub fn parse(html: String, mode: SearchMode) -> Result<Vec<Project>> {
-    match mode {
-        SearchMode::Normal => NormalParser.parse(html),
-        SearchMode::Volume => VolumeParser.parse(html),
-        SearchMode::Category => CategoryParser.parse(html),
-    }
-}
-
 pub struct NormalParser;
 
 impl Parser for NormalParser {
