@@ -1,5 +1,5 @@
 use crate::config::Config;
-use crate::events::{self, HGEvent, Notify, NOTIFY};
+use crate::events::{self, warn, HGEvent, Message, Notify, NOTIFY};
 use crate::fetch;
 use crate::parse::Parser;
 use crate::parse::PARSER;
@@ -73,12 +73,13 @@ impl App {
         execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
+        let tsize = terminal.size()?;
         terminal.clear()?;
         Ok(App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
-            popup: PopupState::default(),
+            popup: PopupState::new(tsize),
             statusline: StatusLineState::default(),
             mode: AppMode::Search,
         })
@@ -97,6 +98,11 @@ impl App {
 
         let projects = PARSER.get(&search_mode).unwrap().parse(text)?;
 
+        if projects.is_empty() {
+            warn("无结果返回，请确认搜索关键字".into());
+            return Ok(());
+        }
+
         self.content.add_projects(projects);
 
         Ok(())
@@ -113,9 +119,9 @@ impl App {
         self.input.active();
         self.mode = AppMode::Search;
     }
-    pub fn popup(&mut self, msg: String) {
-        self.mode = AppMode::Popup;
+    pub fn popup(&mut self, msg: Message) {
         self.popup.msg = msg;
+        self.mode = AppMode::Popup;
     }
 }
 

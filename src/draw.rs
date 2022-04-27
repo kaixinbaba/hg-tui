@@ -58,7 +58,7 @@ pub fn redraw(app: &mut App) {
             if app.mode == AppMode::Popup {
                 let area = centered_rect(50, 20, f.size());
 
-                f.render_stateful_widget(Popup {}, area, &mut app.popup)
+                f.render_stateful_widget(Popup {}, area, &mut app.popup);
             }
         })
         .unwrap();

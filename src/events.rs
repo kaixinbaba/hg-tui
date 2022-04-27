@@ -28,7 +28,22 @@ pub enum Notify {
     Quit,
 
     /// 弹出窗口展示消息
-    Message(String),
+    Message(Message),
+}
+
+#[derive(Debug, Clone)]
+pub enum Message {
+    Error(String),
+
+    Warn(String),
+
+    Tips(String),
+}
+
+impl Default for Message {
+    fn default() -> Self {
+        Message::Error(String::default())
+    }
 }
 
 pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
@@ -67,18 +82,32 @@ pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
     });
 }
 
-fn redraw() {
+pub fn redraw() {
     NOTIFY.0.send(HGEvent::NotifyEvent(Notify::Redraw)).unwrap();
 }
 
-fn quit() {
+pub fn quit() {
     NOTIFY.0.send(HGEvent::NotifyEvent(Notify::Quit)).unwrap();
 }
 
-fn msg(msg: String) {
+pub fn err(msg: String) {
     NOTIFY
         .0
-        .send(HGEvent::NotifyEvent(Notify::Message(msg)))
+        .send(HGEvent::NotifyEvent(Notify::Message(Message::Error(msg))))
+        .unwrap();
+}
+
+pub fn warn(msg: String) {
+    NOTIFY
+        .0
+        .send(HGEvent::NotifyEvent(Notify::Message(Message::Warn(msg))))
+        .unwrap();
+}
+
+pub fn tips(msg: String) {
+    NOTIFY
+        .0
+        .send(HGEvent::NotifyEvent(Notify::Message(Message::Tips(msg))))
         .unwrap();
 }
 
@@ -97,7 +126,7 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         (_, KeyCode::Enter) => match app.search() {
             Ok(_) => redraw(),
             Err(e) => {
-                msg(e.to_string());
+                err(e.to_string());
                 redraw();
             }
         },
@@ -133,7 +162,6 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
 
 fn handle_popup(_: KeyModifiers, _: KeyCode, app: &mut App) {
     app.mode = AppMode::Search;
-    app.popup.msg.clear();
     redraw();
 }
 
