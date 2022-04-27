@@ -115,6 +115,26 @@ pub fn tips(msg: String) {
         .unwrap();
 }
 
+pub fn show_help() {
+    tips(
+        r###"Ctrl j\k 切换 搜索\浏览 模式
+搜索模式
+输入 :help 获得帮助
+输入 #{数字} 按期数搜索
+输入 ${类别} 按类别搜索
+其他按关键字搜索
+
+浏览模式：
+j\k 移动一行
+d\u 移动五行
+0 移动至首行
+G 移动至末行
+h/l 翻页
+o/enter 查看详细"###
+            .into(),
+    );
+}
+
 pub fn tick() {
     NOTIFY.0.send(HGEvent::NotifyEvent(Notify::Tick)).unwrap();
 }
@@ -126,6 +146,9 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             // switch to view
             app.switch_to_view();
             redraw();
+        }
+        (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
+            show_help();
         }
         (_, KeyCode::Char(char)) => {
             app.input.handle_char(char);
@@ -178,6 +201,9 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.content.last();
             redraw();
         }
+        (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
+            show_help();
+        }
         _ => {}
     }
 }
@@ -210,8 +236,9 @@ pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
                 }
                 Notify::Message(msg) => {
                     let mut app = notify_app.lock().unwrap();
-
                     app.popup(msg);
+
+                    draw::redraw(&mut app);
                 }
                 Notify::Quit => {
                     break;

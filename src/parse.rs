@@ -212,21 +212,21 @@ mod test {
     #[test]
     fn test_parse_search() {
         let html = include_str!("../search.html");
-        let projects = NormalParser.parse(html).unwrap();
+        let projects = NormalParser.parse(html.to_string()).unwrap();
         assert_eq!(10, projects.len());
     }
 
     #[test]
     fn test_parse_volume() {
         let html = include_str!("../volume.html");
-        let projects = VolumeParser.parse(html).unwrap();
+        let projects = VolumeParser.parse(html.to_string()).unwrap();
         assert_eq!(26, projects.len());
     }
 
     #[test]
     fn test_parse_category() {
         let html = include_str!("../category.html");
-        let projects = CategoryParser.parse(html).unwrap();
+        let projects = CategoryParser.parse(html.to_string()).unwrap();
         assert_eq!(10, projects.len());
     }
 }

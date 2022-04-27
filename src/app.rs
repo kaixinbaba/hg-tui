@@ -1,5 +1,5 @@
 use crate::config::Config;
-use crate::events::{self, warn, HGEvent, Message, Notify, NOTIFY};
+use crate::events::{self, show_help, warn, HGEvent, Message, Notify, NOTIFY};
 use crate::fetch;
 use crate::parse::Parser;
 use crate::parse::PARSER;
@@ -94,6 +94,10 @@ impl App {
         }
         let search_mode = self.input.mode;
         let wait_search = self.input.clear();
+        if wait_search == ":help" {
+            show_help();
+            return Ok(());
+        }
         let text = fetch::fetch(wait_search, search_mode)?;
 
         let projects = PARSER.get(&search_mode).unwrap().parse(text)?;
