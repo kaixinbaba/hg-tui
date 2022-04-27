@@ -214,30 +214,35 @@ impl ContentState {
         self.active = false;
     }
 
-    pub fn next(&mut self) {
+    pub fn next(&mut self, incr: usize) {
         let cur = match self.tstate.selected() {
             Some(index) => index,
             None => 0,
         };
-        let next = if cur == self.cur.len() - 1 {
-            0
+        let next = if cur + incr >= self.cur.len() - 1 {
+            self.cur.len() - 1
         } else {
-            cur + 1
+            cur + incr
         };
         self.tstate.select(Some(next));
     }
 
-    pub fn prev(&mut self) {
+    pub fn prev(&mut self, incr: usize) {
         let cur = match self.tstate.selected() {
             Some(index) => index,
             None => 0,
         };
-        let next = if cur == 0 {
-            self.cur.len() - 1
-        } else {
-            cur - 1
-        };
+
+        let next = if cur < incr { 0 } else { cur - incr };
         self.tstate.select(Some(next));
+    }
+
+    pub fn first(&mut self) {
+        self.tstate.select(Some(0));
+    }
+
+    pub fn last(&mut self) {
+        self.tstate.select(Some(self.cur.len() - 1));
     }
 }
 

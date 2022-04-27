@@ -147,13 +147,27 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             redraw();
         }
         (_, KeyCode::Char('j')) => {
-            // move to next
-            app.content.next();
+            app.content.next(1);
             redraw();
         }
         (_, KeyCode::Char('k')) => {
-            // move to prev
-            app.content.prev();
+            app.content.prev(1);
+            redraw();
+        }
+        (_, KeyCode::Char('d')) => {
+            app.content.next(5);
+            redraw();
+        }
+        (_, KeyCode::Char('u')) => {
+            app.content.prev(5);
+            redraw();
+        }
+        (_, KeyCode::Char('0')) => {
+            app.content.first();
+            redraw();
+        }
+        (_, KeyCode::Char('G')) => {
+            app.content.last();
             redraw();
         }
         _ => {}

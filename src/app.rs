@@ -105,6 +105,9 @@ impl App {
 
         self.content.add_projects(projects);
 
+        // 搜索完自动切换到浏览模式
+        self.switch_to_view();
+
         Ok(())
     }
 
