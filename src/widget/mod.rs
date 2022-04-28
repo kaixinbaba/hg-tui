@@ -1,6 +1,7 @@
 pub mod content;
 pub mod input;
 pub mod popup;
+pub mod projectdetail;
 pub mod statusline;
 
 pub use content::{Content, ContentState};

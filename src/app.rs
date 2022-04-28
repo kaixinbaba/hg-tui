@@ -4,6 +4,7 @@ use crate::fetch;
 use crate::parse::Parser;
 use crate::parse::PARSER;
 use crate::widget::content::Category;
+use crate::widget::projectdetail::ProjectDetailState;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
 use crossbeam_channel::Sender;
 use crossterm::{
@@ -44,6 +45,9 @@ pub enum AppMode {
 
     /// 弹窗提示
     Popup,
+
+    /// 项目明细
+    Detail,
 }
 
 pub struct App {
@@ -67,6 +71,9 @@ pub struct App {
 
     /// 当前类别
     pub curr_category: Option<Category>,
+
+    /// 项目明细子页面
+    pub project_detail: ProjectDetailState,
 }
 
 impl App {
@@ -86,6 +93,7 @@ impl App {
             statusline: StatusLineState::default(),
             mode: AppMode::Search,
             curr_category: None,
+            project_detail: ProjectDetailState::default(),
         })
     }
 }

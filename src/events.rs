@@ -79,6 +79,9 @@ pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
                         AppMode::Popup => {
                             handle_popup(key_modifier, key_code, &mut app);
                         }
+                        AppMode::Detail => {
+                            handle_detail(key_modifier, key_code, &mut app);
+                        }
                     },
                 }
             }
@@ -213,13 +216,28 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.prev_page().unwrap();
             redraw();
         }
+        (_, KeyCode::Char('o')) | (_, KeyCode::Enter) => {
+            // 进入详情页
+            todo!();
+            // redraw();
+        }
         _ => {}
     }
 }
 
-fn handle_popup(_: KeyModifiers, _: KeyCode, app: &mut App) {
-    app.mode = AppMode::Search;
-    redraw();
+fn handle_popup(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
+    match (key_modifier, key_code) {
+        (_, KeyCode::Char('H')) | (_, KeyCode::Esc) => {
+            app.mode = AppMode::Search;
+            redraw();
+        }
+        _ => {}
+    }
+}
+
+fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
+    app.mode = AppMode::View;
+    todo!()
 }
 
 pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
