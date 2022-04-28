@@ -64,6 +64,9 @@ pub struct App {
 
     /// 模式
     pub mode: AppMode,
+
+    /// 当前类别
+    pub curr_category: Option<Category>,
 }
 
 impl App {
@@ -82,6 +85,7 @@ impl App {
             popup: PopupState::new(tsize),
             statusline: StatusLineState::default(),
             mode: AppMode::Search,
+            curr_category: None,
         })
     }
 }
@@ -93,6 +97,7 @@ impl App {
             return Ok(());
         }
         let search_mode = self.input.mode;
+
         let wait_search = self.input.clear();
         if wait_search == ":help" {
             show_help();
@@ -108,8 +113,26 @@ impl App {
             warn("无结果返回，请确认搜索关键字".into());
             return Ok(());
         }
-        self.statusline
-            .set_page_no(self.statusline.get_page_no(wait_remove, search_mode));
+        let mut category_change = false;
+
+        if search_mode == SearchMode::Category {
+            let category = Category::try_from(wait_remove[1..].to_string()).unwrap();
+            if let Some(prev_category) = self.curr_category {
+                category_change = prev_category != category;
+            }
+            self.curr_category = Some(category);
+        } else {
+            self.curr_category = None;
+        }
+
+        if category_change {
+            self.statusline.set_page_no(1);
+        } else {
+            self.statusline.set_page_no(
+                self.statusline
+                    .get_page_no(wait_remove.clone(), search_mode),
+            );
+        }
 
         self.content.add_projects(projects);
 
@@ -135,13 +158,13 @@ impl App {
         self.mode = AppMode::Popup;
     }
     pub fn next_page(&mut self) -> Result<()> {
-        self.page(self.statusline.page_no() + 1);
+        self.page(self.statusline.page_no() + 1)?;
 
         Ok(())
     }
 
     pub fn prev_page(&mut self) -> Result<()> {
-        self.page(self.statusline.page_no() - 1);
+        self.page(self.statusline.page_no() - 1)?;
 
         Ok(())
     }
@@ -154,7 +177,7 @@ impl App {
                 self.content.add_projects(projects);
             }
             SearchMode::Category => {
-                let text = fetch::fetch_category(Category::Python, page_no)?;
+                let text = fetch::fetch_category(self.curr_category.unwrap(), page_no)?;
                 let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
                 self.content.add_projects(projects);
             }

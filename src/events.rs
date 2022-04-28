@@ -151,7 +151,8 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             show_help();
         }
         (_, KeyCode::Char(char)) => {
-            app.input.handle_char(char);
+            let mode = app.input.handle_char(char);
+            app.statusline.set_mode(mode);
             redraw();
         }
         (_, KeyCode::Enter) => match app.search() {
@@ -176,6 +177,9 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             // switch to view
             app.switch_to_search();
             redraw();
+        }
+        (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
+            show_help();
         }
         (_, KeyCode::Char('j')) => {
             app.content.next(1);
@@ -208,9 +212,6 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         (_, KeyCode::Char('h')) => {
             app.prev_page().unwrap();
             redraw();
-        }
-        (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
-            show_help();
         }
         _ => {}
     }

@@ -55,7 +55,7 @@ impl InputState {
         self.input.push_str(s);
     }
 
-    pub fn handle_char(&mut self, char: char) {
+    pub fn handle_char(&mut self, char: char) -> SearchMode {
         if self.input.is_empty() {
             // 说明当前 char 是第一个字符
             self.mode = match char {
@@ -65,6 +65,7 @@ impl InputState {
             }
         }
         self.input.push(char);
+        self.mode
     }
 
     pub fn handle_backspace(&mut self) {

@@ -16,12 +16,16 @@ pub struct StatusLine {}
 
 #[derive(Debug)]
 pub struct StatusLineState {
+    pub mode: SearchMode,
     page_no: usize,
 }
 
 impl Default for StatusLineState {
     fn default() -> StatusLineState {
-        StatusLineState { page_no: 1 }
+        StatusLineState {
+            mode: SearchMode::Normal,
+            page_no: 1,
+        }
     }
 }
 
@@ -44,6 +48,14 @@ impl StatusLineState {
             self.page_no = 1;
         } else {
             self.page_no = page_no;
+        }
+    }
+
+    pub fn set_mode(&mut self, mode: SearchMode) {
+        if self.mode != mode {
+            // 有改变
+            self.mode = mode;
+            self.page_no = 1;
         }
     }
 }
@@ -74,7 +86,15 @@ impl StatefulWidget for StatusLine {
         .render(layout[0], buf);
 
         // info layout[1]
-        Paragraph::new(format!("第 {} 页", state.page_no))
+        //
+        //
+        let text = match state.mode {
+            SearchMode::Normal => "搜索模式".into(),
+            SearchMode::Volume => format!("期数：{}", state.page_no),
+            SearchMode::Category => format!("第 {} 页", state.page_no),
+        };
+
+        Paragraph::new(text)
             .block(Block::default().borders(Borders::NONE))
             .alignment(tui::layout::Alignment::Center)
             .render(layout[1], buf);
