@@ -2,12 +2,22 @@
 name = "hg-tui"
 version = "0.1.0"
 edition = "2021"
+authors = ["Jeff Xun 452914639@qq.com"]
+license = "GPL-3.0-or-later"
+description = "A TUI application to view www.hellogithub.com"
+readme = "README.md"
+homepage = "https://github.com/kaixinbaba/hg-tui"
+repository = "https://github.com/kaixinbaba/hg-tui"
+keywords = ["tui", "cli", "hellogithub"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-# [[bin]]
-# name = "hgtui"
-# path = "src/main.rs"
+[[bin]]
+bench = false
+name = "hgtui"
+path = "src/main.rs"
+
+
 
 [dependencies]
 anyhow = "1"
