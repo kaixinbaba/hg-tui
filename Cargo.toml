@@ -34,3 +34,5 @@ regex = "1.5.5"
 unicode-width = "0.1.9"
 
 chrono = "0.4.19"
+
+better-panic = "0.3.0"

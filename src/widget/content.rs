@@ -1,5 +1,6 @@
 use std::str::FromStr;
 
+use crate::app::SearchMode;
 use crate::draw;
 use crate::parse::CategoryParser;
 use anyhow::bail;
@@ -189,10 +190,6 @@ pub struct Content {}
 pub struct ContentState {
     /// 当前页数据
     cur: Vec<Project>,
-    /// 下一页数据
-    next: Option<Vec<Project>>,
-    page_num: usize,
-    page_size: usize,
     active: bool,
     tstate: TableState,
 }
@@ -250,9 +247,6 @@ impl Default for ContentState {
     fn default() -> ContentState {
         ContentState {
             cur: Vec::default(),
-            next: None,
-            page_num: 1,
-            page_size: 10,
             active: false,
             tstate: TableState::default(),
         }

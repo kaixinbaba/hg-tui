@@ -13,6 +13,7 @@ use crossterm::{
 };
 
 use anyhow::Result;
+use std::time::Duration;
 use std::{
     io::{self, Stdout},
     sync::{Arc, Mutex},
@@ -97,14 +98,18 @@ impl App {
             show_help();
             return Ok(());
         }
+
+        let wait_remove = wait_search.clone();
+
         let text = fetch::fetch(wait_search, search_mode)?;
 
         let projects = PARSER.get(&search_mode).unwrap().parse(text)?;
-
         if projects.is_empty() {
             warn("无结果返回，请确认搜索关键字".into());
             return Ok(());
         }
+        self.statusline
+            .set_page_no(self.statusline.get_page_no(wait_remove, search_mode));
 
         self.content.add_projects(projects);
 
@@ -129,12 +134,37 @@ impl App {
         self.popup.msg = msg;
         self.mode = AppMode::Popup;
     }
-    pub fn next_page(&self) -> Result<()> {
-        todo!()
+    pub fn next_page(&mut self) -> Result<()> {
+        self.page(self.statusline.page_no() + 1);
+
+        Ok(())
     }
 
-    pub fn prev_page(&self) -> Result<()> {
-        todo!()
+    pub fn prev_page(&mut self) -> Result<()> {
+        self.page(self.statusline.page_no() - 1);
+
+        Ok(())
+    }
+
+    fn page(&mut self, page_no: usize) -> Result<()> {
+        match self.input.mode {
+            SearchMode::Volume => {
+                let text = fetch::fetch_volume(page_no)?;
+                let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
+                self.content.add_projects(projects);
+            }
+            SearchMode::Category => {
+                let text = fetch::fetch_category(Category::Python, page_no)?;
+                let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
+                self.content.add_projects(projects);
+            }
+            _ => {}
+        }
+        self.statusline.set_page_no(page_no);
+        // 搜索完自动切换到浏览模式
+        // self.switch_to_view();
+
+        Ok(())
     }
 }
 

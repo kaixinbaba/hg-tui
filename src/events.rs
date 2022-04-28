@@ -10,7 +10,7 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 lazy_static! {
-    pub static ref NOTIFY: (Sender<HGEvent>, Receiver<HGEvent>) = bounded(1);
+    pub static ref NOTIFY: (Sender<HGEvent>, Receiver<HGEvent>) = bounded(1024);
 }
 
 #[derive(Debug, Clone)]
@@ -202,11 +202,11 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             redraw();
         }
         (_, KeyCode::Char('l')) => {
-            app.next_page();
+            app.next_page().unwrap();
             redraw();
         }
         (_, KeyCode::Char('h')) => {
-            app.prev_page();
+            app.prev_page().unwrap();
             redraw();
         }
         (KeyModifiers::CONTROL, KeyCode::Char('h')) => {

@@ -51,6 +51,10 @@ impl InputState {
         content
     }
 
+    pub fn push_str(&mut self, s: &str) {
+        self.input.push_str(s);
+    }
+
     pub fn handle_char(&mut self, char: char) {
         if self.input.is_empty() {
             // 说明当前 char 是第一个字符
