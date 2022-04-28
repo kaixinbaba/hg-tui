@@ -3,6 +3,7 @@ use crate::events::{self, show_help, warn, HGEvent, Message, Notify, NOTIFY};
 use crate::fetch;
 use crate::parse::Parser;
 use crate::parse::PARSER;
+use crate::widget::content::Category;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
 use crossbeam_channel::Sender;
 use crossterm::{
@@ -17,10 +18,8 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-use tui::{
-    backend::{Backend, CrosstermBackend},
-    Terminal,
-};
+use tui::backend::Backend;
+use tui::{backend::CrosstermBackend, Terminal};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SearchMode {
@@ -129,6 +128,13 @@ impl App {
     pub fn popup(&mut self, msg: Message) {
         self.popup.msg = msg;
         self.mode = AppMode::Popup;
+    }
+    pub fn next_page(&self) -> Result<()> {
+        todo!()
+    }
+
+    pub fn prev_page(&self) -> Result<()> {
+        todo!()
     }
 }
 

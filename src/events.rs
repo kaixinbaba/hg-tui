@@ -201,6 +201,14 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.content.last();
             redraw();
         }
+        (_, KeyCode::Char('l')) => {
+            app.next_page();
+            redraw();
+        }
+        (_, KeyCode::Char('h')) => {
+            app.prev_page();
+            redraw();
+        }
         (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
             show_help();
         }

@@ -24,7 +24,7 @@ lazy_static! {
     static ref HEADERS: Vec<&'static str> = vec!["№", "名称", "期数", "分类", "介绍"];
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Category {
     Java,
     Python,
