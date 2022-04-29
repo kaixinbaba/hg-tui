@@ -197,6 +197,11 @@ impl App {
 
         Ok(())
     }
+
+    pub fn display_detail(&mut self) -> Result<()> {
+        self.mode = AppMode::Detail;
+        Ok(())
+    }
 }
 
 impl Drop for App {

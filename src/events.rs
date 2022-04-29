@@ -218,26 +218,27 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         }
         (_, KeyCode::Char('o')) | (_, KeyCode::Enter) => {
             // 进入详情页
-            todo!();
+            app.display_detail().unwrap();
+            redraw();
             // redraw();
         }
         _ => {}
     }
 }
 
-fn handle_popup(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
+fn handle_popup(_: KeyModifiers, _: KeyCode, app: &mut App) {
+    app.mode = AppMode::Search;
+    redraw();
+}
+
+fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
-        (_, KeyCode::Char('H')) | (_, KeyCode::Esc) => {
-            app.mode = AppMode::Search;
+        (_, KeyCode::Char('o')) | (_, KeyCode::Esc) => {
+            app.mode = AppMode::View;
             redraw();
         }
         _ => {}
     }
-}
-
-fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
-    app.mode = AppMode::View;
-    todo!()
 }
 
 pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
