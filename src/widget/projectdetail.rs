@@ -6,9 +6,9 @@ use tui::{
     widgets::{Block, BorderType, Borders, Clear, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::utils;
+use crate::{app::start, theme::CATEGORY_STYLE, utils};
 
-use super::content::Project;
+use super::content::{Category, Project};
 
 /// 项目明细
 pub struct ProjectDetail {}
@@ -21,10 +21,16 @@ pub struct ProjectDetailState {
     watch: String,
     fork: String,
     desc: String,
+    category: Category,
 }
 
 impl From<Project> for ProjectDetailState {
     fn from(project: Project) -> Self {
+        let category = if let Ok(category) = Category::try_from(project.category) {
+            category
+        } else {
+            Category::Other
+        };
         Self {
             name: project.name,
             url: project.url,
@@ -32,6 +38,7 @@ impl From<Project> for ProjectDetailState {
             watch: project.watch,
             fork: project.fork,
             desc: project.desc,
+            category: category,
         }
     }
 }
@@ -41,11 +48,18 @@ impl StatefulWidget for ProjectDetail {
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
         Clear.render(area, buf);
 
+        let style = if let Some(color_style) = CATEGORY_STYLE.get(&state.category) {
+            *color_style
+        } else {
+            Style::default().fg(Color::White)
+        };
+
         Block::default()
             .borders(Borders::ALL)
             .title(" 项目详情 ")
             .title_alignment(Alignment::Center)
             .border_type(BorderType::Rounded)
+            .style(style)
             .render(area, buf);
 
         let layout = Layout::default()
@@ -72,6 +86,7 @@ impl StatefulWidget for ProjectDetail {
                     .title(" 🐝 项目名称 ")
                     .borders(Borders::ALL),
             )
+            .style(style)
             .render(project_name_layout[0], buf);
 
         Paragraph::new(format!("{}", state.url))
@@ -80,6 +95,7 @@ impl StatefulWidget for ProjectDetail {
                     .title(" 🏁 项目地址 ")
                     .borders(Borders::ALL),
             )
+            .style(style)
             .render(project_name_layout[1], buf);
 
         // project stars
@@ -98,12 +114,15 @@ impl StatefulWidget for ProjectDetail {
 
         Paragraph::new(format!("🌟 Star: {}", state.star))
             .block(Block::default().borders(Borders::ALL))
+            .style(style)
             .render(project_stars_layout[0], buf);
         Paragraph::new(format!("👀 Watch: {}", state.watch))
             .block(Block::default().borders(Borders::ALL))
+            .style(style)
             .render(project_stars_layout[1], buf);
         Paragraph::new(format!("🌸 Fork: {}", state.fork))
             .block(Block::default().borders(Borders::ALL))
+            .style(style)
             .render(project_stars_layout[2], buf);
 
         let desc = state.desc.clone();
@@ -116,6 +135,7 @@ impl StatefulWidget for ProjectDetail {
                     .title_alignment(Alignment::Center)
                     .borders(Borders::TOP),
             )
+            .style(style)
             .render(layout[2], buf);
     }
 }

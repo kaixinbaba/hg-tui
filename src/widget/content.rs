@@ -64,7 +64,7 @@ impl TryFrom<String> for Category {
             "c" => Category::C,
             "c++" | "cpp" => Category::Cpp,
             "php" => Category::PHP,
-            "objectc" | "oc" => Category::ObjectC,
+            "objective-c" | "objectc" | "objc" | "oc" => Category::ObjectC,
             "go" => Category::Go,
             "css" => Category::Css,
             "c#" | "cs" => Category::Csharp,
@@ -80,30 +80,6 @@ impl TryFrom<String> for Category {
     }
 }
 
-// impl From<String> for Category {
-//     fn from(content: String) -> Self {
-//         match content {
-//             "Java" => Category::Java,
-//             "Python" => Category::Python,
-//             "Javascript" => Category::Javascript,
-//             "Rust" => Category::Rust,
-//             "C" => Category::C,
-//             "C++" => Category::Cpp,
-//             "PHP" => Category::PHP,
-//             "Object-C" => Category::ObjectC,
-//             "Go" => Category::Go,
-//             "Css" => Category::Css,
-//             "C#" => Category::Csharp,
-//             "Koltin" => Category::Koltin,
-//             "Swift" => Category::Swift,
-//             "机器学习" => Category::MachineLearning,
-//             "Ruby" => Category::Ruby,
-//             "开源书籍" => Category::Book,
-//             _ => Category::Other,
-//         }
-//     }
-// }
-
 impl From<Category> for String {
     fn from(category: Category) -> String {
         match category {
@@ -114,7 +90,7 @@ impl From<Category> for String {
             Category::C => "C".into(),
             Category::Cpp => "C++".into(),
             Category::PHP => "PHP".into(),
-            Category::ObjectC => "Object-C".into(),
+            Category::ObjectC => "Objective-C".into(),
             Category::Go => "Go".into(),
             Category::Css => "Css".into(),
             Category::Csharp => "C#".into(),
@@ -138,7 +114,7 @@ impl Category {
             Category::C => "C 项目".into(),
             Category::Cpp => "C++ 项目".into(),
             Category::PHP => "PHP 项目".into(),
-            Category::ObjectC => "Object-C 项目".into(),
+            Category::ObjectC => "Objective-C 项目".into(),
             Category::Go => "Go 项目".into(),
             Category::Css => "Css 项目".into(),
             Category::Csharp => "C# 项目".into(),
@@ -330,7 +306,7 @@ impl StatefulWidget for Content {
         });
 
         let table_title = if state.active {
-            Span::styled(TABLE_TITLE, Style::default().fg(Color::Yellow))
+            Span::styled(TABLE_TITLE, *TITLE_STYLE)
         } else {
             Span::raw(TABLE_TITLE)
         };

@@ -9,7 +9,7 @@ use regex::Regex;
 use crate::{app::SearchMode, widget::content::Project};
 
 lazy_static! {
-    static ref RE: Regex = Regex::new(r"<.*>").unwrap();
+    static ref RE: Regex = Regex::new(r"<.*?>").unwrap();
     pub static ref PARSER: HashMap<SearchMode, &'static dyn Parser> = {
         let mut map = HashMap::<SearchMode, &'static dyn Parser>::new();
 
