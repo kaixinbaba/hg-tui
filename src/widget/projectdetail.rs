@@ -1,18 +1,39 @@
+use std::fmt::format;
+
 use tui::{
     buffer::Buffer,
     layout::{Alignment, Constraint, Layout, Rect},
+    text::{Span, Spans, Text},
     widgets::{Block, BorderType, Borders, Clear, Paragraph, StatefulWidget, Widget},
 };
+
+use super::content::Project;
 
 /// 项目明细
 pub struct ProjectDetail {}
 
-#[derive(Debug)]
-pub struct ProjectDetailState {}
+#[derive(Debug, Default)]
+pub struct ProjectDetailState {
+    name: String,
+    url: String,
+    star: String,
+    watch: String,
+    fork: String,
+    desc: String,
+    image: Option<String>,
+}
 
-impl Default for ProjectDetailState {
-    fn default() -> ProjectDetailState {
-        ProjectDetailState {}
+impl From<Project> for ProjectDetailState {
+    fn from(project: Project) -> Self {
+        Self {
+            name: project.name,
+            url: project.url,
+            star: project.star,
+            watch: project.watch,
+            fork: project.fork,
+            desc: project.desc,
+            image: None,
+        }
     }
 }
 
@@ -46,11 +67,11 @@ impl StatefulWidget for ProjectDetail {
             .constraints([Constraint::Percentage(33), Constraint::Percentage(67)].as_ref())
             .split(layout[0]);
 
-        Paragraph::new("🐝 项目名称：")
+        Paragraph::new(format!("🐝 项目名称：{}", state.name))
             .block(Block::default().borders(Borders::ALL))
             .render(project_name_layout[0], buf);
 
-        Paragraph::new("🏁 项目地址：")
+        Paragraph::new(format!("🏁 项目地址：{}", state.url))
             .block(Block::default().borders(Borders::ALL))
             .render(project_name_layout[1], buf);
 
@@ -68,13 +89,13 @@ impl StatefulWidget for ProjectDetail {
             )
             .split(layout[1]);
 
-        Paragraph::new("🌟 Star:")
+        Paragraph::new(format!("🌟 Star: {}", state.star))
             .block(Block::default().borders(Borders::ALL))
             .render(project_stars_layout[0], buf);
-        Paragraph::new("👀 Watch:")
+        Paragraph::new(format!("👀 Watch: {}", state.watch))
             .block(Block::default().borders(Borders::ALL))
             .render(project_stars_layout[1], buf);
-        Paragraph::new("🌸 Fork:")
+        Paragraph::new(format!("🌸 Fork: {}", state.fork))
             .block(Block::default().borders(Borders::ALL))
             .render(project_stars_layout[2], buf);
 
@@ -84,11 +105,51 @@ impl StatefulWidget for ProjectDetail {
             .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
             .split(layout[2]);
 
-        Paragraph::new("🍗 简介:")
-            .block(Block::default().borders(Borders::ALL))
+        let text = vec![
+            Spans::from(vec![Span::raw(state.desc.as_str())]),
+            // Spans::from(Span::styled("Second line", Style::default().fg(Color::Red))),
+        ];
+
+        let desc_wrap = sub_strings(state.desc.clone(), 35);
+
+        Paragraph::new(desc_wrap)
+            .block(
+                Block::default()
+                    .title("🍗 简介:")
+                    .title_alignment(Alignment::Center)
+                    .borders(Borders::ALL),
+            )
             .render(project_desc_layout[0], buf);
-        Paragraph::new("🎮 图片:")
-            .block(Block::default().borders(Borders::ALL))
+        Paragraph::new("暂无图片")
+            .block(
+                Block::default()
+                    .title("🎮 图片:")
+                    .title_alignment(Alignment::Center)
+                    .borders(Borders::ALL),
+            )
             .render(project_desc_layout[1], buf);
     }
+}
+
+// Splits a string into a vector of strings to appeal to a width (used for word wrap)
+pub fn sub_strings<'a>(string: String, split_len: usize) -> Vec<Spans<'a>> {
+    // Case if "" is passed
+    if string.len() == 0 {
+        return vec![Spans::from(Span::raw(""))];
+    }
+    let mut subs: Vec<Spans> = Vec::with_capacity(string.len() / split_len);
+    let mut iter = string.chars();
+    let mut pos = 0;
+
+    while pos < string.len() {
+        let mut len = 0;
+        for ch in iter.by_ref().take(split_len) {
+            len += ch.len_utf8();
+        }
+        subs.push(Spans::from(Span::raw(
+            (&string[pos..pos + len]).to_string(),
+        )));
+        pos += len;
+    }
+    subs
 }

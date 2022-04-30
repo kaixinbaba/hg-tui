@@ -178,19 +178,16 @@ impl App {
     }
 
     fn page(&mut self, page_no: usize) -> Result<()> {
-        match self.input.mode {
-            SearchMode::Volume => {
-                let text = fetch::fetch_volume(page_no)?;
-                let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
-                self.content.add_projects(projects);
+        let text = match self.input.mode {
+            SearchMode::Volume => fetch::fetch_volume(page_no)?,
+            SearchMode::Category => fetch::fetch_category(self.curr_category.unwrap(), page_no)?,
+            _ => {
+                return Ok(());
             }
-            SearchMode::Category => {
-                let text = fetch::fetch_category(self.curr_category.unwrap(), page_no)?;
-                let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
-                self.content.add_projects(projects);
-            }
-            _ => {}
-        }
+        };
+        let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
+        self.content.add_projects(projects);
+        self.content.tstate.select(Some(0));
         self.statusline.set_page_no(page_no);
         // 搜索完自动切换到浏览模式
         // self.switch_to_view();
@@ -200,6 +197,8 @@ impl App {
 
     pub fn display_detail(&mut self) -> Result<()> {
         self.mode = AppMode::Detail;
+        let project = self.content.get_selected();
+        self.project_detail = project.into();
         Ok(())
     }
 }

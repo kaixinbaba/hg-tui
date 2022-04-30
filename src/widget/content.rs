@@ -17,6 +17,8 @@ use crossbeam_channel::Sender;
 
 use crate::events::{HGEvent, Notify, NOTIFY};
 
+use super::projectdetail;
+
 const TABLE_TITLE: &'static str = " 搜索结果 ";
 
 const SELECT_ARROW: &'static str = "►";
@@ -132,28 +134,28 @@ impl Category {
 #[derive(Debug, Default, Clone)]
 pub struct Project {
     /// 项目名称
-    name: String,
+    pub name: String,
 
     /// 期数
-    volume: String,
+    pub volume: String,
 
     /// 种类
-    category: String,
+    pub category: String,
 
     /// github http url
-    url: String,
+    pub url: String,
 
     /// 描述
-    desc: String,
+    pub desc: String,
 
     /// star 数
-    star: String,
+    pub star: String,
 
     /// watch 数
-    watch: String,
+    pub watch: String,
 
     /// fork 数
-    fork: String,
+    pub fork: String,
 }
 
 impl Project {
@@ -191,7 +193,7 @@ pub struct ContentState {
     /// 当前页数据
     cur: Vec<Project>,
     active: bool,
-    tstate: TableState,
+    pub tstate: TableState,
 }
 
 impl ContentState {
@@ -240,6 +242,13 @@ impl ContentState {
 
     pub fn last(&mut self) {
         self.tstate.select(Some(self.cur.len() - 1));
+    }
+
+    pub fn get_selected(&self) -> Project {
+        self.cur
+            .get(self.tstate.selected().unwrap())
+            .unwrap()
+            .clone()
     }
 }
 
