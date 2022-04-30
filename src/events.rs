@@ -120,7 +120,7 @@ pub fn tips(msg: String) {
 
 pub fn show_help() {
     tips(
-        r###"Ctrl j\k 切换 搜索\浏览 模式
+        r###"CTRL j/k 切换 搜索/浏览 模式
 搜索模式
 输入 :help 获得帮助
 输入 #{数字} 按期数搜索
@@ -128,12 +128,13 @@ pub fn show_help() {
 其他按关键字搜索
 
 浏览模式：
-j\k 移动一行
-d\u 移动五行
+j/k 上/下 移动一行
+d/u 上/下 移动五行
 0 移动至首行
 G 移动至末行
-h/l 翻页
-o/enter 查看详细"###
+h/l 前/后 翻页
+o 查看（关闭）详细
+ENTER 打开 GitHub 页面"###
             .into(),
     );
 }
@@ -216,11 +217,14 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.prev_page().unwrap();
             redraw();
         }
-        (_, KeyCode::Char('o')) | (_, KeyCode::Enter) => {
+        (_, KeyCode::Char('o')) => {
             // 进入详情页
             app.display_detail().unwrap();
             redraw();
-            // redraw();
+        }
+        (_, KeyCode::Enter) => {
+            // 浏览器打开项目地址
+            app.open_browser().unwrap();
         }
         _ => {}
     }
@@ -236,6 +240,10 @@ fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         (_, KeyCode::Char('o')) | (_, KeyCode::Esc) => {
             app.mode = AppMode::View;
             redraw();
+        }
+        (_, KeyCode::Enter) => {
+            // 浏览器打开项目地址
+            app.open_browser().unwrap();
         }
         _ => {}
     }

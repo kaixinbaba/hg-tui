@@ -201,6 +201,12 @@ impl App {
         self.project_detail = project.into();
         Ok(())
     }
+
+    pub fn open_browser(&self) -> Result<()> {
+        let project = self.content.get_selected();
+        webbrowser::open(project.url.as_ref())?;
+        Ok(())
+    }
 }
 
 impl Drop for App {
