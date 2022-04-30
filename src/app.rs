@@ -179,8 +179,8 @@ impl App {
 
     fn page(&mut self, page_no: usize) -> Result<()> {
         let text = match self.input.mode {
-            SearchMode::Volume => fetch::fetch_volume(page_no)?,
-            SearchMode::Category => fetch::fetch_category(self.curr_category.unwrap(), page_no)?,
+            SearchMode::Volume => fetch::fetch_volume(page_no),
+            SearchMode::Category => fetch::fetch_category(self.curr_category.unwrap(), page_no),
             _ => {
                 return Ok(());
             }

@@ -50,3 +50,5 @@ better-panic = "0.3.0"
 image = "0.24.2"
 
 webbrowser = "0.7.1"
+
+cached = "0.34.0"

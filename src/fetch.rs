@@ -1,6 +1,7 @@
 use std::sync::Mutex;
 
 use anyhow::{bail, Result};
+use cached::proc_macro::cached;
 
 use crate::{app::SearchMode, parse::VolumeParser, widget::content::Category};
 
@@ -14,8 +15,8 @@ lazy_static! {
 const BASE_PATH: &'static str = "https://hellogithub.com/periodical";
 
 pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
-    match mode {
-        SearchMode::Normal => search(text),
+    let html = match mode {
+        SearchMode::Normal => search(text.into()),
         SearchMode::Volume => {
             if let Ok(volume) = &text.into()[1..].parse::<usize>() {
                 fetch_volume(*volume)
@@ -25,21 +26,25 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
         }
         SearchMode::Category => {
             // TODO page_no
-            fetch_category(Category::try_from(text.into()[1..].to_string())?, 1)
+            fetch_category(Category::try_from(text.into()[1..].to_string()).unwrap(), 1)
         }
-    }
+    };
+
+    Ok(html)
 }
 
-pub fn fetch_volume(volume: usize) -> Result<String> {
+#[cached]
+pub fn fetch_volume(volume: usize) -> String {
     let lock = LOCK.lock().unwrap();
-    let resp = reqwest::blocking::get(format!("{}/volume/{:0>2}/", BASE_PATH, volume))?;
+    let resp = reqwest::blocking::get(format!("{}/volume/{:0>2}/", BASE_PATH, volume)).unwrap();
 
-    let text = resp.text()?;
+    let text = resp.text().unwrap();
 
-    Ok(text)
+    text
 }
 
-pub fn fetch_category(category: Category, page_no: usize) -> Result<String> {
+#[cached]
+pub fn fetch_category(category: Category, page_no: usize) -> String {
     let url = format!(
         "{}/category/{}/?page={}",
         BASE_PATH,
@@ -47,20 +52,21 @@ pub fn fetch_category(category: Category, page_no: usize) -> Result<String> {
         page_no
     );
     let lock = LOCK.lock().unwrap();
-    let resp = reqwest::blocking::get(url)?;
+    let resp = reqwest::blocking::get(url).unwrap();
 
-    let text = resp.text()?;
+    let text = resp.text().unwrap();
 
-    Ok(text)
+    text
 }
 
-pub fn search(wait_search: impl Into<String>) -> Result<String> {
+#[cached]
+pub fn search(wait_search: String) -> String {
     let lock = LOCK.lock().unwrap();
-    let resp = reqwest::blocking::get(format!("{}/search?q={}", BASE_PATH, wait_search.into()))?;
+    let resp = reqwest::blocking::get(format!("{}/search?q={}", BASE_PATH, wait_search)).unwrap();
 
-    let text = resp.text()?;
+    let text = resp.text().unwrap();
 
-    Ok(text)
+    text
 }
 
 mod test {
