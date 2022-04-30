@@ -162,16 +162,7 @@ impl Parser for VolumeParser {
                 let fork = info_list[2].clone().replace("Fork ", "");
 
                 let desc = get_desc(&p);
-                Project::new(
-                    name,
-                    volume.clone(),
-                    category.replace(" 项目", ""),
-                    url,
-                    desc,
-                    star,
-                    watch,
-                    fork,
-                )
+                Project::new(name, volume.clone(), category, url, desc, star, watch, fork)
             })
             .collect();
         Ok(projects)

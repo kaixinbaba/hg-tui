@@ -90,8 +90,8 @@ impl StatefulWidget for StatusLine {
         //
         let text = match state.mode {
             SearchMode::Normal => "搜索模式".into(),
-            SearchMode::Volume => format!("期数：{}", state.page_no),
-            SearchMode::Category => format!("第 {} 页", state.page_no),
+            SearchMode::Volume => format!("⇦ h   第 {} 期   l ⇨", state.page_no),
+            SearchMode::Category => format!("⇦ h   第 {} 页   l ⇨", state.page_no),
         };
 
         Paragraph::new(text)

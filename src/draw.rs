@@ -1,6 +1,7 @@
 use std::io::Stdout;
 
 use crate::app::{App, AppMode};
+use crate::theme::TITLE_STYLE;
 use crate::widget::projectdetail::ProjectDetail;
 use crate::widget::{Content, Input, Popup, StatusLine};
 
@@ -83,7 +84,7 @@ fn title() -> Paragraph<'static> {
         // Span::raw(""),
         Text::styled(
             "HelloGiHub\n分享 GitHub 上有趣、入门级的开源项目",
-            Style::default().fg(Color::Rgb(255, 192, 102)),
+            *TITLE_STYLE,
         ),
     )
     .alignment(Alignment::Center)

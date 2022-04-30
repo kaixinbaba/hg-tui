@@ -105,7 +105,6 @@ impl App {
             return Ok(());
         }
         let search_mode = self.input.mode;
-
         let wait_search = self.input.clear();
         if wait_search == ":help" {
             show_help();

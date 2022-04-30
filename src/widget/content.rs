@@ -1,8 +1,3 @@
-use std::str::FromStr;
-
-use crate::app::SearchMode;
-use crate::draw;
-use crate::parse::CategoryParser;
 use anyhow::bail;
 use lazy_static::lazy_static;
 use tui::buffer::Buffer;
@@ -16,6 +11,8 @@ use tui::widgets::{
 use crossbeam_channel::Sender;
 
 use crate::events::{HGEvent, Notify, NOTIFY};
+use crate::parse::CategoryParser;
+use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
 
 use super::projectdetail;
 
@@ -42,7 +39,7 @@ pub enum Category {
     PHP,
     Ruby,
     Swift,
-    Koltin,
+    Kotlin,
     MachineLearning,
     Book,
     Other,
@@ -71,7 +68,7 @@ impl TryFrom<String> for Category {
             "go" => Category::Go,
             "css" => Category::Css,
             "c#" | "cs" => Category::Csharp,
-            "koltin" => Category::Koltin,
+            "kotlin" => Category::Kotlin,
             "swift" => Category::Swift,
             "ml" | "ai" => Category::MachineLearning,
             "ruby" => Category::Ruby,
@@ -82,6 +79,30 @@ impl TryFrom<String> for Category {
         Ok(category)
     }
 }
+
+// impl From<String> for Category {
+//     fn from(content: String) -> Self {
+//         match content {
+//             "Java" => Category::Java,
+//             "Python" => Category::Python,
+//             "Javascript" => Category::Javascript,
+//             "Rust" => Category::Rust,
+//             "C" => Category::C,
+//             "C++" => Category::Cpp,
+//             "PHP" => Category::PHP,
+//             "Object-C" => Category::ObjectC,
+//             "Go" => Category::Go,
+//             "Css" => Category::Css,
+//             "C#" => Category::Csharp,
+//             "Koltin" => Category::Koltin,
+//             "Swift" => Category::Swift,
+//             "机器学习" => Category::MachineLearning,
+//             "Ruby" => Category::Ruby,
+//             "开源书籍" => Category::Book,
+//             _ => Category::Other,
+//         }
+//     }
+// }
 
 impl From<Category> for String {
     fn from(category: Category) -> String {
@@ -97,7 +118,7 @@ impl From<Category> for String {
             Category::Go => "Go".into(),
             Category::Css => "Css".into(),
             Category::Csharp => "C#".into(),
-            Category::Koltin => "Koltin".into(),
+            Category::Kotlin => "Kotlin".into(),
             Category::Swift => "Swift".into(),
             Category::MachineLearning => "机器学习".into(),
             Category::Ruby => "Ruby".into(),
@@ -121,7 +142,7 @@ impl Category {
             Category::Go => "Go 项目".into(),
             Category::Css => "Css 项目".into(),
             Category::Csharp => "C# 项目".into(),
-            Category::Koltin => "Koltin 项目".into(),
+            Category::Kotlin => "Kotlin 项目".into(),
             Category::Swift => "Swift 项目".into(),
             Category::MachineLearning => "机器学习".into(),
             Category::Ruby => "Ruby 项目".into(),
@@ -262,32 +283,47 @@ impl Default for ContentState {
     }
 }
 
+fn new_cell<'a>(symbol: impl ToString, style: Style) -> Cell<'a> {
+    Cell::from(symbol.to_string()).style(style)
+}
+
 impl StatefulWidget for Content {
     type State = ContentState;
 
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
-        let header_cells = HEADERS
-            .iter()
-            .map(|h| Cell::from(*h).style(Style::default().fg(Color::Green)));
+        let header_cells = HEADERS.iter().map(|h| Cell::from(*h).style(*TITLE_STYLE));
         let header = Row::new(header_cells)
             // .style(normal_style)
             .height(1)
             .bottom_margin(1);
 
         let rows = state.cur.iter().enumerate().map(|(i, project)| {
-            let mut cells: Vec<String> = Vec::with_capacity(5);
+            let mut cells: Vec<Cell> = Vec::with_capacity(5);
 
-            cells.push((i + 1).to_string());
-            cells.push(project.name.clone());
-            cells.push(project.volume.to_string());
-            cells.push(project.category.clone());
-            cells.push(project.desc.clone());
+            cells.push(new_cell(i + 1, Style::default()));
+            cells.push(new_cell(project.name.clone(), Style::default()));
+            cells.push(new_cell(project.volume.clone(), Style::default()));
+
+            let category = if let Ok(category) = Category::try_from(project.category.clone()) {
+                category
+            } else {
+                Category::Other
+            };
+
+            let color_style = if let Some(color_style) = CATEGORY_STYLE.get(&category) {
+                *color_style
+            } else {
+                Style::default().fg(Color::White)
+            };
+
+            cells.push(new_cell(project.category.clone(), Style::default()));
+            cells.push(new_cell(project.desc.clone(), Style::default()));
 
             let style = match state.tstate.selected() {
                 Some(index) if index == i => {
                     Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
                 }
-                _ => Style::default(),
+                _ => color_style,
             };
 
             Row::new(cells).height(1).bottom_margin(2).style(style)

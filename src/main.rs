@@ -15,6 +15,7 @@ mod draw;
 mod events;
 mod fetch;
 mod parse;
+mod theme;
 mod utils;
 mod widget;
 
