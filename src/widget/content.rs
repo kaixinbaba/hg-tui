@@ -156,9 +156,6 @@ pub struct Project {
 
     /// fork 数
     pub fork: String,
-
-    /// image url
-    pub image: Option<String>,
 }
 
 impl Project {
@@ -171,7 +168,6 @@ impl Project {
         star: T,
         watch: T,
         fork: T,
-        image: Option<String>,
     ) -> Project
     where
         T: Into<String>,
@@ -185,7 +181,6 @@ impl Project {
             star: star.into(),
             watch: watch.into(),
             fork: fork.into(),
-            image: image,
         }
     }
 }

@@ -84,7 +84,6 @@ impl Parser for NormalParser {
                     star.to_string(),
                     NA.to_string(),
                     NA.to_string(),
-                    None,
                 ))
             })
             .filter(|p| p.is_some())
@@ -123,17 +122,7 @@ impl Parser for CategoryParser {
 
                 let desc = get_desc(&p);
 
-                Project::new(
-                    name,
-                    volume,
-                    category.clone(),
-                    url,
-                    desc,
-                    star,
-                    watch,
-                    fork,
-                    None,
-                )
+                Project::new(name, volume, category.clone(), url, desc, star, watch, fork)
             })
             .collect();
         Ok(projects)
@@ -162,11 +151,6 @@ impl Parser for VolumeParser {
                     .next_sibling()
                     .next_sibling();
 
-                let image = match p.select("img").attr("src") {
-                    Some(url) => Some(url.to_string()),
-                    None => None,
-                };
-
                 let info_list: Vec<String> = p
                     .select("i.fa")
                     .iter()
@@ -178,7 +162,6 @@ impl Parser for VolumeParser {
                 let fork = info_list[2].clone().replace("Fork ", "");
 
                 let desc = get_desc(&p);
-
                 Project::new(
                     name,
                     volume.clone(),
@@ -188,7 +171,6 @@ impl Parser for VolumeParser {
                     star,
                     watch,
                     fork,
-                    image,
                 )
             })
             .collect();

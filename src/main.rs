@@ -15,6 +15,7 @@ mod draw;
 mod events;
 mod fetch;
 mod parse;
+mod utils;
 mod widget;
 
 fn main() -> Result<()> {
