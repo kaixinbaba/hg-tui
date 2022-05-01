@@ -52,7 +52,7 @@ impl Parser for NormalParser {
                 let p_text = p.text();
 
                 let mut desc_iter = p_text
-                    .split("\n")
+                    .split('\n')
                     .map(|s| s.trim())
                     .filter(|s| !s.is_empty());
 
@@ -67,7 +67,7 @@ impl Parser for NormalParser {
                 let span = p.next_sibling();
 
                 let span_text = span.text();
-                let mut span_text_iter = span_text.split("、");
+                let mut span_text_iter = span_text.split('、');
 
                 let volume = span_text_iter.next().unwrap();
 
@@ -79,13 +79,12 @@ impl Parser for NormalParser {
                     category.to_string(),
                     url,
                     desc.to_string(),
-                    star.to_string(),
+                    star,
                     NA.to_string(),
                     NA.to_string(),
                 ))
             })
-            .filter(|p| p.is_some())
-            .map(|p| p.unwrap())
+            .flatten()
             .collect();
 
         Ok(projects)
@@ -168,14 +167,14 @@ impl Parser for VolumeParser {
 }
 
 /// 不停往前找，找到第一个 h2 就是类别
-fn find_category<'a>(pi: &Selection<'a>) -> String {
+fn find_category(pi: &Selection) -> String {
     if pi.is("h2") {
         return pi.text().to_string();
     }
     find_category(&pi.prev_sibling())
 }
 
-fn get_desc<'a>(p: &Selection<'a>) -> String {
+fn get_desc(p: &Selection) -> String {
     let pc = p
         .html()
         .split("<br>")
@@ -186,7 +185,7 @@ fn get_desc<'a>(p: &Selection<'a>) -> String {
     RE.replace_all(&need_replace, "").to_string()
 }
 
-fn get_url<'a>(a: &Selection<'a>) -> String {
+fn get_url(a: &Selection) -> String {
     a.attr("href")
         .unwrap()
         .replace("/periodical/statistics/click/?target=", "")

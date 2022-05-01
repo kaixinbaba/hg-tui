@@ -33,12 +33,11 @@ impl StatusLineState {
     }
 
     pub fn get_page_no(&self, wait_remove: String, search_mode: SearchMode) -> usize {
-        let page_no = match search_mode {
+        match search_mode {
             SearchMode::Normal => 1,
             SearchMode::Volume => wait_remove[1..].parse::<usize>().unwrap(),
             SearchMode::Category => self.page_no,
-        };
-        page_no
+        }
     }
 
     pub fn set_page_no(&mut self, page_no: usize) {
@@ -75,13 +74,10 @@ impl StatefulWidget for StatusLine {
 
         // clock layout[0]
         let now = Local::now();
-        Paragraph::new(format!(
-            "  ⏰ {}",
-            now.format("%Y-%m-%d %H:%M:%S").to_string()
-        ))
-        .style(Style::default().fg(Color::LightYellow))
-        .block(Block::default().borders(Borders::RIGHT))
-        .render(layout[0], buf);
+        Paragraph::new(format!("  ⏰ {}", now.format("%Y-%m-%d %H:%M:%S")))
+            .style(Style::default().fg(Color::LightYellow))
+            .block(Block::default().borders(Borders::RIGHT))
+            .render(layout[0], buf);
 
         // info layout[1]
         //

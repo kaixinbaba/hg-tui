@@ -34,7 +34,7 @@ lazy_static! {
             Category::Python,
             Style::default().fg(Color::Rgb(53, 114, 165)),
         );
-        map.insert(Category::PHP, Style::default().fg(Color::Rgb(79, 93, 149)));
+        map.insert(Category::Php, Style::default().fg(Color::Rgb(79, 93, 149)));
         map.insert(
             Category::ObjectC,
             Style::default().fg(Color::Rgb(67, 142, 255)),

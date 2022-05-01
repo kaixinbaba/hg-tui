@@ -18,26 +18,25 @@ repos:
         description: Format files with rustfmt.
         entry: bash -c 'cargo fmt -- --check'
         language: rust
-        files: \\.rs$
-        args: []
+        # files: src/\\.rs
       - id: cargo-check
         name: cargo check
         description: Check the package for errors.
         entry: bash -c 'cargo check --all'
         language: rust
-        files: \\.rs$
-        pass_filenames: false
+        # files: \\.rs$
+        # pass_filenames: false
       - id: cargo-clippy
         name: cargo clippy
         description: Lint rust sources
         entry: bash -c 'cargo clippy --all-targets --all-features --tests --benches -- -D warnings'
         language: rust
-        files: \\.rs$
-        pass_filenames: false
+        # files: \\.rs$
+        # pass_filenames: false
       - id: cargo-test
         name: cargo test
         description: unit test for the project
         entry: bash -c 'cargo test --all-features --all'
         language: rust
-        files: \\.rs$
-        pass_filenames: false
+        # files: \\.rs$
+        # pass_filenames: false

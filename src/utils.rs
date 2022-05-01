@@ -17,7 +17,7 @@ fn get_total_half_count(origin: String) -> usize {
 // Splits a string into a vector of strings to appeal to a width (used for word wrap)
 pub fn wrap_lines<'a>(origin: String, line_limit: usize) -> Vec<Spans<'a>> {
     // Case if "" is passed
-    if origin.len() == 0 {
+    if origin.is_empty() {
         return vec![Spans::from(Span::raw(""))];
     }
 

@@ -8,7 +8,7 @@ use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table,
 
 use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
 
-const TABLE_TITLE: &'static str = " 搜索结果 ";
+const TABLE_TITLE: &str = " 搜索结果 ";
 
 lazy_static! {
     static ref HEADERS: Vec<&'static str> = vec!["№", "名称", "期数", "分类", "介绍"];
@@ -26,7 +26,7 @@ pub enum Category {
     ObjectC,
     Css,
     Go,
-    PHP,
+    Php,
     Ruby,
     Swift,
     Kotlin,
@@ -53,7 +53,7 @@ impl TryFrom<String> for Category {
             "rust" => Category::Rust,
             "c" => Category::C,
             "c++" | "cpp" => Category::Cpp,
-            "php" => Category::PHP,
+            "php" => Category::Php,
             "objective-c" | "objectc" | "objc" | "oc" => Category::ObjectC,
             "go" => Category::Go,
             "css" => Category::Css,
@@ -79,7 +79,7 @@ impl From<Category> for String {
             Category::Rust => "Rust".into(),
             Category::C => "C".into(),
             Category::Cpp => "C++".into(),
-            Category::PHP => "PHP".into(),
+            Category::Php => "PHP".into(),
             Category::ObjectC => "Objective-C".into(),
             Category::Go => "Go".into(),
             Category::Css => "Css".into(),
@@ -95,7 +95,7 @@ impl From<Category> for String {
 }
 
 impl Category {
-    pub fn to_zh(&self) -> String {
+    pub fn to_zh(self) -> String {
         match self {
             Category::Java => "Java 项目".into(),
             Category::Python => "Python 项目".into(),
@@ -103,7 +103,7 @@ impl Category {
             Category::Rust => "Rust 项目".into(),
             Category::C => "C 项目".into(),
             Category::Cpp => "C++ 项目".into(),
-            Category::PHP => "PHP 项目".into(),
+            Category::Php => "PHP 项目".into(),
             Category::ObjectC => "Objective-C 项目".into(),
             Category::Go => "Go 项目".into(),
             Category::Css => "Css 项目".into(),
@@ -146,6 +146,7 @@ pub struct Project {
 }
 
 impl Project {
+    #[allow(clippy::too_many_arguments)]
     pub fn new<T>(
         name: T,
         volume: T,
@@ -175,7 +176,7 @@ impl Project {
 /// 数据表格展示
 pub struct Content {}
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct ContentState {
     /// 当前页数据
     cur: Vec<Project>,
@@ -191,7 +192,7 @@ impl ContentState {
 
     pub fn active(&mut self) {
         self.active = true;
-        if let None = self.tstate.selected() {
+        if self.tstate.selected().is_none() {
             self.tstate.select(Some(0));
         }
     }
@@ -201,10 +202,7 @@ impl ContentState {
     }
 
     pub fn next(&mut self, incr: usize) {
-        let cur = match self.tstate.selected() {
-            Some(index) => index,
-            None => 0,
-        };
+        let cur = self.tstate.selected().unwrap_or(0);
         let next = if cur + incr >= self.cur.len() - 1 {
             self.cur.len() - 1
         } else {
@@ -214,10 +212,7 @@ impl ContentState {
     }
 
     pub fn prev(&mut self, incr: usize) {
-        let cur = match self.tstate.selected() {
-            Some(index) => index,
-            None => 0,
-        };
+        let cur = self.tstate.selected().unwrap_or(0);
 
         let next = if cur < incr { 0 } else { cur - incr };
         self.tstate.select(Some(next));
@@ -236,16 +231,6 @@ impl ContentState {
             .get(self.tstate.selected().unwrap())
             .unwrap()
             .clone()
-    }
-}
-
-impl Default for ContentState {
-    fn default() -> ContentState {
-        ContentState {
-            cur: Vec::default(),
-            active: false,
-            tstate: TableState::default(),
-        }
     }
 }
 

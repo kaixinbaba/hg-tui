@@ -132,10 +132,8 @@ impl App {
         if category_change {
             self.statusline.set_page_no(1);
         } else {
-            self.statusline.set_page_no(
-                self.statusline
-                    .get_page_no(wait_remove.clone(), search_mode),
-            );
+            self.statusline
+                .set_page_no(self.statusline.get_page_no(wait_remove, search_mode));
         }
 
         self.content.add_projects(projects);
@@ -224,8 +222,7 @@ pub(crate) fn start(config: &Config) -> Result<()> {
     let moved_app = app.clone();
     events::handle_key_event(moved_app);
 
-    let moved_app = app.clone();
-    events::handle_notify(moved_app);
+    events::handle_notify(app);
 
     Ok(())
 }

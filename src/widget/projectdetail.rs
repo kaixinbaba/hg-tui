@@ -79,7 +79,7 @@ impl StatefulWidget for ProjectDetail {
             .constraints([Constraint::Percentage(33), Constraint::Percentage(67)].as_ref())
             .split(layout[0]);
 
-        Paragraph::new(format!("{}", state.name))
+        Paragraph::new(state.name.clone())
             .block(
                 Block::default()
                     .title(" 🐝 项目名称 ")
@@ -88,7 +88,7 @@ impl StatefulWidget for ProjectDetail {
             .style(style)
             .render(project_name_layout[0], buf);
 
-        Paragraph::new(format!("{}", state.url))
+        Paragraph::new(state.url.clone())
             .block(
                 Block::default()
                     .title(" 🏁 项目地址 ")

@@ -8,11 +8,11 @@ use crate::{app::SearchMode, widget::content::Category};
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref LOCK: Mutex<bool> = Mutex::new(false);
+    static ref LOCK: Mutex<()> = Mutex::new(());
 }
 
 /// HelloGitHub 路径前缀
-const BASE_PATH: &'static str = "https://hellogithub.com/periodical";
+const BASE_PATH: &str = "https://hellogithub.com/periodical";
 
 pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
     let html = match mode {
@@ -38,9 +38,7 @@ pub fn fetch_volume(volume: usize) -> String {
     let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(format!("{}/volume/{:0>2}/", BASE_PATH, volume)).unwrap();
 
-    let text = resp.text().unwrap();
-
-    text
+    resp.text().unwrap()
 }
 
 #[cached]
@@ -54,9 +52,7 @@ pub fn fetch_category(category: Category, page_no: usize) -> String {
     let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(url).unwrap();
 
-    let text = resp.text().unwrap();
-
-    text
+    resp.text().unwrap()
 }
 
 #[cached]
@@ -64,9 +60,7 @@ pub fn search(wait_search: String) -> String {
     let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(format!("{}/search?q={}", BASE_PATH, wait_search)).unwrap();
 
-    let text = resp.text().unwrap();
-
-    text
+    resp.text().unwrap()
 }
 
 mod test {
