@@ -3,7 +3,7 @@ use std::sync::Mutex;
 use anyhow::{bail, Result};
 use cached::proc_macro::cached;
 
-use crate::{app::SearchMode, parse::VolumeParser, widget::content::Category};
+use crate::{app::SearchMode, widget::content::Category};
 
 use lazy_static::lazy_static;
 
@@ -35,7 +35,7 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
 
 #[cached]
 pub fn fetch_volume(volume: usize) -> String {
-    let lock = LOCK.lock().unwrap();
+    let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(format!("{}/volume/{:0>2}/", BASE_PATH, volume)).unwrap();
 
     let text = resp.text().unwrap();
@@ -51,7 +51,7 @@ pub fn fetch_category(category: Category, page_no: usize) -> String {
         category.to_zh(),
         page_no
     );
-    let lock = LOCK.lock().unwrap();
+    let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(url).unwrap();
 
     let text = resp.text().unwrap();
@@ -61,7 +61,7 @@ pub fn fetch_category(category: Category, page_no: usize) -> String {
 
 #[cached]
 pub fn search(wait_search: String) -> String {
-    let lock = LOCK.lock().unwrap();
+    let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(format!("{}/search?q={}", BASE_PATH, wait_search)).unwrap();
 
     let text = resp.text().unwrap();
@@ -70,29 +70,21 @@ pub fn search(wait_search: String) -> String {
 }
 
 mod test {
+    #[allow(unused_imports)]
     use super::*;
-    use std::fs::File;
-    use std::io::Write;
-    use std::path::Path;
-
-    fn write_text(text: impl Into<String>, path: impl AsRef<Path>) {
-        let mut f = File::create(path).unwrap();
-
-        f.write_all(text.into().as_bytes()).unwrap();
-    }
 
     #[test]
     fn test_volume() {
-        assert!(fetch_volume(72).is_ok());
+        fetch_volume(72);
     }
 
     #[test]
     fn test_category() {
-        assert!(fetch_category(Category::C, 1).is_ok());
+        fetch_category(Category::C, 1);
     }
 
     #[test]
     fn test_search() {
-        assert!(search("python").is_ok());
+        search("python".to_string());
     }
 }

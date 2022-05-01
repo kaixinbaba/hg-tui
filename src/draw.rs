@@ -1,14 +1,9 @@
-use std::io::Stdout;
-
 use crate::app::{App, AppMode};
 use crate::theme::TITLE_STYLE;
 use crate::widget::projectdetail::ProjectDetail;
 use crate::widget::{Content, Input, Popup, StatusLine};
 
-use tui::backend::CrosstermBackend;
 use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
-use tui::style::{Color, Style};
-use tui::Frame;
 
 use tui::text::Text;
 use tui::widgets::{Block, Paragraph};
@@ -89,47 +84,6 @@ fn title() -> Paragraph<'static> {
     )
     .alignment(Alignment::Center)
     .block(Block::default())
-}
-
-pub fn add_padding(mut rect: Rect, n: u16, direction: PaddingDirection) -> Rect {
-    match direction {
-        PaddingDirection::Top => {
-            rect.y += n;
-            rect.height = rect.height.saturating_sub(n);
-            rect
-        }
-        PaddingDirection::Bottom => {
-            rect.height = rect.height.saturating_sub(n);
-            rect
-        }
-        PaddingDirection::Left => {
-            rect.x += n;
-            rect.width = rect.width.saturating_sub(n);
-            rect
-        }
-        PaddingDirection::Right => {
-            rect.width = rect.width.saturating_sub(n);
-            rect
-        }
-        PaddingDirection::All => {
-            rect.y += n;
-            rect.height = rect.height.saturating_sub(n * 2);
-
-            rect.x += n;
-            rect.width = rect.width.saturating_sub(n * 2);
-
-            rect
-        }
-    }
-}
-
-#[allow(dead_code)]
-pub enum PaddingDirection {
-    Top,
-    Bottom,
-    Left,
-    Right,
-    All,
 }
 
 fn centered_rect(percent_x: u16, percent_y: u16, r: Rect) -> Rect {

@@ -1,7 +1,7 @@
 use tui::buffer::Buffer;
-use tui::layout::{Constraint, Direction, Layout, Rect};
+use tui::layout::Rect;
 use tui::style::{Color, Style};
-use tui::text::{Spans, Text};
+
 use tui::widgets::{Block, Borders, Paragraph, StatefulWidget, Widget};
 
 use unicode_width::UnicodeWidthStr;
@@ -49,10 +49,6 @@ impl InputState {
         let content = self.input.clone();
         self.input.clear();
         content
-    }
-
-    pub fn push_str(&mut self, s: &str) {
-        self.input.push_str(s);
     }
 
     pub fn handle_char(&mut self, char: char) -> SearchMode {

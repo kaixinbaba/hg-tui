@@ -1,12 +1,11 @@
 use crate::config::Config;
-use crate::events::{self, show_help, warn, HGEvent, Message, Notify, NOTIFY};
+use crate::events::{self, show_help, warn, Message};
 use crate::fetch;
-use crate::parse::Parser;
 use crate::parse::PARSER;
 use crate::widget::content::Category;
 use crate::widget::projectdetail::ProjectDetailState;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
-use crossbeam_channel::Sender;
+
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -14,13 +13,11 @@ use crossterm::{
 };
 
 use anyhow::Result;
-use std::time::Duration;
 use std::{
     io::{self, Stdout},
     sync::{Arc, Mutex},
 };
 
-use tui::backend::Backend;
 use tui::{backend::CrosstermBackend, Terminal};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -77,7 +74,7 @@ pub struct App {
 }
 
 impl App {
-    fn new(config: &Config) -> Result<App> {
+    fn new(_config: &Config) -> Result<App> {
         enable_raw_mode()?;
         let mut stdout = io::stdout();
         execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
@@ -225,7 +222,7 @@ pub(crate) fn start(config: &Config) -> Result<()> {
     let app = Arc::new(Mutex::new(App::new(config)?));
 
     let moved_app = app.clone();
-    let event_recv = events::handle_key_event(moved_app);
+    events::handle_key_event(moved_app);
 
     let moved_app = app.clone();
     events::handle_notify(moved_app);

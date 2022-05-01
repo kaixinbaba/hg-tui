@@ -22,7 +22,7 @@ impl PopupState {
     pub fn new(size: Rect) -> PopupState {
         PopupState {
             msg: Message::default(),
-            size: size,
+            size,
         }
     }
 }

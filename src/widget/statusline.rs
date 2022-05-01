@@ -1,5 +1,3 @@
-use std::{sync::atomic::AtomicUsize, time::Duration};
-
 use chrono::prelude::*;
 use tui::{
     buffer::Buffer,

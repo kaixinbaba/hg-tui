@@ -2,11 +2,10 @@ use tui::{
     buffer::Buffer,
     layout::{Alignment, Constraint, Layout, Rect},
     style::{Color, Style},
-    text::{Span, Spans, Text},
     widgets::{Block, BorderType, Borders, Clear, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{app::start, theme::CATEGORY_STYLE, utils};
+use crate::{theme::CATEGORY_STYLE, utils};
 
 use super::content::{Category, Project};
 
@@ -38,7 +37,7 @@ impl From<Project> for ProjectDetailState {
             watch: project.watch,
             fork: project.fork,
             desc: project.desc,
-            category: category,
+            category,
         }
     }
 }
@@ -142,11 +141,12 @@ impl StatefulWidget for ProjectDetail {
 
 #[cfg(test)]
 mod test {
-    use super::*;
 
     #[test]
+    #[ignore]
     fn test_open_image() {
         let url = "https://github.com/amodm/webbrowser-rs";
-        webbrowser::open(url);
+
+        assert!(webbrowser::open(url).is_ok());
     }
 }

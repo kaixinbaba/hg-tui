@@ -4,21 +4,11 @@ use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::{Color, Style};
 use tui::text::Span;
-use tui::widgets::{
-    Block, BorderType, Borders, Cell, Paragraph, Row, StatefulWidget, Table, TableState, Widget,
-};
+use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table, TableState};
 
-use crossbeam_channel::Sender;
-
-use crate::events::{HGEvent, Notify, NOTIFY};
-use crate::parse::CategoryParser;
 use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
 
-use super::projectdetail;
-
 const TABLE_TITLE: &'static str = " 搜索结果 ";
-
-const SELECT_ARROW: &'static str = "►";
 
 lazy_static! {
     static ref HEADERS: Vec<&'static str> = vec!["№", "名称", "期数", "分类", "介绍"];

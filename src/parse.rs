@@ -33,8 +33,6 @@ impl Parser for NormalParser {
     fn parse(&self, html: String) -> Result<Vec<Project>> {
         let doc = Document::from(&html);
 
-        let volume = doc.select("h1").text().to_string();
-
         let projects: Vec<Project> = doc
             .select(".content-subhead")
             .iter()

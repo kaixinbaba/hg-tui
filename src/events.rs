@@ -1,4 +1,4 @@
-use crossbeam_channel::{bounded, select, unbounded, Receiver, Sender};
+use crossbeam_channel::{bounded, unbounded, Receiver, Sender};
 use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
 
 use lazy_static::lazy_static;
