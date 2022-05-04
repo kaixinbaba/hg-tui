@@ -80,13 +80,12 @@ impl App {
         execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
-        let tsize = terminal.size()?;
         terminal.clear()?;
         Ok(App {
             terminal,
             input: InputState::default(),
             content: ContentState::default(),
-            popup: PopupState::new(tsize),
+            popup: PopupState::default(),
             statusline: StatusLineState::default(),
             mode: AppMode::Search,
             curr_category: None,

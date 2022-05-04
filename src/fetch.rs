@@ -68,16 +68,19 @@ mod test {
     use super::*;
 
     #[test]
+    #[ignore]
     fn test_volume() {
         fetch_volume(72);
     }
 
     #[test]
+    #[ignore]
     fn test_category() {
         fetch_category(Category::C, 1);
     }
 
     #[test]
+    #[ignore]
     fn test_search() {
         search("python".to_string());
     }

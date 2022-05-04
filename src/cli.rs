@@ -11,9 +11,6 @@ use anyhow::Result;
     long_about = "A TUI toolkit to view HelloGitHub"
 )]
 struct Args {
-    #[clap(short, long, default_value = "I love HG", help = "Test name")]
-    name: String,
-
     #[clap(short, long, default_value = ".", help = "配置文件路径")]
     path: String,
 
@@ -22,7 +19,6 @@ struct Args {
 }
 
 pub fn parse_args() -> Result<Config> {
-    let args = Args::parse();
-    println!("{:?}", args);
+    let _args = Args::parse();
     Ok(Config::default())
 }

@@ -50,40 +50,36 @@ impl Default for Message {
     }
 }
 
-pub fn handle_key_event(moved_app: Arc<Mutex<App>>) {
+pub fn handle_key_event(event_app: Arc<Mutex<App>>) {
     let (sender, receiver) = unbounded();
     std::thread::spawn(move || loop {
         if let Ok(Event::Key(event)) = crossterm::event::read() {
             sender.send(HGEvent::UserEvent(event)).unwrap();
         }
     });
-    std::thread::spawn(move || {
-        let event_app = moved_app;
-        loop {
-            if let Ok(HGEvent::UserEvent(key_event)) = receiver.recv() {
-                let mut app = event_app.lock().unwrap();
-                match (key_event.modifiers, key_event.code) {
-                    (KeyModifiers::CONTROL, KeyCode::Char('c'))
-                    | (KeyModifiers::CONTROL, KeyCode::Char('d')) => {
-                        quit();
-                    }
-                    (key_modifier, key_code) => match app.mode {
-                        AppMode::Search => {
-                            handle_search(key_modifier, key_code, &mut app);
-                        }
-
-                        AppMode::View => {
-                            handle_view(key_modifier, key_code, &mut app);
-                        }
-
-                        AppMode::Popup => {
-                            handle_popup(key_modifier, key_code, &mut app);
-                        }
-                        AppMode::Detail => {
-                            handle_detail(key_modifier, key_code, &mut app);
-                        }
-                    },
+    std::thread::spawn(move || loop {
+        if let Ok(HGEvent::UserEvent(key_event)) = receiver.recv() {
+            let mut app = event_app.lock().unwrap();
+            match (key_event.modifiers, key_event.code) {
+                (KeyModifiers::CONTROL, KeyCode::Char('c'))
+                | (KeyModifiers::CONTROL, KeyCode::Char('d')) => {
+                    quit();
+                    break;
                 }
+                (key_modifier, key_code) => match app.mode {
+                    AppMode::Search => {
+                        handle_search(key_modifier, key_code, &mut app);
+                    }
+                    AppMode::View => {
+                        handle_view(key_modifier, key_code, &mut app);
+                    }
+                    AppMode::Popup => {
+                        handle_popup(key_modifier, key_code, &mut app);
+                    }
+                    AppMode::Detail => {
+                        handle_detail(key_modifier, key_code, &mut app);
+                    }
+                },
             }
         }
     });
@@ -249,7 +245,7 @@ fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     }
 }
 
-pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
+pub fn handle_notify(notify_app: Arc<Mutex<App>>) {
     // first draw
     redraw();
 
@@ -257,8 +253,6 @@ pub fn handle_notify(moved_app: Arc<Mutex<App>>) {
         tick();
         std::thread::sleep(Duration::from_secs(1));
     });
-
-    let notify_app = moved_app;
 
     let notify_recv = NOTIFY.1.clone();
 

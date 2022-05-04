@@ -15,16 +15,6 @@ pub struct Popup {}
 #[derive(Debug, Default)]
 pub struct PopupState {
     pub msg: Message,
-    pub size: Rect,
-}
-
-impl PopupState {
-    pub fn new(size: Rect) -> PopupState {
-        PopupState {
-            msg: Message::default(),
-            size,
-        }
-    }
 }
 
 impl StatefulWidget for Popup {
