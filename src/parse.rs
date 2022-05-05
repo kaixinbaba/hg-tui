@@ -23,14 +23,23 @@ lazy_static! {
 
 const NA: &str = "N/A";
 
+#[derive(Debug, Clone)]
+pub enum LastParse {
+    Search,
+
+    Volume(String),
+
+    Category(String),
+}
+
 pub trait Parser: Sync + Send {
-    fn parse(&self, html: String) -> Result<Vec<Project>>;
+    fn parse(&self, html: String) -> Result<(Vec<Project>, LastParse)>;
 }
 
 pub struct NormalParser;
 
 impl Parser for NormalParser {
-    fn parse(&self, html: String) -> Result<Vec<Project>> {
+    fn parse(&self, html: String) -> Result<(Vec<Project>, LastParse)> {
         let doc = Document::from(&html);
 
         let projects: Vec<Project> = doc
@@ -87,13 +96,13 @@ impl Parser for NormalParser {
             .flatten()
             .collect();
 
-        Ok(projects)
+        Ok((projects, LastParse::Search))
     }
 }
 
 pub struct CategoryParser;
 impl Parser for CategoryParser {
-    fn parse(&self, html: String) -> Result<Vec<Project>> {
+    fn parse(&self, html: String) -> Result<(Vec<Project>, LastParse)> {
         let doc = Document::from(&html);
         let category = doc.select("h1").text().to_string();
         let projects: Vec<Project> = doc
@@ -122,13 +131,13 @@ impl Parser for CategoryParser {
                 Project::new(name, volume, category.clone(), url, desc, star, watch, fork)
             })
             .collect();
-        Ok(projects)
+        Ok((projects, LastParse::Category(category)))
     }
 }
 
 pub struct VolumeParser;
 impl Parser for VolumeParser {
-    fn parse(&self, html: String) -> Result<Vec<Project>> {
+    fn parse(&self, html: String) -> Result<(Vec<Project>, LastParse)> {
         let doc = Document::from(&html);
 
         let volume = doc.select("h1").text().to_string();
@@ -162,7 +171,7 @@ impl Parser for VolumeParser {
                 Project::new(name, volume.clone(), category, url, desc, star, watch, fork)
             })
             .collect();
-        Ok(projects)
+        Ok((projects, LastParse::Volume(volume)))
     }
 }
 
@@ -201,7 +210,7 @@ mod test {
     fn test_parse_search() {
         let html = include_str!("../search.html");
         let projects = NormalParser.parse(html.to_string()).unwrap();
-        assert_eq!(10, projects.len());
+        assert_eq!(10, projects.0.len());
     }
 
     #[test]
@@ -209,7 +218,7 @@ mod test {
     fn test_parse_volume() {
         let html = include_str!("../volume.html");
         let projects = VolumeParser.parse(html.to_string()).unwrap();
-        assert_eq!(26, projects.len());
+        assert_eq!(26, projects.0.len());
     }
 
     #[test]
@@ -217,6 +226,6 @@ mod test {
     fn test_parse_category() {
         let html = include_str!("../category.html");
         let projects = CategoryParser.parse(html.to_string()).unwrap();
-        assert_eq!(10, projects.len());
+        assert_eq!(10, projects.0.len());
     }
 }

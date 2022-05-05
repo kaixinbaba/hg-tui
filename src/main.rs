@@ -22,6 +22,7 @@ mod widget;
 fn main() -> Result<()> {
     better_panic::install();
     let config = parse_args()?;
+    // println!("{:?}", config);
     setup_panic_hook();
     start(&config)?;
 

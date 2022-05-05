@@ -10,15 +10,18 @@ use anyhow::Result;
     about,
     long_about = "A TUI toolkit to view HelloGitHub"
 )]
-struct Args {
-    #[clap(short, long, default_value = ".", help = "配置文件路径")]
-    path: String,
+pub struct Args {
+    #[clap(short, long, help = "配置文件路径")]
+    pub path: Option<String>,
 
     #[clap(short, long, help = "是否开启摸鱼计时")]
-    moyu: bool,
+    pub moyu: bool,
+
+    #[clap(short, long, help = "是否显示帮助")]
+    pub show_help: bool,
 }
 
 pub fn parse_args() -> Result<Config> {
-    let _args = Args::parse();
-    Ok(Config::default())
+    let args = Args::parse();
+    Ok(Config::from(args))
 }

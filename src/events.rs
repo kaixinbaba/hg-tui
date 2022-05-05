@@ -6,11 +6,13 @@ use lazy_static::lazy_static;
 use crate::app::{App, AppMode};
 use crate::draw;
 
+use std::sync::atomic::AtomicBool;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 lazy_static! {
     pub static ref NOTIFY: (Sender<HGEvent>, Receiver<HGEvent>) = bounded(1024);
+    pub static ref GG_COMBINE: AtomicBool = AtomicBool::new(false);
 }
 
 #[derive(Debug, Clone)]
@@ -52,6 +54,31 @@ impl Default for Message {
 
 pub fn handle_key_event(event_app: Arc<Mutex<App>>) {
     let (sender, receiver) = unbounded();
+    sender
+        .send(HGEvent::UserEvent(KeyEvent {
+            code: KeyCode::Char('#'),
+            modifiers: KeyModifiers::NONE,
+        }))
+        .unwrap();
+    sender
+        .send(HGEvent::UserEvent(KeyEvent {
+            code: KeyCode::Char('8'),
+            modifiers: KeyModifiers::NONE,
+        }))
+        .unwrap();
+    sender
+        .send(HGEvent::UserEvent(KeyEvent {
+            code: KeyCode::Char('0'),
+            modifiers: KeyModifiers::NONE,
+        }))
+        .unwrap();
+    sender
+        .send(HGEvent::UserEvent(KeyEvent {
+            code: KeyCode::Enter,
+            modifiers: KeyModifiers::NONE,
+        }))
+        .unwrap();
+
     std::thread::spawn(move || loop {
         if let Ok(Event::Key(event)) = crossterm::event::read() {
             sender.send(HGEvent::UserEvent(event)).unwrap();
@@ -61,8 +88,11 @@ pub fn handle_key_event(event_app: Arc<Mutex<App>>) {
         if let Ok(HGEvent::UserEvent(key_event)) = receiver.recv() {
             let mut app = event_app.lock().unwrap();
             match (key_event.modifiers, key_event.code) {
-                (KeyModifiers::CONTROL, KeyCode::Char('c'))
-                | (KeyModifiers::CONTROL, KeyCode::Char('d')) => {
+                (KeyModifiers::CONTROL, KeyCode::Char('c')) => {
+                    quit();
+                    break;
+                }
+                (_, KeyCode::Char('q')) if app.mode != AppMode::Search => {
                     quit();
                     break;
                 }
@@ -118,7 +148,7 @@ pub fn show_help() {
     tips(
         r###"CTRL j/k 切换 搜索/浏览 模式
 搜索模式
-输入 :help 获得帮助
+CTRL h 获得帮助
 输入 #{数字} 按期数搜索
 输入 ${类别} 按类别搜索
 其他按关键字搜索
@@ -126,11 +156,12 @@ pub fn show_help() {
 浏览模式：
 j/k 上/下 移动一行
 d/u 上/下 移动五行
-0 移动至首行
-G 移动至末行
+gg 移动至首行
+G  移动至末行
 h/l 前/后 翻页
 o 查看（关闭）详细
-ENTER 打开 GitHub 页面"###
+ENTER 打开 GitHub 页面
+q 退出应用"###
             .into(),
     );
 }
@@ -155,7 +186,7 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
             app.statusline.set_mode(mode);
             redraw();
         }
-        (_, KeyCode::Enter) => match app.search() {
+        (_, KeyCode::Enter) => match app.search(None) {
             Ok(_) => redraw(),
             Err(e) => {
                 err(e.to_string());
@@ -173,56 +204,70 @@ fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
 /// 浏览模式
 fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
-        (KeyModifiers::CONTROL, KeyCode::Char('k')) | (_, KeyCode::Up) => {
-            // switch to view
-            app.switch_to_search();
-            redraw();
+        (_, KeyCode::Char('g')) => {
+            if GG_COMBINE.load(std::sync::atomic::Ordering::Relaxed) {
+                app.content.first();
+                redraw();
+                GG_COMBINE.store(false, std::sync::atomic::Ordering::Relaxed);
+            } else {
+                GG_COMBINE.store(true, std::sync::atomic::Ordering::Relaxed);
+            }
         }
-        (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
-            show_help();
+        (key_modifier, key_code) => {
+            GG_COMBINE.store(false, std::sync::atomic::Ordering::Relaxed);
+            match (key_modifier, key_code) {
+                (KeyModifiers::CONTROL, KeyCode::Char('k')) | (_, KeyCode::Up) => {
+                    // switch to view
+                    app.switch_to_search();
+                    redraw();
+                }
+                (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
+                    show_help();
+                }
+                (_, KeyCode::Char('j')) => {
+                    app.content.next(1);
+                    redraw();
+                }
+                (_, KeyCode::Char('k')) => {
+                    app.content.prev(1);
+                    redraw();
+                }
+                (_, KeyCode::Char('d')) => {
+                    app.content.next(5);
+                    redraw();
+                }
+                (_, KeyCode::Char('u')) => {
+                    app.content.prev(5);
+                    redraw();
+                }
+                (_, KeyCode::Char('G')) => {
+                    app.content.last();
+                    redraw();
+                }
+                (_, KeyCode::Char('s')) => {
+                    app.open_browser(Some("https://github.com/521xueweihan/HelloGitHub"))
+                        .unwrap();
+                }
+                (_, KeyCode::Char('l')) => {
+                    app.next_page().unwrap();
+                    redraw();
+                }
+                (_, KeyCode::Char('h')) => {
+                    app.prev_page().unwrap();
+                    redraw();
+                }
+                (_, KeyCode::Char('o')) => {
+                    // 进入详情页
+                    app.display_detail().unwrap();
+                    redraw();
+                }
+                (_, KeyCode::Enter) => {
+                    // 浏览器打开项目地址
+                    app.open_browser(None).unwrap();
+                }
+                _ => {}
+            }
         }
-        (_, KeyCode::Char('j')) => {
-            app.content.next(1);
-            redraw();
-        }
-        (_, KeyCode::Char('k')) => {
-            app.content.prev(1);
-            redraw();
-        }
-        (_, KeyCode::Char('d')) => {
-            app.content.next(5);
-            redraw();
-        }
-        (_, KeyCode::Char('u')) => {
-            app.content.prev(5);
-            redraw();
-        }
-        (_, KeyCode::Char('0')) => {
-            app.content.first();
-            redraw();
-        }
-        (_, KeyCode::Char('G')) => {
-            app.content.last();
-            redraw();
-        }
-        (_, KeyCode::Char('l')) => {
-            app.next_page().unwrap();
-            redraw();
-        }
-        (_, KeyCode::Char('h')) => {
-            app.prev_page().unwrap();
-            redraw();
-        }
-        (_, KeyCode::Char('o')) => {
-            // 进入详情页
-            app.display_detail().unwrap();
-            redraw();
-        }
-        (_, KeyCode::Enter) => {
-            // 浏览器打开项目地址
-            app.open_browser().unwrap();
-        }
-        _ => {}
     }
 }
 
@@ -239,7 +284,7 @@ fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         }
         (_, KeyCode::Enter) => {
             // 浏览器打开项目地址
-            app.open_browser().unwrap();
+            app.open_browser(None).unwrap();
         }
         _ => {}
     }
@@ -248,6 +293,10 @@ fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
 pub fn handle_notify(notify_app: Arc<Mutex<App>>) {
     // first draw
     redraw();
+
+    if notify_app.lock().unwrap().show_help {
+        show_help();
+    }
 
     std::thread::spawn(move || loop {
         tick();

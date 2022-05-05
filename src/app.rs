@@ -1,5 +1,5 @@
 use crate::config::Config;
-use crate::events::{self, show_help, warn, Message};
+use crate::events::{self, warn, Message};
 use crate::fetch;
 use crate::parse::PARSER;
 use crate::widget::content::Category;
@@ -13,6 +13,8 @@ use crossterm::{
 };
 
 use anyhow::Result;
+use std::fs::File;
+use std::path::Path;
 use std::{
     io::{self, Stdout},
     sync::{Arc, Mutex},
@@ -71,10 +73,15 @@ pub struct App {
 
     /// 项目明细子页面
     pub project_detail: ProjectDetailState,
+
+    /// 是否要显示帮助
+    pub show_help: bool,
 }
 
 impl App {
-    fn new(_config: &Config) -> Result<App> {
+    fn new(config: &Config) -> Result<App> {
+        let show_help = Self::init_config(config.config_path.clone())? || config.show_help;
+
         enable_raw_mode()?;
         let mut stdout = io::stdout();
         execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
@@ -90,32 +97,55 @@ impl App {
             mode: AppMode::Search,
             curr_category: None,
             project_detail: ProjectDetailState::default(),
+            show_help,
         })
+    }
+
+    /// 初始化配置文件
+    fn init_config(config_path: String) -> Result<bool> {
+        let path = Path::new(&config_path).join(".hgtui.toml");
+        if path.exists() {
+            return Ok(false);
+        }
+        if File::create(&path).is_ok() {
+            return Ok(true);
+        }
+        Ok(false)
     }
 }
 
 impl App {
-    pub fn search(&mut self) -> Result<()> {
-        if self.input.is_empty() {
+    pub fn search(&mut self, wait_search: Option<String>) -> Result<()> {
+        if self.input.is_empty() && wait_search.is_none() {
             // 输入框为空直接返回
             return Ok(());
         }
         let search_mode = self.input.mode;
-        let wait_search = self.input.clear();
-        if wait_search == ":help" {
-            show_help();
-            return Ok(());
-        }
+
+        let wait_search = wait_search.unwrap_or_else(|| self.input.clear());
 
         let wait_remove = wait_search.clone();
 
         let text = fetch::fetch(wait_search, search_mode)?;
 
-        let projects = PARSER.get(&search_mode).unwrap().parse(text)?;
+        let (projects, last_parse) = PARSER.get(&search_mode).unwrap().parse(text)?;
         if projects.is_empty() {
             warn("无结果返回，请确认搜索关键字".into());
             return Ok(());
         }
+
+        let wait_remove = match last_parse {
+            crate::parse::LastParse::Volume(v) => format!(
+                "#{}",
+                v.split(' ')
+                    .into_iter()
+                    .collect::<Vec<&str>>()
+                    .get(1)
+                    .unwrap()
+            ),
+            _ => wait_remove,
+        };
+
         let mut category_change = false;
 
         if search_mode == SearchMode::Category {
@@ -178,7 +208,7 @@ impl App {
                 return Ok(());
             }
         };
-        let projects = PARSER.get(&self.input.mode).unwrap().parse(text)?;
+        let (projects, _) = PARSER.get(&self.input.mode).unwrap().parse(text)?;
         self.content.add_projects(projects);
         self.content.tstate.select(Some(0));
         self.statusline.set_page_no(page_no);
@@ -195,9 +225,10 @@ impl App {
         Ok(())
     }
 
-    pub fn open_browser(&self) -> Result<()> {
+    pub fn open_browser(&self, url: Option<&str>) -> Result<()> {
         let project = self.content.get_selected();
-        webbrowser::open(project.url.as_ref())?;
+        let url = url.unwrap_or_else(|| project.url.as_ref());
+        webbrowser::open(url)?;
         Ok(())
     }
 }
