@@ -107,7 +107,7 @@ jobs:
 
       - name: Copy files to output
         run: |
-          cp target\release\hgtui output\
+          cp target\release\hgtui.exe output\
           cp LICENSE output\
           cp README.md output\README.md
 
