@@ -3,7 +3,7 @@ use std::sync::Mutex;
 use anyhow::{bail, Result};
 use cached::proc_macro::cached;
 
-use crate::{app::SearchMode, widget::content::Category};
+use crate::{app::SearchMode, parse::parse_hg_info, widget::content::Category};
 
 use lazy_static::lazy_static;
 
@@ -31,6 +31,18 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
     };
 
     Ok(html)
+}
+
+#[cached]
+pub fn fetch_hg_info() -> (String, String) {
+    // let _lock = LOCK.lock().unwrap();
+    // let resp = reqwest::blocking::get("https://github.com/521xueweihan/HelloGitHub").unwrap();
+    // let star = parse_hg_star(resp.text().unwrap());
+    let star = "55.2k".to_string();
+
+    let resp = reqwest::blocking::get("https://hellogithub.com").unwrap();
+    let info = parse_hg_info(resp.text().unwrap());
+    (star, info)
 }
 
 #[cached]

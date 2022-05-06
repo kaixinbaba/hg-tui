@@ -200,6 +200,22 @@ fn get_url(a: &Selection) -> String {
         .replace("/periodical/statistics/click/?target=", "")
 }
 
+#[allow(dead_code)]
+pub fn parse_hg_star(html: String) -> String {
+    let doc = Document::from(&html);
+    doc.select("#repo-stars-counter-unstar").text().to_string()
+}
+
+pub fn parse_hg_info(html: String) -> String {
+    let doc = Document::from(&html);
+    doc.select(
+        "body > div.l-content > div.pricing-tables.pure-g > div:nth-child(2) > div > div > span",
+    )
+    .text()
+    .trim()
+    .to_string()
+}
+
 #[cfg(test)]
 mod test {
 

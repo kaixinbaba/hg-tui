@@ -7,7 +7,7 @@ use tui::{
     widgets::{Block, Borders, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::app::SearchMode;
+use crate::{app::SearchMode, fetch::fetch_hg_info, theme::TITLE_STYLE};
 
 /// 状态栏
 pub struct StatusLine {}
@@ -64,20 +64,30 @@ impl StatefulWidget for StatusLine {
             .direction(tui::layout::Direction::Horizontal)
             .constraints(
                 [
-                    Constraint::Percentage(25),
-                    Constraint::Percentage(50),
-                    Constraint::Percentage(25),
+                    Constraint::Percentage(40),
+                    Constraint::Percentage(20),
+                    Constraint::Percentage(40),
                 ]
                 .as_ref(),
             )
             .split(area);
 
         // clock layout[2]
+        let (star, info) = fetch_hg_info();
         let now = Local::now();
-        Paragraph::new(format!("⏰ {}", now.format("%Y-%m-%d %H:%M:%S")))
-            .style(Style::default().fg(Color::LightYellow))
-            .block(Block::default().borders(Borders::RIGHT))
-            .render(layout[2], buf);
+        Paragraph::new(format!(
+            " ⏰ {} 🌟 {} 📚项目数 {}",
+            now.format("%Y-%m-%d %H:%M:%S"),
+            star,
+            info
+        ))
+        .style(Style::default().fg(Color::LightYellow))
+        .block(
+            Block::default()
+                .borders(Borders::LEFT)
+                .border_type(tui::widgets::BorderType::Double),
+        )
+        .render(layout[2], buf);
 
         // info layout[1]
         //
@@ -90,17 +100,24 @@ impl StatefulWidget for StatusLine {
 
         Paragraph::new(text)
             .block(Block::default().borders(Borders::NONE))
+            .style(*TITLE_STYLE)
             .alignment(tui::layout::Alignment::Center)
             .render(layout[1], buf);
 
         // time layout[0]
         // "输入:help 或按 ctrl h 查看帮助"
         Paragraph::new(Spans::from(vec![
-            Span::raw(" 输入"),
+            Span::raw(" 按"),
             Span::styled("ctrl h", Style::default().fg(Color::Green)),
-            Span::raw(" 查看帮助"),
+            Span::raw(" 查看帮助 按"),
+            Span::styled(" q", Style::default().fg(Color::Green)),
+            Span::raw(" 键退出"),
         ]))
-        .block(Block::default().borders(Borders::LEFT))
+        .block(
+            Block::default()
+                .borders(Borders::RIGHT)
+                .border_type(tui::widgets::BorderType::Double),
+        )
         .render(layout[0], buf);
     }
 }
