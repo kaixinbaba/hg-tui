@@ -94,7 +94,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: install
-          args: cargo-wix --version 0.3.1
+          args: cargo-wix --version 0.3.2
 
       - name: Build
         uses: actions-rs/cargo@v1
@@ -110,6 +110,12 @@ jobs:
           cp target\release\hgtui.exe output\
           cp LICENSE output\
           cp README.md output\README.md
+
+      - name: init wix
+        uses: actions-rs/cargo@v1
+        with:
+          command: wix
+          args: init
 
       - name: Create msi with wix
         uses: actions-rs/cargo@v1
