@@ -7,7 +7,10 @@ use tui::{
     widgets::{Block, Borders, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{app::SearchMode, fetch::fetch_hg_info, theme::TITLE_STYLE};
+use crate::{
+    app::{SearchMode, HG_INFO},
+    theme::TITLE_STYLE,
+};
 
 /// 状态栏
 pub struct StatusLine {}
@@ -73,13 +76,12 @@ impl StatefulWidget for StatusLine {
             .split(area);
 
         // clock layout[2]
-        let (star, info) = fetch_hg_info();
         let now = Local::now();
         Paragraph::new(format!(
-            " ⏰ {} 🌟 {} 📚项目数 {}",
+            " ⏰ {} 🌟 {} 📚项目数 {} 个",
             now.format("%Y-%m-%d %H:%M:%S"),
-            star,
-            info
+            HG_INFO.star,
+            HG_INFO.project_count
         ))
         .style(Style::default().fg(Color::LightYellow))
         .block(

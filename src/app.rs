@@ -1,7 +1,7 @@
 use crate::config::Config;
 use crate::events::{self, warn, Message};
-use crate::fetch;
-use crate::parse::PARSER;
+use crate::fetch::{self, fetch_hg_info};
+use crate::parse::{Info, PARSER};
 use crate::widget::content::Category;
 use crate::widget::projectdetail::ProjectDetailState;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
@@ -21,6 +21,12 @@ use std::{
 };
 
 use tui::{backend::CrosstermBackend, Terminal};
+
+use lazy_static::lazy_static;
+
+lazy_static! {
+    pub static ref HG_INFO: Info = fetch_hg_info();
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SearchMode {
@@ -135,14 +141,22 @@ impl App {
         }
 
         let wait_remove = match last_parse {
-            crate::parse::LastParse::Volume(v) => format!(
-                "#{}",
-                v.split(' ')
+            crate::parse::LastParse::Volume(v) => {
+                let mut volume = v
+                    .split(' ')
                     .into_iter()
                     .collect::<Vec<&str>>()
                     .get(1)
                     .unwrap()
-            ),
+                    .parse::<usize>()
+                    .unwrap();
+
+                if volume > HG_INFO.max_volume {
+                    volume = HG_INFO.max_volume;
+                }
+
+                format!("#{}", volume)
+            }
             _ => wait_remove,
         };
 
@@ -200,9 +214,14 @@ impl App {
         Ok(())
     }
 
-    fn page(&mut self, page_no: usize) -> Result<()> {
+    fn page(&mut self, mut page_no: usize) -> Result<()> {
         let text = match self.input.mode {
-            SearchMode::Volume => fetch::fetch_volume(page_no),
+            SearchMode::Volume => {
+                if page_no > HG_INFO.max_volume {
+                    page_no = HG_INFO.max_volume;
+                }
+                fetch::fetch_volume(page_no)
+            }
             SearchMode::Category => fetch::fetch_category(self.curr_category.unwrap(), page_no),
             _ => {
                 return Ok(());

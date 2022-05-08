@@ -206,14 +206,33 @@ pub fn parse_hg_star(html: String) -> String {
     doc.select("#repo-stars-counter-unstar").text().to_string()
 }
 
-pub fn parse_hg_info(html: String) -> String {
+#[derive(Clone, Debug)]
+pub struct Info {
+    pub max_volume: usize,
+    pub project_count: usize,
+    pub star: String,
+}
+
+/// 返回最大期数
+pub fn parse_hg_info(html: String) -> Info {
     let doc = Document::from(&html);
-    doc.select(
+
+    let text = doc.select(
         "body > div.l-content > div.pricing-tables.pure-g > div:nth-child(2) > div > div > span",
     )
-    .text()
-    .trim()
-    .to_string()
+    .text();
+    let result = text.trim().split(' ').into_iter().collect::<Vec<&str>>();
+    let project_count = result.get(0).unwrap().parse().unwrap();
+
+    let text = doc.select("body > div.l-content > div.pricing-tables.pure-g > div:nth-child(1) > div > div > span").text();
+    let result = text.trim().split(' ').into_iter().collect::<Vec<&str>>();
+    let max_volume = result.get(0).unwrap().parse().unwrap();
+
+    Info {
+        max_volume,
+        project_count,
+        star: "55.2k".to_string(),
+    }
 }
 
 #[cfg(test)]

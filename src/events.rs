@@ -3,7 +3,7 @@ use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
 
 use lazy_static::lazy_static;
 
-use crate::app::{App, AppMode};
+use crate::app::{App, AppMode, HG_INFO};
 use crate::draw;
 
 use std::sync::atomic::AtomicBool;
@@ -60,18 +60,16 @@ pub fn handle_key_event(event_app: Arc<Mutex<App>>) {
             modifiers: KeyModifiers::NONE,
         }))
         .unwrap();
-    sender
-        .send(HGEvent::UserEvent(KeyEvent {
-            code: KeyCode::Char('8'),
-            modifiers: KeyModifiers::NONE,
-        }))
-        .unwrap();
-    sender
-        .send(HGEvent::UserEvent(KeyEvent {
-            code: KeyCode::Char('0'),
-            modifiers: KeyModifiers::NONE,
-        }))
-        .unwrap();
+    let max_volume = HG_INFO.max_volume.to_string();
+
+    for c in max_volume.chars() {
+        sender
+            .send(HGEvent::UserEvent(KeyEvent {
+                code: KeyCode::Char(c),
+                modifiers: KeyModifiers::NONE,
+            }))
+            .unwrap();
+    }
     sender
         .send(HGEvent::UserEvent(KeyEvent {
             code: KeyCode::Enter,
