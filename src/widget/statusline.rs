@@ -43,6 +43,8 @@ impl StatusLineState {
     pub fn set_page_no(&mut self, page_no: usize) {
         if page_no < 1 {
             self.page_no = 1;
+        } else if page_no > HG_INFO.max_volume {
+            self.page_no = HG_INFO.max_volume;
         } else {
             self.page_no = page_no;
         }
@@ -107,7 +109,7 @@ impl StatefulWidget for StatusLine {
         // "输入:help 或按 ctrl h 查看帮助"
         Paragraph::new(Spans::from(vec![
             Span::raw(" 按"),
-            Span::styled("ctrl h", Style::default().fg(Color::Green)),
+            Span::styled(" ctrl h", Style::default().fg(Color::Green)),
             Span::raw(" 查看帮助 按"),
             Span::styled(" q", Style::default().fg(Color::Green)),
             Span::raw(" 键退出"),

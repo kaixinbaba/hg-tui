@@ -53,6 +53,12 @@ pub fn wrap_lines<'a>(origin: String, line_limit: usize) -> Vec<Spans<'a>> {
     }
 }
 
+pub fn parse_unchecked(content: &str, index: usize) -> usize {
+    let split_result = content.split(' ').into_iter().collect::<Vec<&str>>();
+
+    split_result[index].parse::<usize>().unwrap()
+}
+
 #[cfg(test)]
 mod test {
     use super::*;

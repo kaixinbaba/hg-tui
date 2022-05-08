@@ -7,6 +7,7 @@ use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table,
 
 use crate::app_global::HEADERS;
 use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
+use crate::utils::parse_unchecked;
 
 const TABLE_TITLE: &str = " 搜索结果 ";
 
@@ -120,7 +121,7 @@ pub struct Project {
     pub name: String,
 
     /// 期数
-    pub volume: String,
+    pub volume: usize,
 
     /// 种类
     pub category: String,
@@ -156,9 +157,11 @@ impl Project {
     where
         T: Into<String>,
     {
+        let volume = parse_unchecked(&volume.into(), 1);
+
         Project {
             name: name.into(),
-            volume: volume.into(),
+            volume,
             category: category.into().replace(" 项目", ""),
             url: url.into(),
             desc: desc.into(),
@@ -249,7 +252,7 @@ impl StatefulWidget for Content {
 
             cells.push(new_cell(i + 1, Style::default()));
             cells.push(new_cell(project.name.clone(), Style::default()));
-            cells.push(new_cell(project.volume.clone(), Style::default()));
+            cells.push(new_cell(project.volume, Style::default()));
 
             let category = if let Ok(category) = Category::try_from(project.category.clone()) {
                 category

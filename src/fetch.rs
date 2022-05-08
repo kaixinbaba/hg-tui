@@ -22,17 +22,10 @@ const BASE_PATH: &str = "https://hellogithub.com/periodical";
 pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
     let html = match mode {
         SearchMode::Normal => search(text.into()),
-        SearchMode::Volume => {
-            if let Ok(mut volume) = &text.into()[1..].parse::<usize>() {
-                if volume > HG_INFO.max_volume {
-                    volume = HG_INFO.max_volume;
-                }
-
-                fetch_volume(volume)
-            } else {
-                bail!("请输入有效的期数大于 0 的数字！")
-            }
-        }
+        SearchMode::Volume => match &text.into()[1..].parse::<usize>() {
+            Ok(volume) if volume > &1 => fetch_volume(*volume),
+            _ => bail!("请输入有效的期数大于 0 的数字！"),
+        },
         SearchMode::Category => {
             fetch_category(Category::try_from(text.into()[1..].to_string()).unwrap(), 1)
         }
@@ -48,7 +41,10 @@ pub fn fetch_hg_info() -> Info {
 }
 
 #[cached]
-pub fn fetch_volume(volume: usize) -> String {
+pub fn fetch_volume(mut volume: usize) -> String {
+    if volume > HG_INFO.max_volume {
+        volume = HG_INFO.max_volume;
+    }
     let _lock = LOCK.lock().unwrap();
     let resp = reqwest::blocking::get(format!("{}/volume/{:0>2}/", BASE_PATH, volume)).unwrap();
 

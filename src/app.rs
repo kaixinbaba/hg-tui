@@ -1,8 +1,8 @@
-use crate::app_global::HG_INFO;
 use crate::config::Config;
 use crate::events::{self, warn, Message};
 use crate::fetch;
 use crate::parse::PARSER;
+use crate::utils::parse_unchecked;
 use crate::widget::content::Category;
 use crate::widget::projectdetail::ProjectDetailState;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
@@ -137,20 +137,7 @@ impl App {
 
         let wait_remove = match last_parse {
             crate::parse::LastParse::Volume(v) => {
-                let mut volume = v
-                    .split(' ')
-                    .into_iter()
-                    .collect::<Vec<&str>>()
-                    .get(1)
-                    .unwrap()
-                    .parse::<usize>()
-                    .unwrap();
-
-                if volume > HG_INFO.max_volume {
-                    volume = HG_INFO.max_volume;
-                }
-
-                format!("#{}", volume)
+                format!("#{}", parse_unchecked(&v, 1))
             }
             _ => wait_remove,
         };
@@ -209,14 +196,9 @@ impl App {
         Ok(())
     }
 
-    fn page(&mut self, mut page_no: usize) -> Result<()> {
+    fn page(&mut self, page_no: usize) -> Result<()> {
         let text = match self.input.mode {
-            SearchMode::Volume => {
-                if page_no > HG_INFO.max_volume {
-                    page_no = HG_INFO.max_volume;
-                }
-                fetch::fetch_volume(page_no)
-            }
+            SearchMode::Volume => fetch::fetch_volume(page_no),
             SearchMode::Category => fetch::fetch_category(self.curr_category.unwrap(), page_no),
             _ => {
                 return Ok(());
