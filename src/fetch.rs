@@ -4,7 +4,8 @@ use anyhow::{bail, Result};
 use cached::proc_macro::cached;
 
 use crate::{
-    app::{SearchMode, HG_INFO},
+    app::SearchMode,
+    app_global::HG_INFO,
     parse::{parse_hg_info, Info},
     widget::content::Category,
 };

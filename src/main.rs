@@ -9,6 +9,7 @@ use app::start;
 use cli::parse_args;
 
 mod app;
+mod app_global;
 mod cli;
 mod config;
 mod draw;

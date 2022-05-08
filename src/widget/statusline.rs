@@ -7,10 +7,7 @@ use tui::{
     widgets::{Block, Borders, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{
-    app::{SearchMode, HG_INFO},
-    theme::TITLE_STYLE,
-};
+use crate::{app::SearchMode, app_global::HG_INFO, theme::TITLE_STYLE};
 
 /// 状态栏
 pub struct StatusLine {}

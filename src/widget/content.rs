@@ -1,18 +1,14 @@
 use anyhow::bail;
-use lazy_static::lazy_static;
 use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
 use tui::style::{Color, Style};
 use tui::text::Span;
 use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table, TableState};
 
+use crate::app_global::HEADERS;
 use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
 
 const TABLE_TITLE: &str = " 搜索结果 ";
-
-lazy_static! {
-    static ref HEADERS: Vec<&'static str> = vec!["№", "名称", "期数", "分类", "介绍"];
-}
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum Category {

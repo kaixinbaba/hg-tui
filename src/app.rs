@@ -1,7 +1,8 @@
+use crate::app_global::HG_INFO;
 use crate::config::Config;
 use crate::events::{self, warn, Message};
-use crate::fetch::{self, fetch_hg_info};
-use crate::parse::{Info, PARSER};
+use crate::fetch;
+use crate::parse::PARSER;
 use crate::widget::content::Category;
 use crate::widget::projectdetail::ProjectDetailState;
 use crate::widget::{ContentState, InputState, PopupState, StatusLineState};
@@ -21,12 +22,6 @@ use std::{
 };
 
 use tui::{backend::CrosstermBackend, Terminal};
-
-use lazy_static::lazy_static;
-
-lazy_static! {
-    pub static ref HG_INFO: Info = fetch_hg_info();
-}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SearchMode {

@@ -3,7 +3,8 @@ use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
 
 use lazy_static::lazy_static;
 
-use crate::app::{App, AppMode, HG_INFO};
+use crate::app::{App, AppMode};
+use crate::app_global::HG_INFO;
 use crate::draw;
 
 use std::sync::atomic::AtomicBool;
