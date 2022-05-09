@@ -45,7 +45,7 @@ impl Parser for NormalParser {
         let projects: Vec<Project> = doc
             .select(".content-subhead")
             .iter()
-            .map(|content| {
+            .filter_map(|content| {
                 let a = content.select(".project-url");
                 let name = a.text().to_string();
 
@@ -93,7 +93,6 @@ impl Parser for NormalParser {
                     NA.to_string(),
                 ))
             })
-            .flatten()
             .collect();
 
         Ok((projects, LastParse::Search))
@@ -189,7 +188,7 @@ fn get_desc(p: &Selection) -> String {
         .split("<br>")
         .map(|s| s.to_string())
         .collect::<Vec<String>>();
-    let need_replace = pc[1].trim().replace("</p>", "").replace("\n", "");
+    let need_replace = pc[1].trim().replace("</p>", "").replace('\n', "");
 
     RE.replace_all(&need_replace, "").to_string()
 }
