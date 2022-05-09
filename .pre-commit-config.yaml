@@ -38,5 +38,8 @@ repos:
         description: unit test for the project
         entry: bash -c 'cargo test --all-features --all'
         language: rust
-        # files: \\.rs$
-        # pass_filenames: false
+      - id: cargo-doc
+        name: cargo doc --all-features --no-deps
+        description: generate document
+        entry: bash -c 'cargo doc --all-features --no-deps'
+        language: rust

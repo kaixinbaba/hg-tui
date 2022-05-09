@@ -48,4 +48,4 @@ jobs:
     - name: Run tests
       run: cargo test --all-features -- --test-threads=1 --nocapture
     - name: Generate docs
-      run: cargo doc --all-features --no-depso
+      run: cargo doc --all-features --no-deps
