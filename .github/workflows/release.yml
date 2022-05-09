@@ -263,3 +263,27 @@ jobs:
           asset_path: ./hgtui-windows.msi
           asset_name: ${{ steps.info.outputs.windowsdir }}.msi
           asset_content_type: application/x-msi
+  publish-to-cargo:
+    name: Publishing to Cargo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CARGO_API_KEY }} --allow-dirty
+  bump-homebrew-formula:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Bump Homebrew formula
+        uses: dawidd6/action-homebrew-bump-formula@v3
+        with:
+          formula: hgtui
+          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
