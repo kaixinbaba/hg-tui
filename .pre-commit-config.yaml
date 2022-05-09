@@ -39,7 +39,7 @@ repos:
         entry: bash -c 'cargo test --all-features --all'
         language: rust
       - id: cargo-doc
-        name: cargo doc --all-features --no-deps
+        name: cargo doc
         description: generate document
         entry: bash -c 'cargo doc --all-features --no-deps'
         language: rust
