@@ -274,8 +274,6 @@ jobs:
           profile: minimal
           override: true
       - uses: actions-rs/cargo@v1
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         with:
           command: publish
           args: --token ${{ secrets.CARGO_REGISTRY_TOKEN }} --allow-dirty
@@ -284,10 +282,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Bump Homebrew formula
+      - name: Bump Homebrew formulae
         uses: dawidd6/action-homebrew-bump-formula@v3
-        env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
         with:
-          formula: hgtui
-          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          # Required, custom GitHub access token with the 'public_repo' and 'workflow' scopes
+          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
+          # Optional, will create tap repo fork in organization
+          # org: ORG
+          # Optional, defaults to homebrew/core
+          # tap: USER/REPO
+          # Formula name, required
+          formula: hg-tui
+          # Optional, will be determined automatically
+          tag: ${{github.ref}}
+          # Optional, will be determined automatically
+          revision: ${{github.sha}}
+          # Optional, if don't want to check for already open PRs
+          # force: false # true
