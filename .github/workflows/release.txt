@@ -295,8 +295,8 @@ jobs:
           # Formula name, required
           formula: hg-tui
           # Optional, will be determined automatically
-          tag: ${{github.ref}}
+          # tag: ${{github.ref}}
           # Optional, will be determined automatically
-          revision: ${{github.sha}}
+          # revision: ${{github.sha}}
           # Optional, if don't want to check for already open PRs
           # force: false # true

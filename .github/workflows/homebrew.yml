@@ -1,0 +1,25 @@
+name: Homebrew
+
+on:
+  push:
+    branches: [action]
+
+env:
+  CARGO_TERM_COLOR: always
+
+
+jobs:
+  bump-homebrew-formula:
+    runs-on: macos-latest
+    steps:
+      - name: Run brew script
+        uses: Homebrew/actions/brew-script@master
+        env:
+          HOMEBREW_SOME_VARIABLE: some value
+        with:
+          # GitHub token, defaults to ${{github.token}}, is set as HOMEBREW_GITHUB_API_TOKEN
+          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
+          script: |
+              revision = Utils.safe_popen_read("git", "rev-parse", "HEAD")
+              ohai "world"
+              opoo "hello"
