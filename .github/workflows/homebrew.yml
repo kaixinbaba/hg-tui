@@ -12,14 +12,11 @@ jobs:
   test-homebrew:
     runs-on: macos-latest
     steps:
-      - name: Run brew script
-        uses: Homebrew/actions/brew-script@master
-        env:
-          HOMEBREW_SOME_VARIABLE: some value
+      - name: Bump formulae
+        uses: Homebrew/actions/bump-formulae@master
         with:
-          # GitHub token, defaults to ${{github.token}}, is set as HOMEBREW_GITHUB_API_TOKEN
+          # Custom GitHub access token with only the 'public_repo' scope enabled
           token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
-          script: |
-              revision = Utils.safe_popen_read("git", "rev-parse", "HEAD")
-              ohai "world"
-              opoo "hello"
+          # Bump only these formulae if outdated
+          formulae: |
+            hg-tui
