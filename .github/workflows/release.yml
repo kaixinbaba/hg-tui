@@ -290,7 +290,7 @@ jobs:
           # Optional, will create tap repo fork in organization
           # org: ORG
           # Optional, defaults to homebrew/core
-          # tap: USER/REPO
+          tap: kaixinbaba/hg-tui
           # Formula name, required
           formula: hgtui
           # Optional, will be determined automatically

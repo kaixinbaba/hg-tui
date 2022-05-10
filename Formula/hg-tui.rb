@@ -3,7 +3,7 @@ class HgTui < Formula
   desc "A TUI application to view www.hellogithub.com"
   homepage "https://github.com/kaixinbaba/hg-tui"
 
-  disable! because: "it is now in homebrew core. Please reinstall it as follows:\nbrew untap kaixinbaba/hgtui\nbrew install hgtui\n"
+  disable! because: "it is now in homebrew core. Please reinstall it as follows:\nbrew untap kaixinbaba/hg-tui\nbrew install hg-tui\n"
 
   if OS.mac?
       url "https://github.com/kaixinbaba/hg-tui/releases/download/#{version}/hgtui_#{version}_macOS.tar.gz"
