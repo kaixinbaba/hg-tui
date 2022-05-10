@@ -1,22 +1,16 @@
-class hg-tui < Formula
-  version "0.1.2"
-  desc "A TUI application to view www.hellogithub.com"
+class HgTui < Formula
+  desc "使用 TUI 界面去浏览 HelloGitHub 网站"
   homepage "https://github.com/kaixinbaba/hg-tui"
-
-  disable! because: "it is now in homebrew core. Please reinstall it as follows:\nbrew untap kaixinbaba/hg-tui\nbrew install hg-tui\n"
-
-  if OS.mac?
-      url "https://github.com/kaixinbaba/hg-tui/releases/download/#{version}/hg-tui_#{version}_macOS.tar.gz"
-      sha256 "9d0fa738d8c421761536b3c4044a8a29728fc68cd60873fb552720e2d697b998"
-  elsif OS.linux?
-      url "https://github.com/kaixinbaba/hg-tui/releases/download/#{version}/hg-tui_#{version}_linux.tar.gz"
-      sha256 "6dd535c3902878e9de94a77cbe5439cfd6f11a1703929c0f07a6ee80f6e8f724"
-  end
-
-  conflicts_with "hg-tui"
+  url "https://github.com/kaixinbaba/hg-tui/releases/download/0.1.1/hgtui_0_1_1_macOS.zip"
+  sha256 "baf577c90a9671357ee02ab6e5f2987c9eb2dc93daaf71c8c43baeb70a76383b"
+  license "GPL-3.0"
 
   def install
-    bin.install "hg-tui"
-    ohai "Just use hg-tui"
+    system "mv hgtui-0.1.1/hgtui hgtui"
+    bin.install "hgtui"
+  end
+
+  test do
+    system "false"
   end
 end
