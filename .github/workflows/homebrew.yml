@@ -10,7 +10,7 @@ env:
 
 jobs:
   test-homebrew:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Homebrew bump formula
         uses: mislav/bump-homebrew-formula-action@v2
