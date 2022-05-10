@@ -10,8 +10,10 @@ env:
 
 jobs:
   test-homebrew:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Homebrew bump formula
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
