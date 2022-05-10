@@ -2,35 +2,16 @@ name: Homebrew
 
 on:
   push:
-    branches: [action]
-
-env:
-  CARGO_TERM_COLOR: always
-
+    tags: 'v*'
 
 jobs:
-  test-homebrew:
-    runs-on: macos-latest
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
     steps:
-      - name: Set up Homebrew
-        id: set-up-homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-      - name: Cache Homebrew Bundler RubyGems
-        id: cache
-        uses: actions/cache@v1
+      - uses: mislav/bump-homebrew-formula-action@v2
         with:
-          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
-          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
-          restore-keys: ${{ runner.os }}-rubygems-
-
-      - name: Install Homebrew Bundler RubyGems
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: brew install-bundler-gems
-      - name: Bump formulae
-        uses: Homebrew/actions/bump-formulae@master
-        with:
-          # Custom GitHub access token with only the 'public_repo' scope enabled
-          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
-          # Bump only these formulae if outdated
-          formulae: |
-            hg-tui
+          # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
+          formula-name: hg-tui
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
