@@ -282,6 +282,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Bump formulae
+        uses: Homebrew/actions/bump-formulae@master
+        with:
+          # Custom GitHub access token with only the 'public_repo' scope enabled
+          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          # Bump only these formulae if outdated
+          formulae: |
+            hg-tui
       - name: Bump Homebrew formulae
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
