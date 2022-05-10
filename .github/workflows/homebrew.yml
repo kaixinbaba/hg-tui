@@ -13,9 +13,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Homebrew bump formula
-        uses: dawidd6/action-homebrew-bump-formula@v3.8.0
+        uses: mislav/bump-homebrew-formula-action@v2
         with:
-          # Required, custom GitHub access token with the 'public_repo' and 'workflow' scopes
-          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
-          tap: kaixinbaba/hg-tui
-          formula: hg-tui
+          # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
+          formula-name: hg-tui
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
