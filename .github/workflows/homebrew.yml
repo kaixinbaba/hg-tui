@@ -13,9 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Homebrew bump formula
-        uses: mislav/bump-homebrew-formula-action@v2
+        uses: dawidd6/action-homebrew-bump-formula@v3
         with:
-          # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
-          formula-name: hg-tui
-        env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          # Required, custom GitHub access token with the 'public_repo' and 'workflow' scopes
+          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
+          # Optional, defaults to homebrew/core
+          tap: kaixinbaba/hg-tui
+          # Formula name, required
+          formula: hg-tui
+          force: true
