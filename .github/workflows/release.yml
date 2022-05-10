@@ -157,9 +157,9 @@ jobs:
           MINOR=${MINOR#*.}
           PATCH=${VERSION##*.}
           echo "::set-output name=version::${VERSION}"
-          echo "::set-output name=linuxdir::hgtui_${MAJOR}_${MINOR}_${PATCH}_linux"
-          echo "::set-output name=macosdir::hgtui_${MAJOR}_${MINOR}_${PATCH}_macOS"
-          echo "::set-output name=windowsdir::hgtui_${MAJOR}_${MINOR}_${PATCH}_windows"
+          echo "::set-output name=linuxdir::hgtui_${MAJOR}.${MINOR}.${PATCH}_linux"
+          echo "::set-output name=macosdir::hgtui_${MAJOR}.${MINOR}.${PATCH}_macOS"
+          echo "::set-output name=windowsdir::hgtui_${MAJOR}.${MINOR}.${PATCH}_windows"
           echo "::set-output name=innerdir::hgtui-${VERSION}"
 
       - name: Create Release Draft
@@ -282,14 +282,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Bump formulae
-        uses: Homebrew/actions/bump-formulae@master
-        with:
-          # Custom GitHub access token with only the 'public_repo' scope enabled
-          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
-          # Bump only these formulae if outdated
-          formulae: |
-            hg-tui
       - name: Bump Homebrew formulae
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
@@ -300,7 +292,7 @@ jobs:
           # Optional, defaults to homebrew/core
           # tap: USER/REPO
           # Formula name, required
-          formula: hg-tui
+          formula: hgtui
           # Optional, will be determined automatically
           tag: ${{github.ref}}
           # Optional, will be determined automatically
