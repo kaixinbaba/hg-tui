@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Homebrew bump formula
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
