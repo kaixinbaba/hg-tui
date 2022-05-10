@@ -16,6 +16,6 @@ jobs:
         uses: dawidd6/action-homebrew-bump-formula@v3.8.0
         with:
           # Required, custom GitHub access token with the 'public_repo' and 'workflow' scopes
-          token: ${{secrets.HOMEBREW_API_TOKEN}}
+          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
           tap: kaixinbaba/hg-tui
           formula: hg-tui
