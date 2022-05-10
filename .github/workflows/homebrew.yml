@@ -9,7 +9,7 @@ env:
 
 
 jobs:
-  bump-homebrew-formula:
+  test-homebrew:
     runs-on: macos-latest
     steps:
       - name: Run brew script
