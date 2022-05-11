@@ -36,20 +36,20 @@ jobs:
           ARCHIVE_TYPES: ${{ matrix.archive }}
           # PRE_BUILD: "pre_build.sh"
           # POST_BUILD: "test/post_build.sh"
-          # MINIFY: "yes"
+          MINIFY: "yes"
   release_without_not_required:
     name: release ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        target: [x86_64-unknown-linux-musl]
+        target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl, x86_64-apple-darwin, wasm32-wasi]
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
         uses: rust-build/rust-build.action@master
         with:
           RUSTTARGET: ${{ matrix.target }}
-          UPLOAD_MODE: release
+          UPLOAD_MODE: none
       - name: Checkout output
         run: ls -laR
