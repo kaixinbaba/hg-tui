@@ -1,8 +1,8 @@
 class HgTui < Formula
   desc "使用 TUI 界面去浏览 HelloGitHub 网站"
   homepage "https://github.com/kaixinbaba/hg-tui"
-  url "https://github.com/kaixinbaba/hg-tui/releases/download/0.1.1/hgtui_0_1_1_macOS.zip"
-  sha256 "baf577c90a9671357ee02ab6e5f2987c9eb2dc93daaf71c8c43baeb70a76383b"
+  url "https://github.com/kaixinbaba/hg-tui/archive/0.1.2.tar.gz"
+  sha256 "1e3eed1ad8f18d7649285e9874c1d441730884e1701af536f573dbae4a2f6afd"
   license "GPL-3.0"
 
   def install
