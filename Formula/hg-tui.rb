@@ -1,8 +1,8 @@
 class HgTui < Formula
   desc "使用 TUI 界面去浏览 HelloGitHub 网站"
   homepage "https://github.com/kaixinbaba/hg-tui"
-  url "https://github.com/kaixinbaba/hg-tui/archive/0.1.3.tar.gz"
-  sha256 "23cbd2b92010c66849c2c8832e0bb2837697c19abefbd0fb8e19580fc1f33da6"
+  url "https://github.com/kaixinbaba/hg-tui/archive/0.1.4.tar.gz"
+  sha256 "8bed6a213760dff1d09d7a043e49491e8383322ac1b1dc2ef585e9e113d0d5cd"
   license "GPL-3.0"
 
   def install
