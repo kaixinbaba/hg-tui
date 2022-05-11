@@ -2,32 +2,47 @@ name: Homebrew
 
 on:
   push:
-    branches: [action]
+    # branches: [action]
+    tags: ["[0-9]+.[0-9]+.[0-9]+*"]
 
 env:
   CARGO_TERM_COLOR: always
-  GITHUB_ACTOR: kaixinbaba
+  # GITHUB_ACTOR: kaixinbaba
 
 
 jobs:
   test-homebrew:
-    runs-on: macos-latest
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Extract version
+        id: extract-version
+        run: |
+          printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
+      - uses: mislav/bump-homebrew-formula-action@v2
+        if: "!contains(github.ref, '-')" # skip prereleases
         with:
-          ref: ${{ github.head_ref }}
-      # - name: bash
-      #   shell: bash
-      #   run: |
-      #     git config --global url."git@github.com:".insteadOf "https://github.com/"
-      - name: Homebrew bump formula
-        uses: dawidd6/action-homebrew-bump-formula@v3
-        with:
-          # Required, custom GitHub access token with the 'public_repo' and 'workflow' scopes
-          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
-          # Optional, defaults to homebrew/core
-          tap: kaixinbaba/hg-tui
-          # Formula name, required
-          formula: hg-tui
-          force: true
+          formula-name: hg-tui
+          formula-path: Formula/hg-tui.rb
+          homebrew-tap: kaixinbaba/hg-tui
+          base-branch: main
+          # download-url: https://example.com/foo/${{ steps.extract-version.outputs.tag-name }}.tar.gz
+          commit-message: |
+            {{formulaName}} {{version}}
+
+            Created by https://github.com/mislav/bump-homebrew-formula-action
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+
+    # steps:
+    #   - name: Checkout repository
+    #     uses: actions/checkout@v2
+    #     with:
+    #       ref: ${{ github.head_ref }}
+    #   - name: Homebrew bump formula
+    #     uses: dawidd6/action-homebrew-bump-formula@v3
+    #     with:
+    #       token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
+    #       tap: kaixinbaba/hg-tui
+    #       formula: hg-tui
+    #       force: true
