@@ -6,8 +6,8 @@ class HgTui < Formula
   license "GPL-3.0"
 
   def install
-    system "mv hgtui-0.1.1/hgtui hgtui"
-    bin.install "hgtui"
+    system "cargo install --path ."
+    # bin.install "hgtui"
   end
 
   test do
