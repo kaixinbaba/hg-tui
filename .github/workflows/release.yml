@@ -263,41 +263,41 @@ jobs:
           asset_path: ./hg-tui-windows.msi
           asset_name: ${{ steps.info.outputs.windowsdir }}.msi
           asset_content_type: application/x-msi
-  # publish-to-cargo:
-  #   name: Publishing to Cargo
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         toolchain: stable
-  #         profile: minimal
-  #         override: true
-  #     - uses: actions-rs/cargo@v1
-  #       with:
-  #         command: publish
-  #         args: --token ${{ secrets.CARGO_REGISTRY_TOKEN }} --allow-dirty
-
-  bump-homebrew-formula:
-    name: Bump Homebrew formula
+  publish-to-cargo:
+    name: Publishing to Cargo
     runs-on: ubuntu-latest
     steps:
-      - name: Extract version
-        id: extract-version
-        run: |
-          printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
-      - uses: mislav/bump-homebrew-formula-action@v2
-        if: "!contains(github.ref, '-')" # skip prereleases
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
         with:
-          formula-name: hg-tui
-          formula-path: Formula/hg-tui.rb
-          homebrew-tap: kaixinbaba/hg-tui
-          base-branch: main
-          # download-url: https://example.com/foo/${{ steps.extract-version.outputs.tag-name }}.tar.gz
-          # download-url: https://github.com/kaixinbaba/hg-tui/archive/hg-tui_${{ steps.extract-version.outputs.tag-name }}_macOS.zip
-          commit-message: |
-            {{formulaName}} {{version}}
+          toolchain: stable
+          profile: minimal
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CARGO_REGISTRY_TOKEN }} --allow-dirty
 
-            Created by https://github.com/mislav/bump-homebrew-formula-action
-        env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+  # bump-homebrew-formula:
+  #   name: Bump Homebrew formula
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Extract version
+  #       id: extract-version
+  #       run: |
+  #         printf "::set-output name=%s::%s\n" tag-name "${GITHUB_REF#refs/tags/}"
+  #     - uses: mislav/bump-homebrew-formula-action@v2
+  #       if: "!contains(github.ref, '-')" # skip prereleases
+  #       with:
+  #         formula-name: hg-tui
+  #         formula-path: Formula/hg-tui.rb
+  #         homebrew-tap: kaixinbaba/hg-tui
+  #         base-branch: main
+  #         # download-url: https://example.com/foo/${{ steps.extract-version.outputs.tag-name }}.tar.gz
+  #         # download-url: https://github.com/kaixinbaba/hg-tui/archive/hg-tui_${{ steps.extract-version.outputs.tag-name }}_macOS.zip
+  #         commit-message: |
+  #           {{formulaName}} {{version}}
+  #
+  #           Created by https://github.com/mislav/bump-homebrew-formula-action
+  #       env:
+  #         COMMITTER_TOKEN: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
