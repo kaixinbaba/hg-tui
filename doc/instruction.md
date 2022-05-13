@@ -26,7 +26,7 @@
 
 ## 快捷键
 
-![](doc/img/help.png)
+![](img/help.png)
 
 基本：
 - `k/j`：移动（上/下）

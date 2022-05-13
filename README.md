@@ -17,8 +17,6 @@
     <a href="https://github.com/kaixinbaba/hg-tui/issues"><img src="https://img.shields.io/github/issues/kaixinbaba/hg-tui.svg?style=popout-square" alt="GitHub issues"></a>
         <a href="https://weibo.com/hellogithub"><img src="https://img.shields.io/badge/%E6%96%B0%E6%B5%AA-Weibo-red.svg?style=popout-square" alt="Sina Weibo"></a>
   </p>
-</div>
-
 ## 一、介绍
 
 <p align="center"><img src='doc/img/cover.png' style="max-width:80%; max-height=80%;"></img></p>
@@ -107,10 +105,17 @@ src
 
 欢迎加入我们一起贡献。
 
-### 0.1.1
+### feature plan
 - [ ] 本地加速 GitHub 访问
+- [ ] 内置多种配色方案
 
-## 0.1.0
+### 0.1.1
+
+- [x] 修复搜索期数 1 时报错
+- [x] 修复文档错误
+
+### 0.1.0
+
 - [x] 修复翻页期数突破最大期数
 - [x] 关键词搜索
 - [x] 按期数搜索

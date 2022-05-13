@@ -23,7 +23,7 @@ pub fn fetch(text: impl Into<String>, mode: SearchMode) -> Result<String> {
     let html = match mode {
         SearchMode::Normal => search(text.into()),
         SearchMode::Volume => match &text.into()[1..].parse::<usize>() {
-            Ok(volume) if volume > &1 => fetch_volume(*volume),
+            Ok(volume) if volume >= &1 => fetch_volume(*volume),
             _ => bail!("请输入有效的期数大于 0 的数字！"),
         },
         SearchMode::Category => {
