@@ -29,10 +29,10 @@
 
 1. 安装后启动的命令：hg-tui
 2. 进入程序后，默认展示最新一期月刊
-3. 可通过 `j/k` 上下移动光标，按下 `o` 查看详细介绍
-4. 同时按下 `Ctrl+j` 进入搜索模式，输入关键字即可搜索项目
+3. 可通过 `k/j` 上下移动光标，按下 `o` 查看详细介绍
+4. 同时按下 `Ctrl+k` 进入搜索模式，输入关键字即可搜索项目
 5. 遇到问题，同时按下 `Ctrl+h` 获取帮助
-6. 按下 `q` 键退出程序
+5. 按下 `q` 或 `Ctrl+c` 键退出程序
 
 
 ## 二、安装
@@ -44,7 +44,7 @@
 <p align="center"><img src='doc/img/releases.png' style="max-width:80%; max-height=80%;"></img></p>
 
 
-**第二种：自行编译**
+**第二种：通过源码安装**
 
 ```bash
 $ git clone https://github.com/kaixinbaba/hg-tui.git
@@ -58,13 +58,13 @@ $ hgtui
 ![](doc/img/help.png)
 
 基本：
-- `j/k`：移动（上/下）
+- `k/j`：移动（上/下）
 - `h/l`：翻页（上/下）
 - `gg`：移动至首行
 - `G`：移动至末行
 - `o`：查看/关闭详细介绍
 - `回车`：访问开源项目页
-- `s`：Star [HelloGitHub](https://github.com/521xueweihan/HelloGitHub)
+- `s`：打开 [HelloGitHub](https://github.com/521xueweihan/HelloGitHub) 首页，顺便点个✨吧
 - `q`：退出
 
 组合快捷键：
@@ -91,15 +91,15 @@ $ hgtui
 
 ```
 src
-├── app.rs		// 统一管理整个应用的状态
-├── cli.rs		// 命令行解析
-├── draw.rs		// 绘制 UI
+├── app.rs	// 统一管理整个应用的状态
+├── cli.rs	// 命令行解析
+├── draw.rs	// 绘制 UI
 ├── events.rs   // UI 事件、输入事件、通知
 ├── fetch.rs	// HTTP 请求
-├── main.rs		// 入口
+├── main.rs	// 入口
 ├── parse.rs	// HTML 解析
 ├── utils.rs	// 工具
-└── widget 		// 自定义组件
+└── widget 	// 自定义组件
     ├── ...
 ```
 
@@ -109,7 +109,6 @@ src
 
 ### 0.1.1
 - [ ] 本地加速 GitHub 访问
-- [ ] split 解析 usize 需要抽取方法或者更 rusty 的，限制最大期数不应该分散再各个地方，在 parse 结束的时候就应该能使用 usize 返回
 
 ## 0.1.0
 - [x] 修复翻页期数突破最大期数
@@ -119,7 +118,7 @@ src
 - [x] 通过浏览器打开项目地址
 
 ## 联系我
-- 🔭 热爱开源，方向是 Java、Python、Rust 
+- 🔭 热爱开源，方向是 Java、Python、Rust
 - 🌱 微信公众号： 代码科学家
 - 💬 bilibili： 老荀
 - <a href="mailto:595666367@qq.com">点击</a>给我发邮件

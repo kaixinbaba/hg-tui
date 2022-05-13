@@ -145,16 +145,16 @@ pub fn tips(msg: String) {
 
 pub fn show_help() {
     tips(
-        r###"CTRL j/k 切换 搜索/浏览 模式
+        r###"CTRL j/k 切换 浏览/搜索 模式
 搜索模式
-CTRL h 获得帮助
+Ctrl+h 获得帮助
 输入 #{数字} 按期数搜索
 输入 ${类别} 按类别搜索
 其他按关键字搜索
 
 浏览模式：
-j/k 上/下 移动一行
-d/u 上/下 移动五行
+k/j 上/下 移动一行
+u/d 上/下 移动五行
 gg 移动至首行
 G  移动至末行
 h/l 前/后 翻页
