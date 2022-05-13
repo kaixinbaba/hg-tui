@@ -15,12 +15,12 @@
 
 **主界面**
 
-![](doc/img/main.png)
+![](img/main.png)
 
 
 **详细页**
 
-![](doc/img/detail.png)
+![](img/detail.png)
 
 <p align="right"><a href="https://github.com/kaixinbaba/hg-tui">返回首页</a></p>
 
