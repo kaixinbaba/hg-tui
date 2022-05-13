@@ -17,6 +17,8 @@
     <a href="https://github.com/kaixinbaba/hg-tui/issues"><img src="https://img.shields.io/github/issues/kaixinbaba/hg-tui.svg?style=popout-square" alt="GitHub issues"></a>
         <a href="https://weibo.com/hellogithub"><img src="https://img.shields.io/badge/%E6%96%B0%E6%B5%AA-Weibo-red.svg?style=popout-square" alt="Sina Weibo"></a>
   </p>
+</div>
+
 ## 一、介绍
 
 <p align="center"><img src='doc/img/cover.png' style="max-width:80%; max-height=80%;"></img></p>
@@ -101,7 +103,7 @@ src
     ├── ...
 ```
 
-## 更新计划
+## 五、更新计划
 
 欢迎加入我们一起贡献。
 
@@ -126,4 +128,4 @@ src
 - 🔭 热爱开源，方向是 Java、Python、Rust
 - 🌱 微信公众号： 代码科学家
 - 💬 bilibili： 老荀
-- <a href="mailto:595666367@qq.com">点击</a>给我发邮件
+- <a href="mailto:452914639@qq.com">点击</a>给我发邮件
