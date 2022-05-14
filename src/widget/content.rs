@@ -6,7 +6,7 @@ use tui::text::Span;
 use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table, TableState};
 
 use crate::app_global::HEADERS;
-use crate::theme::{CATEGORY_STYLE, TITLE_STYLE};
+use crate::theme::{choose_font_style, TITLE_STYLE};
 use crate::utils::parse_unchecked;
 
 const TABLE_TITLE: &str = " 搜索结果 ";
@@ -181,6 +181,7 @@ pub struct ContentState {
     cur: Vec<Project>,
     active: bool,
     pub tstate: TableState,
+    pub poor: bool,
 }
 
 impl ContentState {
@@ -260,11 +261,7 @@ impl StatefulWidget for Content {
                 Category::Other
             };
 
-            let color_style = if let Some(color_style) = CATEGORY_STYLE.get(&category) {
-                *color_style
-            } else {
-                Style::default().fg(Color::White)
-            };
+            let color_style = choose_font_style(&category);
 
             cells.push(new_cell(project.category.clone(), Style::default()));
             cells.push(new_cell(project.desc.clone(), Style::default()));

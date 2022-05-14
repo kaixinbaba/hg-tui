@@ -1,11 +1,10 @@
 use tui::{
     buffer::Buffer,
     layout::{Alignment, Constraint, Layout, Rect},
-    style::{Color, Style},
     widgets::{Block, BorderType, Borders, Clear, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{theme::CATEGORY_STYLE, utils};
+use crate::{theme::choose_font_style, utils};
 
 use super::content::{Category, Project};
 
@@ -30,7 +29,8 @@ impl From<Project> for ProjectDetailState {
         } else {
             Category::Other
         };
-        Self {
+
+        ProjectDetailState {
             name: project.name,
             url: project.url,
             star: project.star,
@@ -47,11 +47,7 @@ impl StatefulWidget for ProjectDetail {
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
         Clear.render(area, buf);
 
-        let style = if let Some(color_style) = CATEGORY_STYLE.get(&state.category) {
-            *color_style
-        } else {
-            Style::default().fg(Color::White)
-        };
+        let style = choose_font_style(&state.category);
 
         Block::default()
             .borders(Borders::ALL)

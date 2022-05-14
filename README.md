@@ -65,6 +65,7 @@ $ hgtui
 - `o`：查看/关闭详细介绍
 - `回车`：访问开源项目页
 - `s`：打开 [HelloGitHub](https://github.com/521xueweihan/HelloGitHub) 首页，顺便点个✨吧
+- `p`：开/关 彩色显示
 - `q`：退出
 
 组合快捷键：
@@ -79,13 +80,13 @@ $ hgtui
 
 项目中使用到的技术：
 
-- 基础设施： anyhow、thiserror、lazy_static、better-panic
-- 绘制 UI：tui、crossterm
-- HTTP client：reqwest
-- 缓存：cached
-- HTML 解析：nipper
-- 工具：regex、crossbeam-channel
-- 命令行：clap
+- 基础设施： `anyhow`、`thiserror`、`lazy_static`、`better-panic`
+- 绘制 UI：`tui`、`crossterm`
+- HTTP client：`reqwest`
+- 缓存：`cached`
+- HTML 解析：`nipper`
+- 工具：`regex`、`crossbeam-channel`
+- 命令行：`clap`
 
 目录结构：
 
@@ -110,6 +111,9 @@ src
 ### feature plan
 - [ ] 本地加速 GitHub 访问
 - [ ] 内置多种配色方案
+
+### 0.1.2
+- [x] 增加彩色显示开关快捷键（参数）
 
 ### 0.1.1
 

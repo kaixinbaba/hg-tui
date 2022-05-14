@@ -14,8 +14,8 @@ pub struct Args {
     #[clap(short, long, help = "配置文件路径")]
     pub path: Option<String>,
 
-    #[clap(short, long, help = "是否开启摸鱼计时")]
-    pub moyu: bool,
+    #[clap(long, help = "关闭彩色显示")]
+    pub poor: bool,
 
     #[clap(short, long, help = "是否显示帮助")]
     pub show_help: bool,

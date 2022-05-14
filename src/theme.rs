@@ -4,6 +4,7 @@ use lazy_static::lazy_static;
 use tui::style::Color;
 use tui::style::Style;
 
+use crate::app_global::IS_POOR;
 use crate::widget::content::Category;
 
 lazy_static! {
@@ -52,4 +53,14 @@ lazy_static! {
         map
     };
     pub static ref TITLE_STYLE: Style = Style::default().fg(Color::Rgb(255, 192, 102));
+}
+
+pub fn choose_font_style(category: &Category) -> Style {
+    if IS_POOR.load(std::sync::atomic::Ordering::Relaxed) {
+        Style::default().fg(Color::White)
+    } else if let Some(color_style) = CATEGORY_STYLE.get(category) {
+        *color_style
+    } else {
+        Style::default().fg(Color::White)
+    }
 }

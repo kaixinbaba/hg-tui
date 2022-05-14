@@ -1,7 +1,7 @@
 #[allow(dead_code)]
 #[derive(Debug, Default, Clone)]
 pub struct Config {
-    pub moyu: bool,
+    pub poor: bool,
     pub config_path: String,
     pub show_help: bool,
 }
@@ -15,7 +15,7 @@ impl From<crate::cli::Args> for Config {
 
         let config_path = args.path.unwrap_or(home);
         Config {
-            moyu: args.moyu,
+            poor: args.poor,
             config_path,
             show_help: args.show_help,
         }

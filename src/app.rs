@@ -1,3 +1,4 @@
+use crate::app_global::IS_POOR;
 use crate::config::Config;
 use crate::events::{self, warn, Message};
 use crate::fetch;
@@ -89,6 +90,8 @@ impl App {
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
         terminal.clear()?;
+
+        IS_POOR.store(config.poor, std::sync::atomic::Ordering::Relaxed);
         Ok(App {
             terminal,
             input: InputState::default(),
