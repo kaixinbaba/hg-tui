@@ -56,7 +56,7 @@ $ hgtui
 ```bash
 $ hgtui --help
 ```
-查看内置配色方案
+查看内置配色方案 [预览](./doc/theme.md)，如果你有更好的配色方案或想法可以给我提 issue 噢
 ```bash
 $ hgtui --show-themes
 ```
@@ -118,6 +118,7 @@ src
 
 ### feature plan
 - [ ] 本地加速 GitHub 访问
+- [ ] 支持本地配置
 
 ### 0.1.3
 - [x] 内置多种配色方案
