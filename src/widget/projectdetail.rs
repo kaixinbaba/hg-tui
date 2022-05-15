@@ -4,7 +4,7 @@ use tui::{
     widgets::{Block, BorderType, Borders, Clear, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{theme::choose_font_style, utils};
+use crate::{app_global::THEME, theme::choose_font_style, utils};
 
 use super::content::{Category, Project};
 
@@ -47,7 +47,12 @@ impl StatefulWidget for ProjectDetail {
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
         Clear.render(area, buf);
 
-        let style = choose_font_style(&state.category);
+        let theme_style = THEME.get().unwrap();
+        Block::default()
+            .style(theme_style.background)
+            .render(area, buf);
+
+        let style = choose_font_style(&state.category, theme_style);
 
         Block::default()
             .borders(Borders::ALL)

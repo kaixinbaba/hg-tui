@@ -36,7 +36,6 @@
 - `o`：查看/关闭详细介绍
 - `回车`：访问开源项目页
 - `s`：打开 [HelloGitHub](https://github.com/521xueweihan/HelloGitHub) 首页，顺便点个✨吧
-- `p`：开/关 彩色显示
 - `q`：退出
 
 组合快捷键：

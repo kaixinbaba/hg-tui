@@ -4,7 +4,7 @@ use crossterm::event::{Event, KeyCode, KeyEvent, KeyModifiers};
 use lazy_static::lazy_static;
 
 use crate::app::{App, AppMode};
-use crate::app_global::{HG_INFO, IS_POOR};
+use crate::app_global::HG_INFO;
 use crate::draw;
 
 use std::sync::atomic::AtomicBool;
@@ -266,12 +266,6 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
                     // 浏览器打开项目地址
                     app.open_browser(None).unwrap();
                 }
-                (_, KeyCode::Char('p')) => {
-                    // 开关彩色显示
-                    let last = IS_POOR.load(std::sync::atomic::Ordering::Relaxed);
-                    IS_POOR.store(!last, std::sync::atomic::Ordering::Relaxed);
-                    redraw();
-                }
                 _ => {}
             }
         }
@@ -292,12 +286,6 @@ fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
         (_, KeyCode::Enter) => {
             // 浏览器打开项目地址
             app.open_browser(None).unwrap();
-        }
-        (_, KeyCode::Char('p')) => {
-            // 开关彩色显示
-            let last = IS_POOR.load(std::sync::atomic::Ordering::Relaxed);
-            IS_POOR.store(!last, std::sync::atomic::Ordering::Relaxed);
-            redraw();
         }
         _ => {}
     }

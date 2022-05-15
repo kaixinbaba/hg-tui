@@ -1,12 +1,13 @@
 use tui::buffer::Buffer;
 use tui::layout::Rect;
-use tui::style::{Color, Style};
+use tui::style::Style;
 
 use tui::widgets::{Block, Borders, Paragraph, StatefulWidget, Widget};
 
 use unicode_width::UnicodeWidthStr;
 
 use crate::app::SearchMode;
+use crate::app_global::THEME;
 
 /// 用户输入框组件
 pub struct Input {}
@@ -72,8 +73,10 @@ impl InputState {
 impl StatefulWidget for Input {
     type State = InputState;
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
+        let theme_style = THEME.get().unwrap();
+
         let style = if state.active {
-            Style::default().fg(Color::Yellow)
+            theme_style.title
         } else {
             Style::default()
         };

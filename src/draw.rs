@@ -1,5 +1,6 @@
 use crate::app::{App, AppMode};
-use crate::theme::TITLE_STYLE;
+use crate::app_global::THEME;
+use crate::theme::ThemeStyle;
 use crate::widget::projectdetail::ProjectDetail;
 use crate::widget::{Content, Input, Popup, StatusLine};
 
@@ -13,7 +14,8 @@ pub fn redraw(app: &mut App) {
 
     terminal
         .draw(|f| {
-            // if detail mode
+            let theme_style = THEME.get().unwrap();
+            f.render_widget(Block::default().style(theme_style.background), f.size());
 
             if app.mode == AppMode::Detail {
                 let area = centered_rect(80, 50, f.size());
@@ -36,7 +38,7 @@ pub fn redraw(app: &mut App) {
                     )
                     .split(f.size());
 
-                f.render_widget(title(), layout[0]);
+                f.render_widget(title(theme_style), layout[0]);
 
                 let input_layout = Layout::default()
                     .direction(Direction::Horizontal)
@@ -72,14 +74,14 @@ pub fn redraw(app: &mut App) {
         .unwrap();
 }
 
-fn title() -> Paragraph<'static> {
+fn title(theme_style: &ThemeStyle) -> Paragraph<'static> {
     Paragraph::new(
         // Text::from(Spans::from(vec![
         // Span::styled("HelloGiHub", Style::default().fg(Color::Yellow)),
         // Span::raw(""),
         Text::styled(
             "HelloGiHub\n分享 GitHub 上有趣、入门级的开源项目",
-            *TITLE_STYLE,
+            theme_style.title,
         ),
     )
     .alignment(Alignment::Center)

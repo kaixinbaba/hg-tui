@@ -2,12 +2,14 @@ use chrono::prelude::*;
 use tui::{
     buffer::Buffer,
     layout::{Constraint, Layout, Rect},
-    style::{Color, Style},
     text::{Span, Spans},
     widgets::{Block, Borders, Paragraph, StatefulWidget, Widget},
 };
 
-use crate::{app::SearchMode, app_global::HG_INFO, theme::TITLE_STYLE};
+use crate::{
+    app::SearchMode,
+    app_global::{HG_INFO, THEME},
+};
 
 /// 状态栏
 pub struct StatusLine {}
@@ -62,6 +64,8 @@ impl StatusLineState {
 impl StatefulWidget for StatusLine {
     type State = StatusLineState;
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
+        let theme_style = THEME.get().unwrap();
+
         let layout = Layout::default()
             .direction(tui::layout::Direction::Horizontal)
             .constraints(
@@ -82,7 +86,7 @@ impl StatefulWidget for StatusLine {
             HG_INFO.star,
             HG_INFO.project_count
         ))
-        .style(Style::default().fg(Color::LightYellow))
+        .style(theme_style.tips)
         .block(
             Block::default()
                 .borders(Borders::LEFT)
@@ -101,18 +105,18 @@ impl StatefulWidget for StatusLine {
 
         Paragraph::new(text)
             .block(Block::default().borders(Borders::NONE))
-            .style(*TITLE_STYLE)
+            .style(theme_style.title)
             .alignment(tui::layout::Alignment::Center)
             .render(layout[1], buf);
 
         // time layout[0]
         // "输入:help 或按 ctrl h 查看帮助"
         Paragraph::new(Spans::from(vec![
-            Span::raw(" 按"),
-            Span::styled(" ctrl h", Style::default().fg(Color::Green)),
-            Span::raw(" 查看帮助 按"),
-            Span::styled(" q", Style::default().fg(Color::Green)),
-            Span::raw(" 键退出"),
+            Span::styled(" 按", theme_style.tips),
+            Span::styled(" ctrl h", theme_style.key),
+            Span::styled(" 查看帮助 按", theme_style.tips),
+            Span::styled(" q", theme_style.key),
+            Span::styled(" 键退出", theme_style.tips),
         ]))
         .block(
             Block::default()

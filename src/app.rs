@@ -1,8 +1,9 @@
-use crate::app_global::IS_POOR;
+use crate::app_global::{IS_COLORFUL, THEME};
 use crate::config::Config;
 use crate::events::{self, warn, Message};
 use crate::fetch;
 use crate::parse::PARSER;
+use crate::theme::{Theme, THEME_STYLE};
 use crate::utils::parse_unchecked;
 use crate::widget::content::Category;
 use crate::widget::projectdetail::ProjectDetailState;
@@ -91,7 +92,18 @@ impl App {
         let mut terminal = Terminal::new(backend)?;
         terminal.clear()?;
 
-        IS_POOR.store(config.poor, std::sync::atomic::Ordering::Relaxed);
+        // init Global static
+        THEME
+            .set(*THEME_STYLE.get(&config.color_theme).unwrap())
+            .unwrap();
+
+        let is_colorful = matches!(
+            &config.color_theme,
+            Theme::DarkColorful | Theme::LightColorful
+        );
+
+        IS_COLORFUL.store(is_colorful, std::sync::atomic::Ordering::Relaxed);
+
         Ok(App {
             terminal,
             input: InputState::default(),
@@ -246,6 +258,11 @@ impl Drop for App {
 }
 
 pub(crate) fn start(config: &Config) -> Result<()> {
+    if config.show_themes {
+        println!("内置样式：{:?}", Theme::theme_list());
+        return Ok(());
+    }
+
     let app = Arc::new(Mutex::new(App::new(config)?));
 
     let moved_app = app.clone();

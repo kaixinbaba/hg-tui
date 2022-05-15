@@ -1,12 +1,12 @@
 use anyhow::bail;
 use tui::buffer::Buffer;
 use tui::layout::{Alignment, Constraint, Rect};
-use tui::style::{Color, Style};
+use tui::style::Style;
 use tui::text::Span;
 use tui::widgets::{Block, BorderType, Borders, Cell, Row, StatefulWidget, Table, TableState};
 
-use crate::app_global::HEADERS;
-use crate::theme::{choose_font_style, TITLE_STYLE};
+use crate::app_global::{HEADERS, THEME};
+use crate::theme::choose_font_style;
 use crate::utils::parse_unchecked;
 
 const TABLE_TITLE: &str = " 搜索结果 ";
@@ -242,7 +242,11 @@ impl StatefulWidget for Content {
     type State = ContentState;
 
     fn render(self, area: Rect, buf: &mut Buffer, state: &mut Self::State) {
-        let header_cells = HEADERS.iter().map(|h| Cell::from(*h).style(*TITLE_STYLE));
+        let theme_style = THEME.get().unwrap();
+
+        let header_cells = HEADERS
+            .iter()
+            .map(|h| Cell::from(*h).style(theme_style.title));
         let header = Row::new(header_cells)
             // .style(normal_style)
             .height(1)
@@ -261,15 +265,13 @@ impl StatefulWidget for Content {
                 Category::Other
             };
 
-            let color_style = choose_font_style(&category);
+            let color_style = choose_font_style(&category, theme_style);
 
             cells.push(new_cell(project.category.clone(), Style::default()));
             cells.push(new_cell(project.desc.clone(), Style::default()));
 
             let style = match state.tstate.selected() {
-                Some(index) if index == i => {
-                    Style::default().bg(Color::Cyan).fg(Color::Rgb(255, 116, 0))
-                }
+                Some(index) if index == i => theme_style.selected,
                 _ => color_style,
             };
 
@@ -277,7 +279,7 @@ impl StatefulWidget for Content {
         });
 
         let table_title = if state.active {
-            Span::styled(TABLE_TITLE, *TITLE_STYLE)
+            Span::styled(TABLE_TITLE, theme_style.title)
         } else {
             Span::raw(TABLE_TITLE)
         };
