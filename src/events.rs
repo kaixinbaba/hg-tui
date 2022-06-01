@@ -145,7 +145,7 @@ pub fn tips(msg: String) {
 
 pub fn show_help() {
     tips(
-        r###"CTRL j/k 切换 浏览/搜索 模式
+        r###"CTRL j(Down)/k(Up) 切换 浏览/搜索 模式
 搜索模式
 Ctrl+h 获得帮助
 输入 #{数字} 按期数搜索
@@ -153,14 +153,13 @@ Ctrl+h 获得帮助
 其他按关键字搜索
 
 浏览模式：
-k/j 上/下 移动一行
-u/d 上/下 移动五行
-gg 移动至首行
-G  移动至末行
-h/l 前/后 翻页
-o 查看（关闭）详细
+k(Up)/j(Down) 上/下 移动一行
+u(PageUp)/d(PageDown) 上/下 移动五行
+gg(Home) 移动至首行
+G(End)  移动至末行
+h(Left)/l(Right) 前/后 翻页
+o | Ctrl+Right(Left) 查看（关闭）详细
 s 帮 HG 点个小星星吧
-p 开/关 彩色显示
 ENTER 打开 GitHub 页面
 q 退出应用"###
             .into(),
@@ -174,7 +173,9 @@ pub fn tick() {
 /// 搜索模式
 fn handle_search(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
-        (KeyModifiers::CONTROL, KeyCode::Char('j')) | (_, KeyCode::Down) | (_, KeyCode::Esc) => {
+        (KeyModifiers::CONTROL, KeyCode::Char('j'))
+        | (KeyModifiers::CONTROL, KeyCode::Down)
+        | (_, KeyCode::Esc) => {
             // switch to view
             app.switch_to_view();
             redraw();
@@ -214,10 +215,15 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
                 GG_COMBINE.store(true, std::sync::atomic::Ordering::Relaxed);
             }
         }
+        (_, KeyCode::Home) => {
+            app.content.first();
+            redraw();
+        }
         (key_modifier, key_code) => {
             GG_COMBINE.store(false, std::sync::atomic::Ordering::Relaxed);
             match (key_modifier, key_code) {
-                (KeyModifiers::CONTROL, KeyCode::Char('k')) | (_, KeyCode::Up) => {
+                (KeyModifiers::CONTROL, KeyCode::Char('k'))
+                | (KeyModifiers::CONTROL, KeyCode::Up) => {
                     // switch to view
                     app.switch_to_search();
                     redraw();
@@ -225,23 +231,23 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
                 (KeyModifiers::CONTROL, KeyCode::Char('h')) => {
                     show_help();
                 }
-                (_, KeyCode::Char('j')) => {
+                (_, KeyCode::Char('j')) | (_, KeyCode::Down) => {
                     app.content.next(1);
                     redraw();
                 }
-                (_, KeyCode::Char('k')) => {
+                (_, KeyCode::Char('k')) | (_, KeyCode::Up) => {
                     app.content.prev(1);
                     redraw();
                 }
-                (_, KeyCode::Char('d')) => {
+                (_, KeyCode::Char('d')) | (_, KeyCode::PageDown) => {
                     app.content.next(5);
                     redraw();
                 }
-                (_, KeyCode::Char('u')) => {
+                (_, KeyCode::Char('u')) | (_, KeyCode::PageUp) => {
                     app.content.prev(5);
                     redraw();
                 }
-                (_, KeyCode::Char('G')) => {
+                (_, KeyCode::Char('G')) | (_, KeyCode::End) => {
                     app.content.last();
                     redraw();
                 }
@@ -249,17 +255,17 @@ fn handle_view(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
                     app.open_browser(Some("https://github.com/521xueweihan/HelloGitHub"))
                         .unwrap();
                 }
-                (_, KeyCode::Char('l')) => {
+                (_, KeyCode::Char('o')) | (KeyModifiers::CONTROL, KeyCode::Right) => {
+                    // 进入详情页
+                    app.display_detail().unwrap();
+                    redraw();
+                }
+                (_, KeyCode::Char('l')) | (_, KeyCode::Right) => {
                     app.next_page().unwrap();
                     redraw();
                 }
-                (_, KeyCode::Char('h')) => {
+                (_, KeyCode::Char('h')) | (_, KeyCode::Left) => {
                     app.prev_page().unwrap();
-                    redraw();
-                }
-                (_, KeyCode::Char('o')) => {
-                    // 进入详情页
-                    app.display_detail().unwrap();
                     redraw();
                 }
                 (_, KeyCode::Enter) => {
@@ -279,7 +285,7 @@ fn handle_popup(_: KeyModifiers, _: KeyCode, app: &mut App) {
 
 fn handle_detail(key_modifier: KeyModifiers, key_code: KeyCode, app: &mut App) {
     match (key_modifier, key_code) {
-        (_, KeyCode::Char('o')) | (_, KeyCode::Esc) => {
+        (_, KeyCode::Char('o')) | (_, KeyCode::Esc) | (KeyModifiers::CONTROL, KeyCode::Left) => {
             app.mode = AppMode::View;
             redraw();
         }

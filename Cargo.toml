@@ -1,6 +1,6 @@
 [package]
 name = "hg-tui"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["Jeff Xun 452914639@qq.com"]
 license = "GPL-3.0-or-later"
