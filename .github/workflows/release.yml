@@ -176,7 +176,7 @@ jobs:
         run: mkdir -p ${{ steps.info.outputs.linuxdir }}/${{ steps.info.outputs.innerdir }}
 
       - name: Download Linux Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: linux
           path: ${{ steps.info.outputs.linuxdir }}/${{ steps.info.outputs.innerdir }}
@@ -202,7 +202,7 @@ jobs:
         run: mkdir -p ${{ steps.info.outputs.macosdir }}/${{ steps.info.outputs.innerdir }}
 
       - name: Download macOS Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: macos
           path: ${{ steps.info.outputs.macosdir }}/${{ steps.info.outputs.innerdir }}
@@ -227,7 +227,7 @@ jobs:
         run: mkdir -p ${{ steps.info.outputs.windowsdir }}/${{ steps.info.outputs.innerdir }}
 
       - name: Download Windows zip
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-zip
           path: ${{ steps.info.outputs.windowsdir }}/${{ steps.info.outputs.innerdir }}
@@ -249,7 +249,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Download Windows installer
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-installer
           path: ./
